@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="muniao">
+<head>
+  <meta charset="utf-8">
+  <title>《倩女幽魂》之后 · 小倩与采臣的小日子 · 木鸟杂记</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../../shared/editorial.css">
+  <link rel="stylesheet" href="../../../shared/flip-viewer.css">
+  <style>
+    /* 本故事的 task-scoped 样式；共享模板样式见 ../../../shared/editorial.css */
+    /* ---------- 12b. Task-scoped: deepened ink titles + body + green accents ---------- */
+    .poster .h-display,
+    .poster .h-xl { color: #4A4854; }
+    .poster .lead { color: #4E4C58; }
+    .poster .ledger-note { color: rgba(74,72,84,.88); }
+    .poster .kicker,
+    .poster .issue-row { color: var(--c-blue); }
+    #xhs-10 .ledger-nb { color: var(--c-green); }
+    #xhs-10 .ledger-note { text-align: right; }
+
+    /* ---------- 12c. Task-scoped: split layout + duo wells ---------- */
+    .split { display: flex; gap: 44px; height: 100%; align-items: stretch; }
+    .split .split-text { flex: 1; display: flex; flex-direction: column; }
+    .split .split-img { flex: none; margin: 0; }
+    .split .split-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .duo { display: flex; gap: 28px; }
+    .duo figure { flex: 1; margin: 0; }
+    .quote-block { border-left: 4px solid var(--c-blue); padding-left: 30px; }
+    .quote-src { font-family: var(--mono); font-size: 20px; letter-spacing: .10em; color: var(--muted); margin: 18px 0 0; }
+
+    /* ---------- 12d. Task-scoped: mini notes + guji appendix ---------- */
+    .mini-notes { border-top: 1px solid var(--line); margin-top: 8px; }
+    .mn-row { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+    .mn-row:last-child { border-bottom: 0; }
+    .mn-nb { font-family: var(--mono); font-size: 19px; color: var(--c-blue); flex: none; }
+    .mn-t { font-family: var(--serif-zh); font-size: 22px; line-height: 1.5; color: rgba(var(--ink-rgb), .82); margin: 0; }
+    .guji {
+      border: 3px double rgba(74,72,84,.60);
+      padding: 30px 26px;
+      flex: 1;
+      min-height: 0;
+    }
+    .guji-text {
+      writing-mode: vertical-rl;
+      font-family: var(--serif-zh);
+      font-size: 24px;
+      letter-spacing: 5px;
+      line-height: 44px;
+      height: 100%;
+      color: #3a3842;
+      background-image: repeating-linear-gradient(90deg, transparent 0, transparent 43px, rgba(74,72,84,.20) 43px, rgba(74,72,84,.20) 44px);
+      background-position: right top;
+    }
+    .guji-title { font-size: 34px; letter-spacing: 8px; color: #4A4854; }
+    .guji-note { font-size: 18px; letter-spacing: 3px; color: #6b6975; }
+
+    /* ---------- 12e. Task-scoped: open thread-bound book cover ---------- */
+    .book {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      filter: drop-shadow(0 16px 20px rgba(40,38,48,.16));
+    }
+    .book-page {
+      background: #F7F4EB;
+      border: 1px solid rgba(74,72,84,.32);
+      flex: 1;
+      min-width: 0;
+      position: relative;
+    }
+    .book-left  { border-right: 0; }
+    .book-right { border-left: 0; }
+    .book-fold {
+      width: 24px;
+      flex: none;
+      background: linear-gradient(90deg, rgba(58,56,66,.16), rgba(58,56,66,.02) 42%, rgba(58,56,66,.24) 56%, rgba(58,56,66,.03));
+      border-top: 1px solid rgba(74,72,84,.20);
+      border-bottom: 1px solid rgba(74,72,84,.20);
+    }
+    /* 书口层叠页线 */
+    .book::before, .book::after {
+      content: '';
+      position: absolute;
+      top: 3px; bottom: 3px;
+      width: 5px;
+      background: repeating-linear-gradient(0deg, rgba(74,72,84,.28) 0 1px, transparent 1px 4px);
+    }
+    .book::before { left: -7px; }
+    .book::after  { right: -7px; }
+    /* 右页：版框 + 竖排书名 */
+    .book-frame {
+      position: absolute;
+      inset: 22px;
+      border: 3px double rgba(74,72,84,.55);
+      padding: 26px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .bv { writing-mode: vertical-rl; display: flex; align-items: center; justify-content: center; }
+    .bv-title { font-family: var(--serif-zh); font-size: 72px; letter-spacing: 16px; color: #3a3842; }
+    .bv-sub { font-family: var(--serif-zh); font-size: 24px; letter-spacing: 6px; color: #6b6975; margin-right: 18px; }
+    /* 鱼尾（版心标记，靠书缝一侧） */
+    .yuwei { position: absolute; left: 6px; width: 0; height: 0;
+      border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 12px solid #3a3842; }
+    .yuwei.y1 { top: 26%; } .yuwei.y2 { top: 60%; }
+    /* 左页：绣像 */
+    .book-illus { position: absolute; inset: 22px; border: 1px solid rgba(74,72,84,.35); overflow: hidden; }
+    .book-illus img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  </style>
+</head>
+<body>
+  <!-- THEME_OVERRIDE
+       Change <html data-theme="…"> above to:
+       ink-classic | indigo-porcelain | forest-ink | kraft-paper | dune | midnight-ink
+  -->
+  <main class="sheet">
+
+    <!-- POSTERS_HERE -->
+    <!--
+      Replace the placeholder posters below with real content.
+      Each poster carries one Layout Recipe (M01-M15) from
+      references/layout-recipes.md.
+
+      Available board sizes:
+        <section class="poster xhs"    id="xhs-01">…</section>   3:4
+        <section class="poster square" id="wechat-1x1">…</section> 1:1
+        <section class="poster wide"   id="wechat-21x9">…</section> 21:9
+
+      For WeChat covers, also include a <section class="pair-preview">
+      that places the 21:9 + 1:1 side-by-side for review.
+    -->
+    <!-- ============================================================
+         P1 · M01 Cover
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-01">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <div class="issue-row">
+          <span>木鸟杂记</span><span class="dot"></span><span>故纸堆 · 聊斋全图篇 Vol.01</span><span class="dot"></span><span>清光绪绘本</span>
+        </div>
+        <div class="stack gap-2">
+          <p class="kicker">聊斋全图 · 聂小倩</p>
+          <h1 class="h-display" style="font-size:68px">《倩女幽魂》之后<br>小倩与采臣的小日子</h1>
+        </div>
+        <div class="book">
+          <div class="book-page book-left">
+            <div class="book-illus"><img src="assets/nie3_full.jpg" alt="夜叉夜袭图" style="object-position:center 55%"></div>
+          </div>
+          <div class="book-fold"></div>
+          <div class="book-page book-right">
+            <div class="yuwei y1"></div>
+            <div class="yuwei y2"></div>
+            <div class="book-frame">
+              <div class="bv">
+                <div class="bv-sub">清光緒繪本 · 第十一冊</div>
+                <div class="bv-title">聶小倩</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="lead">电影里，小倩投胎转世，故事就结束了。原著里没有投胎这回事：宁采臣把她的遗骨带回老家改葬，她以鬼身留下，却活得精彩远胜常人。小倩故事的后半场被清人画成连环画，但存世只剩三开。</p>
+      </div>
+      <div class="issue-strip">
+        <span>《聊斋全图》第十一册 · 奥地利国家图书馆藏</span>
+        <span>—</span>
+        <span>共 12 页</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P2 · 前情：故事的开头丢了（目录页）
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-02">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <div class="split">
+          <figure class="split-img frame-img" style="width:520px">
+            <img src="assets/toc.jpg" alt="第十一册目录页" style="object-position:center 50%">
+          </figure>
+          <div class="split-text stack gap-3">
+            <p class="kicker">前情 · 接前册三页</p>
+            <h2 class="h-xl" style="font-size:64px">故事的<br>开头丢了</h2>
+            <p class="img-cap">第十一册目录页：「聂小倩，接前册三页」</p>
+            <p class="lead">《聊斋全图》原有九十册，共画 151 篇故事、276 开画面。1900 年前后被带往欧洲，散落世界各地。</p>
+            <p class="lead">今天知道下落的只有 23 册：维也纳 17 册、日内瓦 1 册，另有几册上过拍卖行。2018 年纽约苏富比拍出三册，成交价 7.5 万美元。</p>
+            <p class="lead">聂小倩一折从第十册画起，但第十册已经佚失了。我们能看到的，只有第十一册的结局三开：伴读、见客、夜袭。</p>
+          </div>
+        </div>
+      </div>
+      <div class="issue-strip">
+        <span>Scene 00 · 目录</span>
+        <span>—</span>
+        <span>02 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P3 · 结局第一开：斋中伴读
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-03">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">结局 · 第一开</p>
+        <h2 class="h-xl">斋中伴读</h2>
+        <figure class="frame-img r-4x3 grow">
+          <img src="assets/nie1_full.jpg" alt="斋中伴读图" style="object-position:center 45%">
+        </figure>
+        <p class="img-cap">小倩陪宁采臣夜读。墙上挂着钟馗出行图，对联是「热肠冷眼大慈悲」</p>
+        <p class="lead">回到宁家，小倩白天侍奉母亲，下堂劳作；夜里到书斋就烛诵经，等采臣要睡了才走。有趣的是，书房里住着鬼，供的却是捉鬼的神。</p>
+      </div>
+      <div class="issue-strip">
+        <span>Scene 01 · 书斋</span>
+        <span>—</span>
+        <span>03 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P4 · 细节：殊怯荒墓
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-04">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">细节 · 放大镜</p>
+        <h2 class="h-xl">殊怯荒墓</h2>
+        <figure class="frame-img r-3x4 grow">
+          <img src="assets/nie1_face.jpg" alt="小倩就烛读经" style="object-position:center 40%">
+        </figure>
+        <p class="img-cap">就烛诵经，觉宁将睡，始惨然去</p>
+        <p class="lead">初时，伴读至晚间，采臣催她走，不是无情：书斋没有第二张床，孤男寡女同处一室，于礼不合。她答：「异域孤魂，殊怯荒墓。」此后她早起请安，捧盆侍洗，下堂劳作，事事顺着母亲心意；母亲照顾病妻多年，撑持不住，有了小倩才松快下来，渐渐把她当亲生女儿疼。于是采臣母亲留她过夜，「亲爱如己出，竟忘其为鬼」，让小倩跟自己同卧起。</p>
+      </div>
+      <div class="issue-strip">
+        <span>Detail · 伴读</span>
+        <span>—</span>
+        <span>04 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P5 · 结局第二开：疑为仙
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-05">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">结局 · 第二开</p>
+        <h2 class="h-xl">疑为仙</h2>
+        <figure class="frame-img r-4x3 grow">
+          <img src="assets/nie2_full.jpg" alt="内眷赏画图" style="object-position:center 45%">
+        </figure>
+        <p class="img-cap">女眷们围看的，是小倩画的兰梅</p>
+        <p class="lead">采臣前妻病故后，娶小倩做了新妇。亲族听说宁家的新媳妇，都来求见。她盛装出席，满堂看呆，「反不疑其鬼，疑为仙」。她善画兰梅，求画的络绎不绝，得画的「藏什袭以为荣」。</p>
+      </div>
+      <div class="issue-strip">
+        <span>Scene 02 · 见客</span>
+        <span>—</span>
+        <span>05 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P6 · 细节：兰梅与镜
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-06">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">细节 · 放大镜</p>
+        <h2 class="h-xl">兰梅与镜</h2>
+        <div class="duo grow">
+          <figure class="frame-img r-1x1">
+            <img src="assets/nie2_orchid.jpg" alt="小倩画的兰梅手卷" style="object-position:center 50%">
+          </figure>
+          <figure class="frame-img r-1x1">
+            <img src="assets/nie2_mirror.jpg" alt="对镜梳妆的丫鬟" style="object-position:center 30%">
+          </figure>
+        </div>
+        <p class="img-cap">左：手卷上是小倩的兰梅。右：镜子前，丫鬟在梳妆</p>
+        <p class="lead">「五党诸内眷，咸执贽以贺，争拜识之。」亲戚家的女眷备礼上门道贺，小倩常会以画回赠。</p>
+      </div>
+      <div class="issue-strip">
+        <span>Detail · 兰梅</span>
+        <span>—</span>
+        <span>06 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P7 · 结局第三开：革囊
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-07">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">结局 · 第三开</p>
+        <h2 class="h-xl">革囊</h2>
+        <figure class="frame-img r-4x3 grow">
+          <img src="assets/nie3_full.jpg" alt="夜叉夜袭图" style="object-position:center 55%">
+        </figure>
+        <p class="img-cap">红发夜叉破窗而入，小倩躲进帘后</p>
+        <p class="lead">安稳日子没过多久，小倩连日心下怔忡：金华的夜叉怕是要寻来了。她当初怕革囊的剑气，采臣一直收在别处；如今沾染生气已久，不再怕了，让采臣取回来挂上床头。说那是剑仙装人头的袋子，「敝败至此，不知杀人几何」。破成这样，是斩妖无数磨出来的：剑气浸在革里，袋子早已成灵，想必能震慑金华妖物。</p>
+      </div>
+      <div class="issue-strip">
+        <span>Scene 03 · 夜袭</span>
+        <span>—</span>
+        <span>07 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P8 · 细节：清水数斗
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-08">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">细节 · 放大镜</p>
+        <h2 class="h-xl">清水数斗</h2>
+        <figure class="frame-img r-3x4 grow">
+          <img src="assets/nie3_yecha.jpg" alt="红发夜叉坠落被擒" style="object-position:center 88%">
+        </figure>
+        <p class="img-cap">物如夜叉状，电目血口，睒闪攫拿而前</p>
+        <p class="lead">夜叉到了门口先却步，到底没忍住，伸爪去撕革囊。囊格然一响，撑得有竹筐大，恍惚有鬼物探出半身，把它揪了进去。夫妻俩凑近再看，囊中「清水数斗而已」。</p>
+        <div class="mini-notes">
+          <div class="mn-row"><span class="mn-nb">壹</span><p class="mn-t">采臣是浙江人，路经金华，夜宿城北兰若寺，才遇上小倩</p></div>
+          <div class="mn-row"><span class="mn-nb">贰</span><p class="mn-t">妖物盘踞兰若寺，小倩葬在寺侧，被它胁迫；逃出金华，等于逃出它的地盘</p></div>
+          <div class="mn-row"><span class="mn-nb">叁</span><p class="mn-t">为何化成清水，原书没有解释，只留下这一句</p></div>
+        </div>
+      </div>
+      <div class="issue-strip">
+        <span>Detail · 革囊</span>
+        <span>—</span>
+        <span>08 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P9 · 尾声：做人做到底
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-09">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">尾声 · 结局</p>
+        <h2 class="h-xl" style="font-size:76px">人做久了，便回不去了</h2>
+        <div class="quote-block">
+          <p class="pullquote" style="font-style:normal; font-size:48px">后数年，宁果登进士。女举一男。纳妾后，又各生一男，皆仕进有声。</p>
+          <p class="quote-src">—— 《聊斋志异 · 聂小倩》篇末，画册抄文</p>
+        </div>
+        <p class="lead">蒲松龄收尾一向省墨，二十几个字，就把她的后半生交代完了，但是画册补上了这些留白。</p>
+        <p class="lead">用现代人的眼光看，这简直是古代人对「贤妻」的最高想象：既要上得厅堂艺惊四座，又要下得厨房服侍翁媪，还要允许纳妾多子多福。求诸现世不得，只能诉诸鬼神了。</p>
+        <div style="display:flex; gap:36px; align-items:flex-end; margin-top:auto">
+          <figure class="frame-img" style="width:116px; height:440px; margin:0; flex:none">
+            <img src="assets/couplet.jpg" alt="书房对联" style="object-position:center 50%">
+          </figure>
+          <p class="body" style="max-width:560px">题眼在这副对联：热肠待人，冷眼观世，大慈悲容物。采臣对色与金冷眼，对孤魂热肠，正是这个意思。再读一层：蒲松龄自己屡试不第，一辈子没中过举，到头来把进士和仕途，写给了故事里善待孤鬼的人。</p>
+        </div>
+      </div>
+      <div class="issue-strip">
+        <span>尾声 · 结局</span>
+        <span>—</span>
+        <span>09 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P10 · M08 收尾
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-10">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-4">
+        <p class="kicker">后记 · Colophon</p>
+        <h2 class="h-xl">九十册画册<br>散落全世界</h2>
+        <div class="ledger">
+          <div class="ledger-row" style="padding:30px 0">
+            <span class="ledger-nb">壹</span>
+            <span class="ledger-title" style="font-size:36px">1900</span>
+            <span class="ledger-note">据研究者考证，画册被俄国军官<br>维列察金带往欧洲，从此流散</span>
+          </div>
+          <div class="ledger-row" style="padding:30px 0">
+            <span class="ledger-nb">贰</span>
+            <span class="ledger-title" style="font-size:36px">23 册</span>
+            <span class="ledger-note">已知下落：维也纳 17 册<br>日内瓦 1 册，余者散见拍场</span>
+          </div>
+          <div class="ledger-row" style="padding:30px 0">
+            <span class="ledger-nb">叁</span>
+            <span class="ledger-title" style="font-size:36px">7.5 万美元</span>
+            <span class="ledger-note">2018 年纽约苏富比<br>三册的成交价</span>
+          </div>
+          <div class="ledger-row" style="padding:30px 0; border-bottom:0">
+            <span class="ledger-nb">肆</span>
+            <span class="ledger-title" style="font-size:36px">第十册</span>
+            <span class="ledger-note">聂小倩画册故事的开头<br>至今下落不明</span>
+          </div>
+        </div>
+        <p class="lead">等它哪天从哪个街边旧物店里冒出来，我再回来补上开头。</p>
+      </div>
+      <div class="issue-strip">
+        <span>下集预告 · 画皮（第八册）</span>
+        <span>—</span>
+        <span>10 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P11 · 附录：原文抄录（上）
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-11">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">附录</p>
+        <div class="guji">
+          <div class="guji-text"><div class="guji-title">聊齋全圖聶小倩抄文上</div><div>則小倩也。歡喜謝曰、君信義。十死不足以報。請從歸拜識嫜姑、媵御無悔。審諦之、肌映流霞、足翹細筍。白晝端好、嬌豔尤絕。遂與俱至齋中。囑曰、少待、先入白母。母愕然。時寧妻久病、母戒毋言、恐所驚駭。言次、女已翩然入、拜伏地下。寧曰、此小倩也。母驚顧不遑。女謂母曰、兒飄然一身、遠父母兄弟。蒙公子露覆、澤被髮膚。願執箕箒、以報高義。母見其綽約可愛、始敢與言。曰、小娘子惠顧吾兒、老身喜不可已。但生平止此兒、用承祧緒、不敢令有鬼偶。女曰、兒實無二心。泉下人既不見信於老母、請以兄事、依高堂奉晨昏、如何。母憐其誠、允之。即欲拜嫂、母辭以疾、乃止。女即入廚下、代母尸饔。入房穿戶、似熟居者。日暮、母畏懼之、辭使歸寢、不為設床褥。女窺知母意、即竟去。過齋、欲入卻步、徘徊戶外、似有所怯。生呼之。女曰、室中劍氣畏人。向道途之不奉見者、良以此故。寧已悟為革囊、取懸他室。女乃入、就燭下坐。移時、殊不一語。久之、問、夜讀否。妾少誦楞嚴經、今强半遺亡。浼求一卷、夜暇就兄正之。寧諾。又坐默然。二更向盡、不言去。寧促之。愀然曰、異域孤魂、殊怯荒墓。寧曰、齋中別無床寢、且兄弟亦宜遠嫌。女起、顰蹙而欲泣、足侲儴而懶步。從容出門、涉階而沒。寧竊憐之、欲宿別榻、又懼母嗔。女朝起朝母、捧匜沃盥、下堂操作、無不曲承母志。黃昏告退、輒過齋頭、就燭誦經。覺寧將睡、始慘然去。先是、寧妻病廢、母劬不可堪。自得女、逸甚、心德之。日漸稔、親愛如己出、竟忘其為鬼。不忍晚令去、留與同臥起。女初來、未嘗飲食。半年、漸啜稀飽。母子皆溺愛之、諱言其鬼、人亦不之知也。</div></div>
+        </div>
+      </div>
+      <div class="issue-strip">
+        <span>附录 · 抄文 上</span>
+        <span>—</span>
+        <span>11 / 12</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P12 · 附录：原文抄录（下）
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-12">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <p class="kicker">附录</p>
+        <div class="guji">
+          <div class="guji-text"><div class="guji-title">聊齋全圖聶小倩抄文下</div><div>無何、寧妻亡。母陰有納女意、然恐於子不利。女微窺之、乘間告母曰、居年餘、當知兒肝鬲。為不欲禍行人、故從郎君來。區區無他意、止以公子光明磊落、為天人所欽矚。實欲依贊十數年、借博封誥、以光泉壤。母亦知其無惡、但懼不能延宗嗣。女曰、子女為天所授。郎君注福籍、有亢宗子三、不以鬼妾而遂奪也。母信之、與子議。寧喜、因列筵告戚黨。或請覿新婦。慨然華妝出、一堂盡眙。反不疑其鬼、疑為仙。由是五黨諸內眷、咸執贄以賀、爭拜識之。女善畫蘭梅、輒以尺幅酬答、得者藏什襲以為榮。一日、俛頸窗前、怊悵若失。忽問、革囊何在。曰、以畏之故、緘置他所。曰、妾受生氣已久、當不復畏、宜取挂床頭。寧詢其意。曰、三日來、心怔忡無停息。意金華妖物恨妾遠遁、恐旦晚尋及也。寧果攜革囊來。女反復審視、曰、此劍仙將盛人頭者也。敝敗至此、不知殺人幾何許也。以妾今日視之、肌猶慄悚。乃懸之。次日、又命移懸戶上。夜對燭坐、約寧勿寢。忽有一物如飛鳥墜落於地。女驚甚、隱匿夾幕中。寧視之、物如夜叉狀。電目血口、睒閃攫拏而前。方至門、卻步。趑趄漸近革囊、以爪摘取、似將爪裂。囊忽格然響、大可合簣。恍惚有鬼物突出、革囊中身半露、揪夜叉入、囊亦頃合如故。寧駭詫。女出、大喜曰、無恙矣。共視囊中、清水數斗而已。後數年、寧果登進士、舉一男。納妾後、又各生一男、皆仕進有聲。</div><div class="guji-note">識曰、右文抄自奧地利國家圖書館藏聊齋全圖第十一冊聶小倩文字頁。起則小倩也、訖皆仕進有聲。啟視以前、佚於第十冊。侲儴一作仜儴。稀飽疑稀粥之譌。歲在丙午七月、木鳥錄。</div></div>
+        </div>
+      </div>
+      <div class="issue-strip">
+        <span>附录 · 抄文 下</span>
+        <span>—</span>
+        <span>12 / 12</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Magazine WebGL background (deterministic ink-flow) -->
+  <script src="../../../shared/magazine-bg-webgl.js"></script>
+  <script src="../../../shared/flip-viewer.js"></script>
+  <script>
+    (function () {
+      function cssVarRgb(name, fallback) {
+        var raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        if (!raw) return fallback;
+        var parts = raw.split(',').map(function (x) { return parseInt(x.trim(), 10); });
+        return parts.length === 3 && parts.every(function (n) { return !isNaN(n); }) ? parts : fallback;
+      }
+      function mountAll() {
+        if (!window.MagazineBg || !window.MagazineBg.mount) return;
+        var ink    = cssVarRgb('--ink-rgb',    [10, 10, 11]);
+        var paper  = cssVarRgb('--paper-rgb',  [243, 240, 232]);
+        var accent = cssVarRgb('--accent-rgb', [17, 17, 17]);
+        document.querySelectorAll('canvas.mag-bg').forEach(function (c) {
+          window.MagazineBg.mount(c, {
+            ink: ink,
+            paper: paper,
+            accent: accent,
+            strength: 0.32,
+            frozenTime: 12.5
+          });
+        });
+      }
+      if (document.readyState === 'complete') mountAll();
+      else window.addEventListener('load', mountAll);
+    })();
+  </script>
+</body>
+</html>

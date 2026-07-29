@@ -1,0 +1,120 @@
+/* =========================================================
+   木鸟故事库 · 书本翻页阅读器
+   ---------------------------------------------------------
+   默认浏览模式：双页对开（spread）全屏，右页沿书脊翻到左边。
+   渲染导出时给 index.html 加 ?sheet=1 即回到整页平铺，
+   本文件不生效（flip-viewer.js 会直接退出，不加 .viewer）。
+   ========================================================= */
+
+body.viewer {
+  overflow: hidden;
+  height: 100vh;
+  padding: 0;
+}
+
+/* 原平铺容器在书本模式下清空并隐藏（poster 被 JS 移进 .flip-book） */
+body.viewer .sheet { display: none; }
+
+/* 对开书：两块 1080×1440 画板并排，整体被 JS 缩放居中 */
+body.viewer .flip-book {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -1080px;
+  margin-top: -720px;
+  width: 2160px;
+  height: 1440px;
+  transform-origin: center center;
+  perspective: 2800px;
+}
+
+/* 书脊两侧的静态底页 */
+body.viewer .flip-book .base {
+  position: absolute;
+  top: 0;
+  width: 1080px;
+  height: 1440px;
+}
+body.viewer .flip-book .base-left  { left: 0; }
+body.viewer .flip-book .base-right { left: 1080px; }
+body.viewer .flip-book .base .blank {
+  position: absolute;
+  inset: 0;
+  background: var(--paper, #EFF1F3);
+}
+
+/* 翻页叶子：定位在右半，绕左边（书脊）旋转 */
+body.viewer .flip-book .leaf {
+  position: absolute;
+  left: 1080px;
+  top: 0;
+  width: 1080px;
+  height: 1440px;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform .8s cubic-bezier(.35,.55,.3,1);
+}
+body.viewer .flip-book .leaf.flipped { transform: rotateY(-180deg); }
+body.viewer .flip-book .leaf.no-anim { transition: none; }
+
+/* 叶子的正反两面就是画板本身 */
+body.viewer .flip-book .leaf .poster,
+body.viewer .flip-book .base .poster {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+body.viewer .flip-book .leaf .poster.face-back { transform: rotateY(180deg); }
+
+/* 翻页中的叶子上一点投影，增强体积感 */
+body.viewer .flip-book .leaf.turning { filter: drop-shadow(-18px 0 28px rgba(0,0,0,.35)); }
+
+/* 翻页按钮 */
+.flip-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(26,26,26,.55);
+  color: rgba(255,255,255,.85);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background .2s ease, opacity .2s ease;
+}
+.flip-btn:hover { background: rgba(26,26,26,.85); }
+.flip-btn:disabled { opacity: .25; cursor: default; }
+.flip-prev { left: 32px; }
+.flip-next { right: 32px; }
+
+/* 页码 + 提示 */
+.flip-counter {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 10;
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
+  font-size: 15px;
+  letter-spacing: .18em;
+  color: rgba(255,255,255,.55);
+  white-space: nowrap;
+  user-select: none;
+}
+.flip-counter .flip-hint {
+  margin-left: 24px;
+  color: rgba(255,255,255,.30);
+}
+
+@media (max-width: 760px) {
+  .flip-btn { display: none; }            /* 移动端用滑动/点按 */
+  .flip-counter { font-size: 13px; bottom: 18px; }
+  .flip-counter .flip-hint { display: none; }
+}

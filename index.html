@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="muniao">
+<head>
+  <meta charset="utf-8">
+  <title>故纸堆 · 古画里的故事 · 木鸟杂记</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    /* 目录页与故事页同属一套视觉：muniao 主题 + Editorial 排版。
+       令牌取值与 shared/editorial.css 的 [data-theme="muniao"] 保持一致。 */
+    :root {
+      --paper:     #EFF1F3;
+      --paper-2:   #DFE4E9;
+      --ink:       #696773;
+      --muted:     #8E8C98;
+      --line:      rgba(105,103,115,.24);
+      --accent:    #77AAC2;
+      --accent-soft: #C6DAE6;
+      --ink-rgb: 105,103,115;
+      --serif-zh: "Noto Serif SC", "Songti SC", "STSong", serif;
+      --serif-en: "Playfair Display", "Noto Serif SC", serif;
+      --sans-zh: "Noto Sans SC", -apple-system, "PingFang SC", "Microsoft YaHei UI", sans-serif;
+      --mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+    }
+    *,*::before,*::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans-zh);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* 纸纹颗粒，与故事页 .grain 同一手法 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .35;
+      mix-blend-mode: multiply;
+      background-image: radial-gradient(rgba(0,0,0,.045) 1px, transparent 1px);
+      background-size: 3px 3px;
+    }
+    .page { max-width: 1080px; margin: 0 auto; padding: 96px 48px 64px; }
+
+    .kicker {
+      font-family: var(--mono);
+      font-size: 15px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 20px;
+    }
+    h1 {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 84px;
+      line-height: 1.08;
+      letter-spacing: .04em;
+      color: #4A4854;
+      margin: 0 0 24px;
+    }
+    .intro {
+      font-family: var(--serif-zh);
+      font-size: 22px;
+      line-height: 1.7;
+      color: rgba(var(--ink-rgb), .82);
+      max-width: 640px;
+      margin: 0 0 72px;
+    }
+
+    .story {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 48px;
+      padding: 48px 0;
+      border-top: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+      align-items: center;
+    }
+    .story:last-of-type { border-bottom: 1px solid var(--line); }
+    .story figure {
+      margin: 0;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: var(--paper-2);
+    }
+    .story figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s ease;
+    }
+    .story:hover figure img { transform: scale(1.03); }
+    .story .series {
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 16px;
+    }
+    .story h2 {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 44px;
+      line-height: 1.2;
+      letter-spacing: .02em;
+      color: #4A4854;
+      margin: 0 0 16px;
+    }
+    .story .desc {
+      font-family: var(--serif-zh);
+      font-size: 19px;
+      line-height: 1.7;
+      color: rgba(var(--ink-rgb), .80);
+      margin: 0 0 20px;
+      max-width: 560px;
+    }
+    .story .meta {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @media (max-width: 760px) {
+      .page { padding: 64px 24px 48px; }
+      h1 { font-size: 56px; }
+      .story { grid-template-columns: 1fr; gap: 24px; }
+      .story figure { aspect-ratio: 4 / 3; }
+      .story h2 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <p class="kicker">木鸟杂记 · 故纸堆</p>
+    <h1>古画里的故事</h1>
+    <p class="intro">以古代绘本、风俗画为底本，一册一故事。图是旧图，事是旧事，讲得慢一点。</p>
+
+    <a class="story" href="stories/liaozhai/xiaoqian/">
+      <figure><img src="stories/liaozhai/xiaoqian/assets/nie3_full.jpg" alt="《聊斋全图》聂小倩 · 夜叉夜袭图" style="object-position:center 55%"></figure>
+      <div>
+        <p class="series">聊斋全图篇 · Vol.01 · 清光绪绘本</p>
+        <h2>《倩女幽魂》之后 · 小倩与采臣的小日子</h2>
+        <p class="desc">电影里没有的后半场：小倩以鬼身留下，葬骨、事亲、生儿育女。清人把它画进连环画，存世只剩三开。</p>
+        <p class="meta">《聊斋全图》第十一册 · 奥地利国家图书馆藏 · 共 12 页</p>
+      </div>
+    </a>
+
+    <a class="story" href="stories/fengsu/wedding/">
+      <figure><img src="stories/fengsu/wedding/assets/p022.jpg" alt="《北京风俗图谱》迎亲图" style="object-position:center 50%"></figure>
+      <div>
+        <p class="series">北京风俗图谱 · 礼俗第二 · 1925</p>
+        <h2>是谓新郎官 · 一百年前的北京婚礼</h2>
+        <p class="desc">清代北京的婚礼可以僭用官家仪仗，寻常男人一辈子就这一天用得上这套排场，所以叫新郎官。</p>
+        <p class="meta">青木正儿 编 · 刘延年 绘 · 共 11 页</p>
+      </div>
+    </a>
+
+    <a class="story" href="stories/fengsu/market/">
+      <figure><img src="stories/fengsu/market/assets/miao-hui.jpg" alt="《北京风俗图谱》隆福寺庙会图" style="object-position:center 50%"></figure>
+      <div>
+        <p class="series">北京风俗图谱 · 市井第六 · 1925</p>
+        <h2>一百多年前北京大集上都有什么</h2>
+        <p class="desc">一百年前，一个日本人请中国画师把这里的市集画了下来。他画画的时候，庙已经烧掉二十四年了。</p>
+        <p class="meta">青木正儿 编 · 刘延年 绘 · 共 8 页</p>
+      </div>
+    </a>
+
+    <div class="foot">
+      <span>木鸟杂记 · 故纸堆</span>
+      <span>Stories from old picture books</span>
+    </div>
+  </main>
+</body>
+</html>
