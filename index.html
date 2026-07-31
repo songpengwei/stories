@@ -91,7 +91,7 @@
       padding: 0;
       transition: color .2s ease;
     }
-    #bookNav button.on { color: var(--accent); }
+    #bookNav button.on { color: var(--ac, var(--accent)); }
     #bookNav button:hover { color: #4A4854; }
 
     /* 滚动分屏 */
@@ -101,6 +101,7 @@
       display: flex;
       align-items: center;
       pointer-events: none;
+      position: relative;
     }
     .panel a { pointer-events: auto; }
     .txt { margin-left: 8%; max-width: 430px; }
@@ -157,6 +158,21 @@
       transition: background .2s ease, color .2s ease, border-color .2s ease;
     }
     .cta:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* 每册主色：kicker / CTA / 册目高亮随 --ac 走 */
+    .story .kicker { color: var(--ac, var(--accent)); }
+    .story .cta:hover { background: var(--ac, var(--accent)); border-color: var(--ac, var(--accent)); color: #4A4854; }
+    /* 黄色只用于点缀（纸色上不可做文字色） */
+    .hint::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 12px;
+      background: #FCD765;
+      vertical-align: -1px;
+    }
+    .outro .cta:hover { background: #FCD765; border-color: #FCD765; color: #4A4854; }
     .hint {
       position: absolute;
       left: 8%;
@@ -234,9 +250,10 @@
   </header>
 
   <nav id="bookNav" aria-label="册目">
-    <button data-i="0">壹 · 聂小倩</button>
-    <button data-i="1">贰 · 新郎官</button>
-    <button data-i="2">叁 · 北京大集</button>
+    <button data-i="0" style="--ac:#77AAC2">壹 · 聂小倩</button>
+    <button data-i="1" style="--ac:#F19A97">贰 · 新郎官</button>
+    <button data-i="2" style="--ac:#79D9CE">叁 · 北京大集</button>
+    <button data-i="3" style="--ac:#77AAC2">肆 · 促织</button>
   </nav>
 
   <main>
@@ -249,7 +266,7 @@
       <p class="hint">向下滚动 · 慢慢翻 ↓</p>
     </section>
 
-    <section class="panel story" data-i="0">
+    <section class="panel story" data-i="0" style="--ac:#77AAC2">
       <div class="txt">
         <p class="kicker">聊斋全图篇 · Vol.01 · 清光绪绘本</p>
         <h2>《倩女幽魂》之后 · 小倩与采臣的小日子</h2>
@@ -259,7 +276,7 @@
       </div>
     </section>
 
-    <section class="panel story" data-i="1">
+    <section class="panel story" data-i="1" style="--ac:#F19A97">
       <div class="txt">
         <p class="kicker">北京风俗图谱 · 礼俗第二 · 1925</p>
         <h2>是谓新郎官 · 一百年前的北京婚礼</h2>
@@ -269,7 +286,7 @@
       </div>
     </section>
 
-    <section class="panel story" data-i="2">
+    <section class="panel story" data-i="2" style="--ac:#79D9CE">
       <div class="txt">
         <p class="kicker">北京风俗图谱 · 市井第六 · 1925</p>
         <h2>一百多年前北京大集上都有什么</h2>
@@ -279,10 +296,20 @@
       </div>
     </section>
 
+    <section class="panel story" data-i="3" style="--ac:#77AAC2">
+      <div class="txt">
+        <p class="kicker">聊斋全图篇 · Vol.03 · 清代彩绘</p>
+        <h2>促织 · 九岁的孩子，"卷"成了一只蛐蛐</h2>
+        <p class="lead">高中课本曾经收录过这个故事。但跟着《聊斋全图》的配图，能看出更多玩味。</p>
+        <p class="meta">《聊斋全图》第 41 册 · 清代彩绘原本 · 共 10 页</p>
+        <a class="cta" href="stories/liaozhai/cuzhi/">进入阅读 →</a>
+      </div>
+    </section>
+
     <section class="panel outro">
       <div class="txt">
         <p class="kicker">故纸堆</p>
-        <h2>共三册，慢慢加</h2>
+        <h2>共四册，慢慢加</h2>
         <a class="cta" href="#" id="backTop">回到顶部 ↑</a>
         <p class="meta">木鸟杂记 · Stories from old picture books</p>
       </div>
@@ -312,6 +339,14 @@
         <p class="kicker">北京风俗图谱 · 市井第六 · 1925</p>
         <h2>一百多年前北京大集上都有什么</h2>
         <p class="meta">青木正儿 编 · 刘延年 绘 · 共 8 页</p>
+      </div>
+    </a>
+    <a class="fb-story" href="stories/liaozhai/cuzhi/">
+      <figure><img src="stories/liaozhai/cuzhi/assets/cuzhi_3_soul.jpg" alt="《聊斋全图》促织 · 云端的小儿魂影"></figure>
+      <div>
+        <p class="kicker">聊斋全图篇 · Vol.03 · 清代彩绘</p>
+        <h2>促织 · 九岁的孩子，"卷"成了一只蛐蛐</h2>
+        <p class="meta">《聊斋全图》第 41 册 · 清代彩绘原本 · 共 10 页</p>
       </div>
     </a>
   </section>

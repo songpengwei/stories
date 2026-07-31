@@ -23,6 +23,7 @@ stories/<系列>/<故事>/
 现有故事：
 
 - `stories/liaozhai/xiaoqian/` — 《倩女幽魂》之后（《聊斋全图》第十一册，清光绪绘本）
+- `stories/liaozhai/cuzhi/` — 促织（《聊斋全图》第 41 册，清代彩绘原本）
 - `stories/fengsu/wedding/` — 是谓新郎官（《北京风俗图谱》礼俗第二）
 - `stories/fengsu/market/` — 一百年前的北京地摊（《北京风俗图谱》市井第六）
 
@@ -33,7 +34,7 @@ stories/<系列>/<故事>/
 3. 故事自己的样式只写进内联 `<style>` 的 task-scoped 区块；**不要改 `shared/editorial.css` 来满足单个故事**——改它等于改所有故事。
 4. 素材放 `assets/`，按用途命名（`miao-hui.jpg`），不要带 hash。
 5. `render.cjs` 里按 poster 的 `id` 配置输出文件名；`npm i` 后 `node render.cjs` 渲染到 `output/`（已 gitignore）。渲染走 `index.html?sheet=1`（整页平铺），不要被翻页器影响。
-6. 浏览模式默认是书本翻页阅读器（`shared/flip-viewer.*`）：双页对开全屏，右页绕书脊 3D 翻到左边。←/→ 键、两侧按钮、点击书的左/右半、移动端滑动都可以翻页，`#p=N` 直达含第 N 页的对开。翻页器的类名统一带 `flip-` 前缀（`.flip-book` / `.flip-btn` / `.flip-counter`），避免与故事页 task-scoped CSS 撞名（教训：曾用 `.book` 撞了小倩封面的线装书组件）。页数尽量凑偶数，奇数页最后一个对开右页为空白页。
+6. 浏览模式默认是书本翻页阅读器（`shared/flip-viewer.*`）：双页对开全屏，右页绕书脊 3D 翻到左边。←/→ 键、两侧按钮、点击书的左/右半、移动端滑动都可以翻页，`#p=N` 直达含第 N 页的对开。右上角 × 或 Esc 退出阅读（同源来源 history.back，否则回根目录）。缩放定位在 body 末尾脚本执行时立即完成（不等 load），避免未缩放闪帧；`.flip-book` 首次定位前 `visibility:hidden`，定位后加 `.ready` 亮出。**不要给 `.leaf` 加 filter/opacity 等分组属性**——会强制 transform-style:flat 杀掉 preserve-3d，翻转时正面镜像一直显示、落定时才闪成背面（已踩过：曾用 drop-shadow 投影增强体积感）。翻页器的类名统一带 `flip-` 前缀（`.flip-book` / `.flip-btn` / `.flip-close` / `.flip-counter`），避免与故事页 task-scoped CSS 撞名（教训：曾用 `.book` 撞了小倩封面的线装书组件）。页数尽量凑偶数，奇数页最后一个对开右页为空白页。
 7. 上架到首页：在 `book-stage.js` 的 `STORIES` 数组里加一条（书脊短名、封面题名、链接、封面图），并在根目录 `index.html` 里加一屏 `<section class="panel story">`（注意 data-i 连续）和一条 `#fallback` 的 `.fb-story` 条目、一个 `#bookNav` 按钮。首页视觉随整站 muniao 风格：纸色底、线装书版框书脊 + 品牌蓝印章、古画封面，不要改成别的配色。
 
 ## 风格设定（源自 guizang-social-card-skill）
@@ -53,7 +54,9 @@ stories/<系列>/<故事>/
 | `--line` | `rgba(105,103,115,.24)` | 细线 |
 | `--accent` | `#77AAC2` | 品牌蓝（kicker、issue-row、强调） |
 | `--accent-soft` | `#C6DAE6` | 蓝的浅色底 |
-| `--c-blue/green/yellow/red` | `#77AAC2 / #79D9CE / #FCD765 / #F19A97` | 品牌辅助色，点缀用 |
+| `--c-blue/green/yellow/red` | `#77AAC2 / #79D9CE / #FCD765 / #F19A97` | 品牌辅助色 |
+
+品牌四色分工：每册故事一个主色（聂小倩蓝、婚礼红、大集绿），用在 kicker、册目高亮、CTA hover、书脊印章、封面题名带；黄色 `#FCD765` 只做非文字点缀（小色块、hover 底色），纸色上不可做文字色。新增故事时在四色里挑一个未被近邻故事使用的。
 
 备用主题（同在 editorial.css）：`ink-classic | indigo-porcelain | forest-ink | kraft-paper | dune | midnight-ink`（唯一暗色）。不要自造色板。
 

@@ -84,12 +84,10 @@
       restack(null);
       return;
     }
-    leaf.classList.add('turning');
     restack(leaf);
     leaf.classList.toggle('flipped', forward);
     leaf.addEventListener('transitionend', function done() {
       leaf.removeEventListener('transitionend', done);
-      leaf.classList.remove('turning');
       restack(null);
     });
   }
@@ -125,9 +123,23 @@
 
   prevBtn.addEventListener('click', function (e) { e.stopPropagation(); prev(); });
   nextBtn.addEventListener('click', function (e) { e.stopPropagation(); next(); });
+
+  /* 关闭：右上角 × 或 Esc，返回来源页（同源）否则回目录页 */
+  var closeBtn = el('button', 'flip-close');
+  closeBtn.setAttribute('aria-label', '退出阅读');
+  closeBtn.textContent = '×';
+  document.body.appendChild(closeBtn);
+  function exitBook() {
+    var ref = document.referrer;
+    if (ref && new URL(ref).origin === location.origin && history.length > 1) history.back();
+    else location.href = '../../../';   /* 故事页在 stories/<系列>/<故事>/ 下，回根目录 */
+  }
+  closeBtn.addEventListener('click', function (e) { e.stopPropagation(); exitBook(); });
+
   document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft') prev();
     else if (e.key === 'ArrowRight') next();
+    else if (e.key === 'Escape') exitBook();
   });
 
   /* 点书的左半/右半翻页 */
@@ -155,8 +167,13 @@
     for (var k = 0; k < s; k++) flip(leaves[k], true, true);
   }
 
-  /* 等字体与 WebGL 背景就位后再量尺寸 */
-  function start() { layout(); restack(null); updateUI(); }
-  if (document.readyState === 'complete') start();
-  else addEventListener('load', start);
+  /* 缩放只依赖视口尺寸，脚本在 body 末尾执行时 DOM 已就绪，
+     立即定位并亮出书本，避免等 load 造成的未缩放闪帧 */
+  function start() {
+    layout();
+    restack(null);
+    updateUI();
+    book.classList.add('ready');
+  }
+  start();
 })();

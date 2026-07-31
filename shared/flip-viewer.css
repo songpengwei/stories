@@ -15,7 +15,8 @@ body.viewer {
 /* 原平铺容器在书本模式下清空并隐藏（poster 被 JS 移进 .flip-book） */
 body.viewer .sheet { display: none; }
 
-/* 对开书：两块 1080×1440 画板并排，整体被 JS 缩放居中 */
+/* 对开书：两块 1080×1440 画板并排，整体被 JS 缩放居中。
+   首次定位前隐藏，避免 load 前的未缩放闪帧（"先放大再缩小"）。 */
 body.viewer .flip-book {
   position: fixed;
   left: 50%;
@@ -26,7 +27,9 @@ body.viewer .flip-book {
   height: 1440px;
   transform-origin: center center;
   perspective: 2800px;
+  visibility: hidden;
 }
+body.viewer .flip-book.ready { visibility: visible; }
 
 /* 书脊两侧的静态底页 */
 body.viewer .flip-book .base {
@@ -57,7 +60,9 @@ body.viewer .flip-book .leaf {
 body.viewer .flip-book .leaf.flipped { transform: rotateY(-180deg); }
 body.viewer .flip-book .leaf.no-anim { transition: none; }
 
-/* 叶子的正反两面就是画板本身 */
+/* 叶子的正反两面就是画板本身。
+   正面必须带恒等 3D transform——没有它 backface-visibility 对正面失效，
+   翻转过半后仍显示正面镜像，落定时才"闪"成背面（已知 bug）。 */
 body.viewer .flip-book .leaf .poster,
 body.viewer .flip-book .base .poster {
   position: absolute;
@@ -65,11 +70,11 @@ body.viewer .flip-book .base .poster {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+body.viewer .flip-book .leaf > .poster { transform: rotateY(0.0001deg); }
 body.viewer .flip-book .leaf .poster.face-back { transform: rotateY(180deg); }
 
-/* 翻页中的叶子上一点投影，增强体积感 */
-body.viewer .flip-book .leaf.turning { filter: drop-shadow(-18px 0 28px rgba(0,0,0,.35)); }
-
+/* 注意：不要给 .leaf 加 filter/opacity 等分组属性——会强制 transform-style:flat，
+   杀掉 preserve-3d，翻转时正面镜像一直显示到落定才"闪"成背面（已踩过）。 */
 /* 翻页按钮 */
 .flip-btn {
   position: fixed;
@@ -94,6 +99,27 @@ body.viewer .flip-book .leaf.turning { filter: drop-shadow(-18px 0 28px rgba(0,0
 .flip-prev { left: 32px; }
 .flip-next { right: 32px; }
 
+/* 关闭按钮：右上小 ×，点击或 Esc 退出阅读（返回来源页/首页） */
+.flip-close {
+  position: fixed;
+  top: 28px;
+  right: 32px;
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(26,26,26,.55);
+  color: rgba(255,255,255,.85);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background .2s ease;
+}
+.flip-close:hover { background: rgba(26,26,26,.85); }
+
 /* 页码 + 提示 */
 .flip-counter {
   position: fixed;
@@ -115,6 +141,7 @@ body.viewer .flip-book .leaf.turning { filter: drop-shadow(-18px 0 28px rgba(0,0
 
 @media (max-width: 760px) {
   .flip-btn { display: none; }            /* 移动端用滑动/点按 */
+  .flip-close { top: 18px; right: 18px; } /* 关闭按钮保留 */
   .flip-counter { font-size: 13px; bottom: 18px; }
   .flip-counter .flip-hint { display: none; }
 }

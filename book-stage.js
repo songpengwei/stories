@@ -9,19 +9,29 @@ const STORIES = [
     spine: '聂小倩',
     cover: '小倩与采臣的小日子',
     url: 'stories/liaozhai/xiaoqian/',
+    accent: '#77AAC2',
     img: 'stories/liaozhai/xiaoqian/assets/nie3_full.jpg',
   },
   {
     spine: '新郎官',
     cover: '一百年前的北京婚礼',
     url: 'stories/fengsu/wedding/',
+    accent: '#F19A97',
     img: 'stories/fengsu/wedding/assets/p022.jpg',
   },
   {
     spine: '北京大集',
     cover: '北京大集上都有什么',
     url: 'stories/fengsu/market/',
+    accent: '#79D9CE',
     img: 'stories/fengsu/market/assets/miao-hui.jpg',
+  },
+  {
+    spine: '促织',
+    cover: '九岁的孩子，卷成了蛐蛐',
+    url: 'stories/liaozhai/cuzhi/',
+    accent: '#77AAC2',
+    img: 'stories/liaozhai/cuzhi/assets/cuzhi_3_soul.jpg',
   },
 ];
 
@@ -49,7 +59,7 @@ try {
 
 /* ---------- 纹理（canvas 手绘：线装书书脊 / 古画封面 / 书口） ---------- */
 
-function makeSpineTexture(title) {
+function makeSpineTexture(title, accent) {
   const c = document.createElement('canvas');
   c.width = 128; c.height = 768;
   const x = c.getContext('2d');
@@ -64,7 +74,7 @@ function makeSpineTexture(title) {
   x.textBaseline = 'middle';
   const step = 60, y0 = 110;
   [...title].forEach((ch, i) => x.fillText(ch, 64, y0 + i * step));
-  x.fillStyle = PALETTE.accent;
+  x.fillStyle = accent;
   x.fillRect(46, 700, 36, 36);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
@@ -80,7 +90,7 @@ function makeCoverTexture(story, img) {
   x.drawImage(img, (512 - w) / 2, (768 - h) / 2, w, h);
   x.fillStyle = '#F7F4EB';
   x.fillRect(0, 632, 512, 136);
-  x.fillStyle = PALETTE.accent;
+  x.fillStyle = story.accent;
   x.fillRect(224, 648, 64, 3);
   x.fillStyle = '#4A4854';
   const size = story.cover.length > 9 ? 32 : 38;
@@ -157,7 +167,7 @@ async function build() {
   await document.fonts.ready;
   const imgs = await Promise.all(STORIES.map(s => loadImage(s.img)));
   STORIES.forEach((story, i) => {
-    const spineMat = new THREE.MeshStandardMaterial({ map: makeSpineTexture(story.spine), roughness: 0.9 });
+    const spineMat = new THREE.MeshStandardMaterial({ map: makeSpineTexture(story.spine, story.accent), roughness: 0.9 });
     const coverMat = new THREE.MeshStandardMaterial({ map: makeCoverTexture(story, imgs[i]), roughness: 0.9 });
     /* 盒面顺序：[+x 封底, -x 封面, +y 天头, -y 地脚, +z 书脊, -z 书口] */
     const mesh = new THREE.Mesh(
