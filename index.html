@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
   <style>
     /* 目录页与故事页同属一套视觉：muniao 主题 + Editorial 排版。
-       令牌取值与 shared/editorial.css 的 [data-theme="muniao"] 保持一致。 */
+       令牌取值与 shared/editorial.css 的 [data-theme="muniao"] 保持一致。
+       布局参照 Stripe Press：纵向滚动，每屏一册，右侧 3D 书随滚动翻转。 */
     :root {
       --paper:     #EFF1F3;
       --paper-2:   #DFE4E9;
@@ -38,161 +39,310 @@
       content: '';
       position: fixed;
       inset: 0;
+      z-index: 5;
       pointer-events: none;
       opacity: .35;
       mix-blend-mode: multiply;
       background-image: radial-gradient(rgba(0,0,0,.045) 1px, transparent 1px);
       background-size: 3px 3px;
     }
-    .page { max-width: 1080px; margin: 0 auto; padding: 96px 48px 64px; }
 
-    .kicker {
+    /* 3D 画布：固定底层，接收落在文字之外的点击 */
+    #stage3d { position: fixed; inset: 0; z-index: 0; }
+    #stage3d canvas { display: block; }
+
+    /* 固定页头 */
+    .chrome {
+      position: fixed;
+      top: 40px;
+      left: 64px;
+      right: 64px;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
       font-family: var(--mono);
-      font-size: 15px;
+      font-size: 14px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--accent);
-      margin: 0 0 20px;
+    }
+
+    /* 右侧册目导航 */
+    #bookNav {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    #bookNav button {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .14em;
+      color: var(--muted);
+      text-align: right;
+      padding: 0;
+      transition: color .2s ease;
+    }
+    #bookNav button.on { color: var(--accent); }
+    #bookNav button:hover { color: #4A4854; }
+
+    /* 滚动分屏 */
+    main { position: relative; z-index: 1; pointer-events: none; }
+    .panel {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+    .panel a { pointer-events: auto; }
+    .txt { margin-left: 8%; max-width: 430px; }
+
+    .kicker {
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 18px;
     }
     h1 {
       font-family: var(--serif-zh);
       font-weight: 500;
-      font-size: 84px;
-      line-height: 1.08;
+      font-size: 64px;
+      line-height: 1.1;
       letter-spacing: .04em;
       color: #4A4854;
-      margin: 0 0 24px;
+      margin: 0 0 20px;
     }
-    .intro {
+    h2 {
       font-family: var(--serif-zh);
-      font-size: 22px;
-      line-height: 1.7;
-      color: rgba(var(--ink-rgb), .82);
-      max-width: 640px;
-      margin: 0 0 72px;
+      font-weight: 500;
+      font-size: 44px;
+      line-height: 1.25;
+      color: #4A4854;
+      margin: 0 0 18px;
+    }
+    .lead {
+      font-family: var(--serif-zh);
+      font-size: 19px;
+      line-height: 1.75;
+      color: rgba(var(--ink-rgb), .80);
+      margin: 0 0 22px;
+    }
+    .meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 26px;
+    }
+    .cta {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: .14em;
+      color: #4A4854;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      padding: 12px 24px;
+      transition: background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .cta:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .hint {
+      position: absolute;
+      left: 8%;
+      bottom: 48px;
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: .18em;
+      color: var(--muted);
     }
 
-    .story {
+    /* 文案入场 */
+    .story .txt {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .story.in .txt { opacity: 1; transform: none; }
+
+    /* 尾屏 */
+    .outro { justify-content: center; text-align: center; }
+    .outro .txt { margin: 0; }
+    .outro .meta { margin-top: 26px; }
+
+    /* WebGL 不可用时的降级列表 */
+    #fallback {
+      display: none;
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 140px 48px 64px;
+    }
+    .fb-story {
       display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 48px;
-      padding: 48px 0;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 36px 0;
       border-top: 1px solid var(--line);
       text-decoration: none;
       color: inherit;
       align-items: center;
     }
-    .story:last-of-type { border-bottom: 1px solid var(--line); }
-    .story figure {
+    .fb-story:last-of-type { border-bottom: 1px solid var(--line); }
+    .fb-story figure {
       margin: 0;
       aspect-ratio: 3 / 4;
       overflow: hidden;
       background: var(--paper-2);
     }
-    .story figure img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .5s ease;
-    }
-    .story:hover figure img { transform: scale(1.03); }
-    .story .series {
-      font-family: var(--mono);
-      font-size: 14px;
-      letter-spacing: .20em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 0 0 16px;
-    }
-    .story h2 {
-      font-family: var(--serif-zh);
-      font-weight: 500;
-      font-size: 44px;
-      line-height: 1.2;
-      letter-spacing: .02em;
-      color: #4A4854;
-      margin: 0 0 16px;
-    }
-    .story .desc {
-      font-family: var(--serif-zh);
-      font-size: 19px;
-      line-height: 1.7;
-      color: rgba(var(--ink-rgb), .80);
-      margin: 0 0 20px;
-      max-width: 560px;
-    }
-    .story .meta {
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .foot {
-      display: flex;
-      justify-content: space-between;
-      gap: 32px;
-      margin-top: 64px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+    .fb-story figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     @media (max-width: 760px) {
-      .page { padding: 64px 24px 48px; }
-      h1 { font-size: 56px; }
-      .story { grid-template-columns: 1fr; gap: 24px; }
-      .story figure { aspect-ratio: 4 / 3; }
-      .story h2 { font-size: 34px; }
+      .chrome { left: 24px; right: 24px; top: 28px; font-size: 12px; }
+      #bookNav { display: none; }
+      .panel { align-items: flex-end; }
+      .txt { margin: 0 24px 10vh; max-width: none; }
+      h1 { font-size: 40px; }
+      h2 { font-size: 30px; }
+      .lead { font-size: 16px; }
+      .hero { align-items: center; }
+      .hero .txt { margin: 0 24px; }
+      .hint { left: 24px; bottom: 32px; }
     }
   </style>
+  <script type="importmap">
+    { "imports": { "three": "./shared/vendor/three.module.js" } }
+  </script>
 </head>
 <body>
-  <main class="page">
-    <p class="kicker">木鸟杂记 · 故纸堆</p>
-    <h1>古画里的故事</h1>
-    <p class="intro">以古代绘本、风俗画为底本，一册一故事。图是旧图，事是旧事，讲得慢一点。</p>
+  <div id="stage3d"></div>
 
-    <a class="story" href="stories/liaozhai/xiaoqian/">
-      <figure><img src="stories/liaozhai/xiaoqian/assets/nie3_full.jpg" alt="《聊斋全图》聂小倩 · 夜叉夜袭图" style="object-position:center 55%"></figure>
-      <div>
-        <p class="series">聊斋全图篇 · Vol.01 · 清光绪绘本</p>
+  <header class="chrome">
+    <span>木鸟杂记 · 故纸堆</span>
+    <span>古画里的故事</span>
+  </header>
+
+  <nav id="bookNav" aria-label="册目">
+    <button data-i="0">壹 · 聂小倩</button>
+    <button data-i="1">贰 · 新郎官</button>
+    <button data-i="2">叁 · 北京大集</button>
+  </nav>
+
+  <main>
+    <section class="panel hero">
+      <div class="txt">
+        <p class="kicker">木鸟杂记 · 故纸堆</p>
+        <h1>古画里的故事</h1>
+        <p class="lead">以古代绘本、风俗画为底本，一册一故事。图是旧图，事是旧事，讲得慢一点。</p>
+      </div>
+      <p class="hint">向下滚动 · 慢慢翻 ↓</p>
+    </section>
+
+    <section class="panel story" data-i="0">
+      <div class="txt">
+        <p class="kicker">聊斋全图篇 · Vol.01 · 清光绪绘本</p>
         <h2>《倩女幽魂》之后 · 小倩与采臣的小日子</h2>
-        <p class="desc">电影里没有的后半场：小倩以鬼身留下，葬骨、事亲、生儿育女。清人把它画进连环画，存世只剩三开。</p>
+        <p class="lead">电影里没有的后半场：小倩以鬼身留下，葬骨、事亲、生儿育女。清人把它画进连环画，存世只剩三开。</p>
+        <p class="meta">《聊斋全图》第十一册 · 奥地利国家图书馆藏 · 共 12 页</p>
+        <a class="cta" href="stories/liaozhai/xiaoqian/">进入阅读 →</a>
+      </div>
+    </section>
+
+    <section class="panel story" data-i="1">
+      <div class="txt">
+        <p class="kicker">北京风俗图谱 · 礼俗第二 · 1925</p>
+        <h2>是谓新郎官 · 一百年前的北京婚礼</h2>
+        <p class="lead">清代北京的婚礼可以僭用官家仪仗，寻常男人一辈子就这一天用得上这套排场，所以叫新郎官。</p>
+        <p class="meta">青木正儿 编 · 刘延年 绘 · 共 11 页</p>
+        <a class="cta" href="stories/fengsu/wedding/">进入阅读 →</a>
+      </div>
+    </section>
+
+    <section class="panel story" data-i="2">
+      <div class="txt">
+        <p class="kicker">北京风俗图谱 · 市井第六 · 1925</p>
+        <h2>一百多年前北京大集上都有什么</h2>
+        <p class="lead">一百年前，一个日本人请中国画师把这里的市集画了下来。他画画的时候，庙已经烧掉二十四年了。</p>
+        <p class="meta">青木正儿 编 · 刘延年 绘 · 共 8 页</p>
+        <a class="cta" href="stories/fengsu/market/">进入阅读 →</a>
+      </div>
+    </section>
+
+    <section class="panel outro">
+      <div class="txt">
+        <p class="kicker">故纸堆</p>
+        <h2>共三册，慢慢加</h2>
+        <a class="cta" href="#" id="backTop">回到顶部 ↑</a>
+        <p class="meta">木鸟杂记 · Stories from old picture books</p>
+      </div>
+    </section>
+  </main>
+
+  <section id="fallback">
+    <a class="fb-story" href="stories/liaozhai/xiaoqian/">
+      <figure><img src="stories/liaozhai/xiaoqian/assets/nie3_full.jpg" alt="《聊斋全图》聂小倩 · 夜叉夜袭图"></figure>
+      <div>
+        <p class="kicker">聊斋全图篇 · Vol.01 · 清光绪绘本</p>
+        <h2>《倩女幽魂》之后 · 小倩与采臣的小日子</h2>
         <p class="meta">《聊斋全图》第十一册 · 奥地利国家图书馆藏 · 共 12 页</p>
       </div>
     </a>
-
-    <a class="story" href="stories/fengsu/wedding/">
-      <figure><img src="stories/fengsu/wedding/assets/p022.jpg" alt="《北京风俗图谱》迎亲图" style="object-position:center 50%"></figure>
+    <a class="fb-story" href="stories/fengsu/wedding/">
+      <figure><img src="stories/fengsu/wedding/assets/p022.jpg" alt="《北京风俗图谱》迎亲图"></figure>
       <div>
-        <p class="series">北京风俗图谱 · 礼俗第二 · 1925</p>
+        <p class="kicker">北京风俗图谱 · 礼俗第二 · 1925</p>
         <h2>是谓新郎官 · 一百年前的北京婚礼</h2>
-        <p class="desc">清代北京的婚礼可以僭用官家仪仗，寻常男人一辈子就这一天用得上这套排场，所以叫新郎官。</p>
         <p class="meta">青木正儿 编 · 刘延年 绘 · 共 11 页</p>
       </div>
     </a>
-
-    <a class="story" href="stories/fengsu/market/">
-      <figure><img src="stories/fengsu/market/assets/miao-hui.jpg" alt="《北京风俗图谱》隆福寺庙会图" style="object-position:center 50%"></figure>
+    <a class="fb-story" href="stories/fengsu/market/">
+      <figure><img src="stories/fengsu/market/assets/miao-hui.jpg" alt="《北京风俗图谱》隆福寺庙会图"></figure>
       <div>
-        <p class="series">北京风俗图谱 · 市井第六 · 1925</p>
+        <p class="kicker">北京风俗图谱 · 市井第六 · 1925</p>
         <h2>一百多年前北京大集上都有什么</h2>
-        <p class="desc">一百年前，一个日本人请中国画师把这里的市集画了下来。他画画的时候，庙已经烧掉二十四年了。</p>
         <p class="meta">青木正儿 编 · 刘延年 绘 · 共 8 页</p>
       </div>
     </a>
+  </section>
+  <noscript><style>#fallback { display: block; } #stage3d, #bookNav { display: none; }</style></noscript>
 
-    <div class="foot">
-      <span>木鸟杂记 · 故纸堆</span>
-      <span>Stories from old picture books</span>
-    </div>
-  </main>
+  <script>
+    /* 文案入场 + 册目导航高亮/跳转 */
+    (function () {
+      var stories = document.querySelectorAll('.story');
+      var navBtns = document.querySelectorAll('#bookNav button');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var i = en.target.getAttribute('data-i');
+          en.target.classList.toggle('in', en.isIntersecting);
+          if (en.isIntersecting) {
+            navBtns.forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-i') === i); });
+          }
+        });
+      }, { threshold: 0.45 });
+      stories.forEach(function (s) { io.observe(s); });
+      navBtns.forEach(function (b) {
+        b.addEventListener('click', function () {
+          stories[+b.getAttribute('data-i')].scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+      document.getElementById('backTop').addEventListener('click', function (e) {
+        e.preventDefault();
+        scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+  </script>
+  <script type="module" src="book-stage.js"></script>
 </body>
 </html>

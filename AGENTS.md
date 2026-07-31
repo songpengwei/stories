@@ -5,12 +5,14 @@
 ## 仓库结构
 
 ```
-index.html                  目录页（列出所有故事，链接到各故事）
+index.html                  目录页：Stripe Press 式滚动分屏，每屏一册；内嵌 #fallback 降级列表
+book-stage.js              滚动转书场景（书模、纹理、滚动编排；书目在 STORIES 常量里）
 shared/
   editorial.css             所有故事页共用的模板样式（唯一权威来源）
   magazine-bg-webgl.js      WebGL 水墨背景（所有故事页共用）
-  flip-viewer.css           左右翻页阅读器样式（浏览模式）
-  flip-viewer.js            左右翻页阅读器逻辑；URL 带 ?sheet=1 时退出，回到整页平铺
+  flip-viewer.css           书本翻页阅读器样式（浏览模式）
+  flip-viewer.js            书本翻页阅读器逻辑；URL 带 ?sheet=1 时退出，回到整页平铺
+  vendor/three.module.js    three.js r164（本地打包，不走 CDN；书架唯一依赖）
 stories/<系列>/<故事>/
   index.html                故事页：link 共享 CSS + 内联 task-scoped CSS + 各 poster
   assets/                   该故事的图片素材
@@ -32,7 +34,7 @@ stories/<系列>/<故事>/
 4. 素材放 `assets/`，按用途命名（`miao-hui.jpg`），不要带 hash。
 5. `render.cjs` 里按 poster 的 `id` 配置输出文件名；`npm i` 后 `node render.cjs` 渲染到 `output/`（已 gitignore）。渲染走 `index.html?sheet=1`（整页平铺），不要被翻页器影响。
 6. 浏览模式默认是书本翻页阅读器（`shared/flip-viewer.*`）：双页对开全屏，右页绕书脊 3D 翻到左边。←/→ 键、两侧按钮、点击书的左/右半、移动端滑动都可以翻页，`#p=N` 直达含第 N 页的对开。翻页器的类名统一带 `flip-` 前缀（`.flip-book` / `.flip-btn` / `.flip-counter`），避免与故事页 task-scoped CSS 撞名（教训：曾用 `.book` 撞了小倩封面的线装书组件）。页数尽量凑偶数，奇数页最后一个对开右页为空白页。
-7. 在根目录 `index.html` 目录页里加一条 `.story` 条目。
+7. 上架到首页：在 `book-stage.js` 的 `STORIES` 数组里加一条（书脊短名、封面题名、链接、封面图），并在根目录 `index.html` 里加一屏 `<section class="panel story">`（注意 data-i 连续）和一条 `#fallback` 的 `.fb-story` 条目、一个 `#bookNav` 按钮。首页视觉随整站 muniao 风格：纸色底、线装书版框书脊 + 品牌蓝印章、古画封面，不要改成别的配色。
 
 ## 风格设定（源自 guizang-social-card-skill）
 
