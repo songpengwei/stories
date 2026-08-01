@@ -158,6 +158,7 @@
   <script src="../../../shared/flip-viewer.js"></script>
   <script>
     (function () {
+      if (window.matchMedia && matchMedia('(max-width: 760px)').matches) return; /* 移动端不挂 WebGL 背景：每页一个上下文 × 2xDPR ≈ 50MB 显存，十几页会爆掉手机浏览器 */
       function cssVarRgb(name, fallback) {
         var raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
         if (!raw) return fallback;

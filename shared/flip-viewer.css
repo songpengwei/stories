@@ -12,6 +12,12 @@ body.viewer {
   padding: 0;
 }
 
+/* 平铺容器默认隐藏：避免首帧先渲染上下平铺、再跳变成翻书（FOUC）。
+   浏览模式 JS 把 poster 搬进 .flip-book；渲染模式 ?sheet=1 由 JS 加
+   .sheet-mode 亮出平铺（render.cjs 依赖）。 */
+.sheet { display: none; }
+body.sheet-mode .sheet { display: flex; }
+
 /* 原平铺容器在书本模式下清空并隐藏（poster 被 JS 移进 .flip-book） */
 body.viewer .sheet { display: none; }
 

@@ -119,6 +119,23 @@ function makePagesTexture() {
   return t;
 }
 
+/* 封底：素纸 + 双线框 + 主色印章（与封面古画区分，离场转向时不混淆） */
+function makeBackTexture(accent) {
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 768;
+  const x = c.getContext('2d');
+  x.fillStyle = '#F5F2E9';
+  x.fillRect(0, 0, 512, 768);
+  x.strokeStyle = 'rgba(74,72,84,.45)';
+  x.lineWidth = 3; x.strokeRect(24, 24, 464, 720);
+  x.lineWidth = 1; x.strokeRect(36, 36, 440, 696);
+  x.fillStyle = accent;
+  x.fillRect(238, 636, 36, 36);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
 /* ---------- 场景 ---------- */
 
 const container = document.getElementById('stage3d');
@@ -169,10 +186,11 @@ async function build() {
   STORIES.forEach((story, i) => {
     const spineMat = new THREE.MeshStandardMaterial({ map: makeSpineTexture(story.spine, story.accent), roughness: 0.9 });
     const coverMat = new THREE.MeshStandardMaterial({ map: makeCoverTexture(story, imgs[i]), roughness: 0.9 });
+    const backMat = new THREE.MeshStandardMaterial({ map: makeBackTexture(story.accent), roughness: 0.9 });
     /* 盒面顺序：[+x 封底, -x 封面, +y 天头, -y 地脚, +z 书脊, -z 书口] */
     const mesh = new THREE.Mesh(
       new THREE.BoxGeometry(BOOK_T, BOOK_H, BOOK_D),
-      [coverMat, coverMat, pagesMat, pagesMat, spineMat, pagesMat]
+      [backMat, coverMat, pagesMat, pagesMat, spineMat, pagesMat]
     );
     mesh.castShadow = true;
     const g = new THREE.Group();
@@ -202,8 +220,8 @@ addEventListener('scroll', () => { targetT = scrollY / innerHeight; }, { passive
 function stage() {
   const aspect = innerWidth / innerHeight;
   return aspect > 1
-    ? { x: 1.55, y: 0.1, s: 1 }        /* 桌面：书在右，文左 */
-    : { x: 0, y: 1.3, s: 0.62 };      /* 移动：书在上，文下 */
+    ? { x: 1.55, y: 0.1, s: 1, travel: 4.3 }   /* 桌面：书在右，文左 */
+    : { x: 0, y: 1.3, s: 0.62, travel: 3.7 };  /* 移动：书在上，文下 */
 }
 
 function placeBook(g, p, time) {
@@ -211,21 +229,36 @@ function placeBook(g, p, time) {
   const bob = Math.sin(time * 0.9 + g.userData.i * 1.7) * 0.05;
   if (p < -0.5 || p >= 1) { g.visible = false; return; }
   g.visible = true;
-  let x = st.x, rotY = 0;
-  if (p < 0) {                            /* 入场 */
-    const u = easeOut(clamp01((p + 0.5) / 0.5));
-    x = st.x + (1 - u) * 5.5;
+  let x = st.x, rotY = 0, yOff = 0;
+  if (p < 0) {                            /* 入场：从下方升入，书脊朝前。
+                                             easeIn：先慢后快，等旧书升走再进场 */
+    const u = clamp01((p + 0.5) / 0.5);
+    yOff = -(1 - easeIn(u)) * st.travel;
     rotY = 0;
   } else if (p < 0.5) {                   /* 展示：转到封面 */
     rotY = easeOut(clamp01(p / 0.32)) * Math.PI / 2;
-  } else {                                /* 离场：转向封底飞出 */
+  } else {                                /* 离场：转向书口，继续向上升出。
+                                             easeOut：先快后慢，立刻给新书让位。
+                                             一快一慢两书间距始终 > 书高，不相撞。 */
     const u = clamp01((p - 0.5) / 0.5);
     rotY = Math.PI / 2 + easeIn(u) * Math.PI / 2;
-    x = st.x - easeIn(u) * 6.5;
+    yOff = easeOut(u) * st.travel;
   }
-  g.position.set(x, st.y + bob, 0);
+  /* 落位反馈：封面转定（p∈[0.30,0.5)）瞬间做一次小幅脉冲，
+     时间驱动，与滚动解耦；回滚再到位会重播 */
+  if (p >= 0.3 && p < 0.5) {
+    if (!g.userData.settledAt) g.userData.settledAt = time;
+  } else {
+    g.userData.settledAt = 0;
+  }
+  let pulse = 0;
+  if (g.userData.settledAt) {
+    const u = Math.min((time - g.userData.settledAt) / 0.55, 1);
+    pulse = Math.sin(u * Math.PI) * 0.045;
+  }
+  g.position.set(x, st.y + bob + yOff, 0);
   g.rotation.set(0.06, rotY, -0.03);
-  g.scale.setScalar(st.s);
+  g.scale.setScalar(st.s * (1 + pulse));
 }
 
 /* 点击画布：点中当前展示的书 → 进入故事 */
@@ -261,9 +294,13 @@ container.addEventListener('pointermove', e => {
   container.style.cursor = ray.intersectObjects(visible).length ? 'pointer' : '';
 });
 
+
 function tick(time) {
   requestAnimationFrame(tick);
-  smoothT += (targetT - smoothT) * 0.09;
+  /* 大幅跳转（回到顶部/拖滚动条）时瞬移到位，不把每一册重演一遍；
+     正常滚动仍用缓动跟随 */
+  if (Math.abs(targetT - smoothT) > 1.2) smoothT = targetT;
+  else smoothT += (targetT - smoothT) * 0.09;
   books.forEach((g, i) => placeBook(g, smoothT - (i + 1), time / 1000));
   renderer.render(scene, camera);
 }

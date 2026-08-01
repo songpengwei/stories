@@ -2,7 +2,11 @@
    双页对开全屏，右页绕书脊 rotateY 翻到左边，背面即下一页的左页。
    默认启用；URL 带 ?sheet=1 时退出（渲染导出用的整页平铺模式）。 */
 (function () {
-  if (/[?&]sheet=1\b/.test(location.search)) return;
+  /* 渲染导出用的整页平铺模式：亮出 .sheet 后退出 */
+  if (/[?&]sheet=1\b/.test(location.search)) {
+    document.body.classList.add('sheet-mode');
+    return;
+  }
 
   var sheet = document.querySelector('.sheet');
   if (!sheet) return;
@@ -121,8 +125,8 @@
   document.body.appendChild(nextBtn);
   document.body.appendChild(counter);
 
-  prevBtn.addEventListener('click', function (e) { e.stopPropagation(); prev(); });
-  nextBtn.addEventListener('click', function (e) { e.stopPropagation(); next(); });
+  prevBtn.addEventListener('click', function (e) { e.stopPropagation(); prev(); prevBtn.blur(); });
+  nextBtn.addEventListener('click', function (e) { e.stopPropagation(); next(); nextBtn.blur(); });
 
   /* 关闭：右上角 × 或 Esc，返回来源页（同源）否则回目录页 */
   var closeBtn = el('button', 'flip-close');
@@ -138,8 +142,9 @@
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft') prev();
-    else if (e.key === 'ArrowRight') next();
-    else if (e.key === 'Escape') exitBook();
+    else if (e.key === 'ArrowRight' || e.key === ' ' || e.code === 'Space') { e.preventDefault(); next(); }
+    else if (e.key === 'Backspace') { e.preventDefault(); e.stopPropagation(); exitBook(); }  /* 删除键退出 */
+    else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); exitBook(); }
   });
 
   /* 点书的左半/右半翻页 */

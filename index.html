@@ -183,13 +183,61 @@
       color: var(--muted);
     }
 
-    /* 文案入场 */
+    /* hero 右侧封面拼格：固定格数，防止以后书多溢出 */
+    #collage {
+      position: absolute;
+      right: 9%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(38vw, 560px);
+      display: grid;
+      gap: 6px;
+      pointer-events: auto;
+    }
+    #collage.cols-2 { grid-template-columns: 1fr 1fr; }
+    #collage.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    #collage .cell {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: var(--paper-2);
+      text-decoration: none;
+    }
+    #collage .cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s ease;
+    }
+    #collage .cell:hover img { transform: scale(1.06); }
+    #collage .cell span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 8px 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: #4A4854;
+      background: rgba(247,244,235,.92);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    #collage .cell:hover span { opacity: 1; }
+
+    /* 文案入场。落点在 p=0.32（封面正对），文案多滚了 0.32 屏，
+       故向下偏移 32vh 补偿，落定时文字回中、不蹭固定页头 */
     .story .txt {
       opacity: 0;
-      transform: translateY(28px);
+      transform: translateY(calc(28px + 32vh));
       transition: opacity .6s ease, transform .6s ease;
     }
-    .story.in .txt { opacity: 1; transform: none; }
+    .story.in .txt { opacity: 1; transform: translateY(32vh); }
 
     /* 尾屏 */
     .outro { justify-content: center; text-align: center; }
@@ -232,9 +280,16 @@
       h1 { font-size: 40px; }
       h2 { font-size: 30px; }
       .lead { font-size: 16px; }
-      .hero { align-items: center; }
-      .hero .txt { margin: 0 24px; }
+      .hero { align-items: center; flex-direction: column; justify-content: center; }
+      .hero .txt { margin: 0 24px; align-self: flex-start; }
       .hint { left: 24px; bottom: 32px; }
+      #collage {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: 36px 24px 0;
+        max-width: 420px;
+      }
     }
   </style>
   <script type="importmap">
@@ -256,6 +311,7 @@
     <button data-i="3" style="--ac:#77AAC2">肆 · 促织</button>
   </nav>
 
+
   <main>
     <section class="panel hero">
       <div class="txt">
@@ -263,6 +319,7 @@
         <h1>古画里的故事</h1>
         <p class="lead">以古代绘本、风俗画为底本，一册一故事。图是旧图，事是旧事，讲得慢一点。</p>
       </div>
+      <div id="collage"></div>
       <p class="hint">向下滚动 · 慢慢翻 ↓</p>
     </section>
 
@@ -353,28 +410,86 @@
   <noscript><style>#fallback { display: block; } #stage3d, #bookNav { display: none; }</style></noscript>
 
   <script>
-    /* 文案入场 + 册目导航高亮/跳转 */
+    /* 文案与 3D 书同步：同一滚动参数驱动。
+       书 i 的窗口 p = t-(i+1)：p=0 升到台位、0.32 转定封面、0.5 开始升走。
+       文案窗口取 t ∈ [i+0.9, i+1.55)：书快到位时淡入，升走时淡出。 */
     (function () {
       var stories = document.querySelectorAll('.story');
       var navBtns = document.querySelectorAll('#bookNav button');
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          var i = en.target.getAttribute('data-i');
-          en.target.classList.toggle('in', en.isIntersecting);
-          if (en.isIntersecting) {
-            navBtns.forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-i') === i); });
-          }
+      var ticking = false;
+      function sync() {
+        ticking = false;
+        var t = scrollY / innerHeight;
+        stories.forEach(function (s) {
+          var i = +s.getAttribute('data-i');
+          var on = t >= i + 0.9 && t < i + 1.55;
+          s.classList.toggle('in', on);
         });
-      }, { threshold: 0.45 });
-      stories.forEach(function (s) { io.observe(s); });
+        var active = -1;
+        stories.forEach(function (s) {
+          var i = +s.getAttribute('data-i');
+          if (t >= i + 0.9 && t < i + 1.55) active = i;
+        });
+        navBtns.forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-i') === active); });
+      }
+      addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(sync); }
+      }, { passive: true });
+      sync();
+      /* hero 封面拼格：复用 #fallback 条目，最多 9 格防溢出 */
+      (function () {
+        var coll = document.getElementById('collage');
+        if (!coll) return;
+        var items = Array.prototype.slice.call(document.querySelectorAll('#fallback .fb-story')).slice(0, 9);
+        items.forEach(function (story) {
+          var a = document.createElement('a');
+          a.className = 'cell';
+          a.href = story.getAttribute('href');
+          var img = document.createElement('img');
+          var src = story.querySelector('img');
+          img.src = src.getAttribute('src');
+          img.alt = src.getAttribute('alt') || '';
+          var cap = document.createElement('span');
+          cap.textContent = story.querySelector('h2').textContent;
+          a.appendChild(img);
+          a.appendChild(cap);
+          coll.appendChild(a);
+        });
+        coll.classList.add(items.length <= 4 ? 'cols-2' : 'cols-3');
+      })();
       navBtns.forEach(function (b) {
         b.addEventListener('click', function () {
-          stories[+b.getAttribute('data-i')].scrollIntoView({ behavior: 'smooth' });
+          /* 导航跳变一律瞬移：跨多册时不播中间故事的转场动画，
+             动画只发生在相邻切换（滚轮 / ↓ / 空格逐屏） */
+          var i = +b.getAttribute('data-i');
+          scrollTo({ top: (i + 1.32) * innerHeight, behavior: 'instant' });
+          b.blur();   /* 不保留焦点，避免之后空格误触发按钮 */
         });
       });
       document.getElementById('backTop').addEventListener('click', function (e) {
         e.preventDefault();
-        scrollTo({ top: 0, behavior: 'smooth' });
+        scrollTo({ top: 0, behavior: 'instant' });   /* 直接跳回，不让书重演 */
+      });
+      /* ↓ / ↑ / 空格 按屏滚动：落在故事屏时停到 p=0.32（封面已转定），
+         而不是屏首的 p=0（还是书脊）；首尾两屏落整屏；
+         尾屏（回到顶部）再按前进键直接瞬移回顶 */
+      document.addEventListener('keydown', function (e) {
+        var forward = e.key === 'ArrowDown' || e.key === ' ' || e.code === 'Space';
+        var backward = e.key === 'ArrowUp';
+        if (!forward && !backward) return;
+        var panels = document.querySelectorAll('.panel');
+        var cur = Math.round(scrollY / innerHeight);
+        if (forward && cur >= panels.length - 1) {
+          e.preventDefault();
+          scrollTo({ top: 0, behavior: 'instant' });
+          return;
+        }
+        var next = cur + (forward ? 1 : -1);
+        next = Math.max(0, Math.min(panels.length - 1, next));
+        if (next === cur) return;
+        e.preventDefault();
+        var isStory = next > 0 && next < panels.length - 1;
+        scrollTo({ top: (next + (isStory ? 0.32 : 0)) * innerHeight, behavior: 'smooth' });
       });
     })();
   </script>

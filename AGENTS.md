@@ -80,7 +80,7 @@ stories/<系列>/<故事>/
 
 ### 背景三层（Editorial 身份的底线）
 
-每个 poster 都是：`canvas.mag-bg`（WebGL 水墨，z0）→ `.grain`（纸纹颗粒 multiply，z1）→ `.paper-wash`（墨色渐变，z1）→ `.content`（z2）。**禁止平涂米色背景、禁止整页网格/圆点底纹**。
+每个 poster 都是：`canvas.mag-bg`（WebGL 水墨，z0）→ `.grain`（纸纹颗粒 multiply，z1）→ `.paper-wash`（墨色渐变，z1）→ `.content`（z2）。**禁止平涂米色背景、禁止整页网格/圆点底纹**。**移动端（≤760px）不挂载 WebGL 背景**（每页一个上下文 × 2xDPR ≈ 50MB 显存，十几页会爆掉手机浏览器，已踩过 crash）——挂载脚本里有 matchMedia 守卫，页面在无水墨 canvas 时也必须成立（纸色 + 颗粒 + 渐变兜底）。
 
 ### 组件
 
