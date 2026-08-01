@@ -221,7 +221,7 @@ function stage() {
   const aspect = innerWidth / innerHeight;
   return aspect > 1
     ? { x: 1.55, y: 0.1, s: 1, travel: 4.3 }   /* 桌面：书在右，文左 */
-    : { x: 0, y: 1.3, s: 0.62, travel: 3.7 };  /* 移动：书在上，文下 */
+    : { x: 0, y: 1.35, s: 0.5, travel: 3.7 };  /* 移动：书在上，文下 */
 }
 
 function placeBook(g, p, time) {

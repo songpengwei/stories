@@ -231,13 +231,17 @@
     #collage .cell:hover span { opacity: 1; }
 
     /* 文案入场。落点在 p=0.32（封面正对），文案多滚了 0.32 屏，
-       故向下偏移 32vh 补偿，落定时文字回中、不蹭固定页头 */
+       故向下偏移补偿（桌面 32vh 防蹭页头；移动端 38vh 与书底留距），
+       transform 由 JS 滚动同步接管（粘滞），这里只做不透明度过渡 */
     .story .txt {
       opacity: 0;
-      transform: translateY(calc(28px + 32vh));
-      transition: opacity .6s ease, transform .6s ease;
+      transform: translateY(32vh);
+      transition: opacity .6s ease;
     }
-    .story.in .txt { opacity: 1; transform: translateY(32vh); }
+    .story.in .txt { opacity: 1; }
+    @media (max-width: 760px) {
+      .story .txt { transform: translateY(36vh); }
+    }
 
     /* 尾屏 */
     .outro { justify-content: center; text-align: center; }
@@ -276,10 +280,13 @@
       .chrome { left: 24px; right: 24px; top: 28px; font-size: 12px; }
       #bookNav { display: none; }
       .panel { align-items: flex-end; }
-      .txt { margin: 0 24px 10vh; max-width: none; }
+      .txt { margin: 0 24px 8vh; max-width: none; }
       h1 { font-size: 40px; }
-      h2 { font-size: 30px; }
-      .lead { font-size: 16px; }
+      h2 { font-size: 26px; margin: 0 0 12px; }
+      .lead { font-size: 15px; line-height: 1.65; margin: 0 0 14px; }
+      .kicker { font-size: 12px; margin: 0 0 12px; }
+      .meta { font-size: 11px; letter-spacing: .08em; margin: 0 0 16px; }
+      .cta { font-size: 13px; padding: 10px 20px; }
       .hero { align-items: center; flex-direction: column; justify-content: center; }
       .hero .txt { margin: 0 24px; align-self: flex-start; }
       .hint { left: 24px; bottom: 32px; }
@@ -412,7 +419,9 @@
   <script>
     /* 文案与 3D 书同步：同一滚动参数驱动。
        书 i 的窗口 p = t-(i+1)：p=0 升到台位、0.32 转定封面、0.5 开始升走。
-       文案窗口取 t ∈ [i+0.9, i+1.55)：书快到位时淡入，升走时淡出。 */
+       文案窗口取 t ∈ [i+0.9, i+1.55)：书快到位时淡入，升走时淡出。
+       落定（i+1.32）之后文字用 transform 抵消滚动、粘滞在原地，
+       等书升走再淡出——任何滚动位置都不会与书重叠（移动端实测撞过）。 */
     (function () {
       var stories = document.querySelectorAll('.story');
       var navBtns = document.querySelectorAll('#bookNav button');
@@ -424,6 +433,14 @@
           var i = +s.getAttribute('data-i');
           var on = t >= i + 0.9 && t < i + 1.55;
           s.classList.toggle('in', on);
+          var txt = s.querySelector('.txt');
+          if (on) {
+            var base = innerWidth / innerHeight > 1 ? 32 : 36;
+            var extra = Math.max(0, Math.min(t - (i + 1.32), 0.23)) * 100;
+            txt.style.transform = 'translateY(calc(' + (base + extra) + 'vh))';
+          } else {
+            txt.style.transform = '';
+          }
         });
         var active = -1;
         stories.forEach(function (s) {
