@@ -33,6 +33,13 @@ const STORIES = [
     accent: '#77AAC2',
     img: 'stories/liaozhai/cuzhi/assets/cuzhi_3_soul.jpg',
   },
+  {
+    spine: '澳門郵票',
+    cover: '澳门最小的手信',
+    url: 'stories/aomen/youpiao/',
+    accent: '#77AAC2',
+    img: 'stories/aomen/youpiao/assets/grid-12.jpg',
+  },
 ];
 
 const PALETTE = {
@@ -213,8 +220,11 @@ const easeOut = u => 1 - Math.pow(1 - u, 3);
 const easeIn = u => u * u * u;
 const clamp01 = u => Math.max(0, Math.min(1, u));
 
-let targetT = 0;
-let smoothT = 0;
+/* 从当前滚动位置初始化：history.back 回首页时浏览器恢复滚动位置，
+   但可能不发 scroll 事件（或发在监听器挂上之前），
+   不从 scrollY 起步会出现"文字在、书没了"的空台 */
+let targetT = scrollY / innerHeight;
+let smoothT = targetT;
 addEventListener('scroll', () => { targetT = scrollY / innerHeight; }, { passive: true });
 
 function stage() {

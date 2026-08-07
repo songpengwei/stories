@@ -73,8 +73,8 @@
 
   function updateUI() {
     label();
-    prevBtn.disabled = s === 0;
-    nextBtn.disabled = s === leafCount;
+    edgeL.classList.toggle('off', s === 0);
+    edgeR.classList.toggle('off', s === leafCount);
     var rightPage = s === leafCount ? N : 2 * s + 2;
     history.replaceState(null, '', '#p=' + rightPage);
   }
@@ -110,35 +110,42 @@
   }
 
   /* 控件 */
-  var prevBtn = el('button', 'flip-btn flip-prev');
-  prevBtn.setAttribute('aria-label', '上一页');
-  prevBtn.textContent = '←';
-  var nextBtn = el('button', 'flip-btn flip-next');
-  nextBtn.setAttribute('aria-label', '下一页');
-  nextBtn.textContent = '→';
   var counter = el('div', 'flip-counter');
   counter.appendChild(document.createTextNode(''));
   var hint = el('span', 'flip-hint');
   hint.textContent = '← → 翻页';
   counter.appendChild(hint);
-  document.body.appendChild(prevBtn);
-  document.body.appendChild(nextBtn);
   document.body.appendChild(counter);
 
-  prevBtn.addEventListener('click', function (e) { e.stopPropagation(); prev(); prevBtn.blur(); });
-  nextBtn.addEventListener('click', function (e) { e.stopPropagation(); next(); nextBtn.blur(); });
+  /* 翻页箭头：hover 书的左/右半时浮现，点击翻页（唯一的点击翻页入口，
+     书本身不响应点击，选文字不会误翻页）；首/末对开隐藏对应侧 */
+  var edgeL = el('div', 'flip-edge flip-edge-l');
+  edgeL.textContent = '‹';
+  var edgeR = el('div', 'flip-edge flip-edge-r');
+  edgeR.textContent = '›';
+  book.appendChild(edgeL);
+  book.appendChild(edgeR);
+  edgeL.addEventListener('click', prev);
+  edgeR.addEventListener('click', next);
 
-  /* 关闭：右上角 × 或 Esc，返回来源页（同源）否则回目录页 */
+  /* 关闭：桌面端 × 放进书里，hover 书页右上角浮现（与翻页箭头同款纸色圆片）；
+     移动端没有 hover，另用一个固定在屏幕右上角的小 × 兜底。
+     退出返回来源页（同源）否则回目录页 */
   var closeBtn = el('button', 'flip-close');
   closeBtn.setAttribute('aria-label', '退出阅读');
   closeBtn.textContent = '×';
-  document.body.appendChild(closeBtn);
+  book.appendChild(closeBtn);
+  var closeBtnM = el('button', 'flip-close-m');
+  closeBtnM.setAttribute('aria-label', '退出阅读');
+  closeBtnM.textContent = '×';
+  document.body.appendChild(closeBtnM);
   function exitBook() {
     var ref = document.referrer;
     if (ref && new URL(ref).origin === location.origin && history.length > 1) history.back();
     else location.href = '../../../';   /* 故事页在 stories/<系列>/<故事>/ 下，回根目录 */
   }
   closeBtn.addEventListener('click', function (e) { e.stopPropagation(); exitBook(); });
+  closeBtnM.addEventListener('click', function (e) { e.stopPropagation(); exitBook(); });
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft') prev();
@@ -147,9 +154,18 @@
     else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); exitBook(); }
   });
 
-  /* 点书的左半/右半翻页 */
-  book.addEventListener('click', function (e) {
-    if (e.clientX > innerWidth / 2) next(); else prev();
+  /* 鼠标所在半边决定显示哪侧箭头；书页右上角（右 15% × 上 18%）浮现关闭 × */
+  book.addEventListener('mousemove', function (e) {
+    var left = e.clientX <= innerWidth / 2;
+    book.classList.toggle('hov-l', left);
+    book.classList.toggle('hov-r', !left);
+    var r = book.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width;
+    var y = (e.clientY - r.top) / r.height;
+    book.classList.toggle('hov-c', x > 0.85 && y < 0.18);
+  });
+  book.addEventListener('mouseleave', function () {
+    book.classList.remove('hov-l', 'hov-r', 'hov-c');
   });
 
   /* 触摸滑动 */

@@ -81,50 +81,86 @@ body.viewer .flip-book .leaf .poster.face-back { transform: rotateY(180deg); }
 
 /* 注意：不要给 .leaf 加 filter/opacity 等分组属性——会强制 transform-style:flat，
    杀掉 preserve-3d，翻转时正面镜像一直显示到落定才"闪"成背面（已踩过）。 */
-/* 翻页按钮 */
-.flip-btn {
-  position: fixed;
+/* 翻页箭头：桌面 hover 书的左/右半时浮现，点击翻页（唯一的点击翻页入口；
+   在书坐标系内，随书缩放）。首/末对开由 JS 加 .off 隐藏对应侧。
+   隐藏时 visibility:hidden——只 opacity:0 的话透明圆片仍会在页面上截获点击。 */
+.flip-edge {
+  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
+  margin-top: -60px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 10px;                 /* ‹ › 字形视觉中心偏上，微调 */
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.28);
-  background: rgba(26,26,26,.55);
-  color: rgba(255,255,255,.85);
+  border: 1px solid rgba(105,103,115,.24);
+  background: rgba(239,241,243,.88);    /* 纸色底，压在古画上也可读 */
+  color: #696773;
   font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
-  font-size: 26px;
+  font-size: 64px;
   line-height: 1;
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: background .2s ease, opacity .2s ease;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
 }
-.flip-btn:hover { background: rgba(26,26,26,.85); }
-.flip-btn:disabled { opacity: .25; cursor: default; }
-.flip-prev { left: 32px; }
-.flip-next { right: 32px; }
+.flip-edge:hover { background: #EFF1F3; }
+.flip-edge-l { left: 140px; }
+.flip-edge-r { right: 140px; }
+body.viewer .flip-book.hov-l .flip-edge-l,
+body.viewer .flip-book.hov-r .flip-edge-r { opacity: 1; visibility: visible; }
+.flip-edge.off { display: none; }
 
-/* 关闭按钮：右上小 ×，点击或 Esc 退出阅读（返回来源页/首页） */
+/* 关闭按钮（桌面）：在书内右页上角，hover 书页右上角浮现（JS 加 .hov-c），
+   与翻页箭头同款纸色圆片。点击或 Esc 退出阅读（返回来源页/首页）。 */
 .flip-close {
+  position: absolute;
+  top: 48px;
+  right: 48px;
+  z-index: 200;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(105,103,115,.24);
+  background: rgba(239,241,243,.88);
+  color: #696773;
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
+  font-size: 56px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+.flip-close:hover { background: #EFF1F3; }
+body.viewer .flip-book.hov-c .flip-close { opacity: 1; visibility: visible; }
+
+/* 关闭按钮（移动端）：没有 hover，固定屏幕右上角的小 ×，同款配色 */
+.flip-close-m {
+  display: none;
   position: fixed;
-  top: 28px;
-  right: 32px;
+  top: 18px;
+  right: 18px;
   z-index: 10;
   width: 48px;
   height: 48px;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.28);
-  background: rgba(26,26,26,.55);
-  color: rgba(255,255,255,.85);
+  border: 1px solid rgba(105,103,115,.24);
+  background: rgba(239,241,243,.88);
+  color: #696773;
   font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 22px;
   line-height: 1;
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: background .2s ease;
 }
-.flip-close:hover { background: rgba(26,26,26,.85); }
 
 /* 页码 + 提示 */
 .flip-counter {
@@ -146,8 +182,7 @@ body.viewer .flip-book .leaf .poster.face-back { transform: rotateY(180deg); }
 }
 
 @media (max-width: 760px) {
-  .flip-btn { display: none; }            /* 移动端用滑动/点按 */
-  .flip-close { top: 18px; right: 18px; } /* 关闭按钮保留 */
+  .flip-close-m { display: flex; }        /* 移动端无 hover，固定小 × 兜底 */
   .flip-counter { font-size: 13px; bottom: 18px; }
   .flip-counter .flip-hint { display: none; }
 }

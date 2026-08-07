@@ -325,6 +325,7 @@
     <button data-i="1" style="--ac:#F19A97">贰 · 新郎官</button>
     <button data-i="2" style="--ac:#79D9CE">叁 · 北京大集</button>
     <button data-i="3" style="--ac:#77AAC2">肆 · 促织</button>
+    <button data-i="4" style="--ac:#77AAC2">伍 · 澳門郵票</button>
   </nav>
 
 
@@ -379,10 +380,20 @@
       </div>
     </section>
 
+    <section class="panel story" data-i="4" style="--ac:#77AAC2">
+      <div class="txt">
+        <p class="kicker">澳門郵票誌 · 1997–2026 · 郵電局發行</p>
+        <h2>澳门最小的手信 · 方寸里的澳门</h2>
+        <p class="lead">杏仁饼会吃完，凤凰卷会碎，只有邮票，把澳门的日子一页页留了下来。十二套邮票，从门神妈祖到八骏图。</p>
+        <p class="meta">澳门邮电 CTT 发行 · 一套一页 · 共 13 页</p>
+        <a class="cta" href="stories/aomen/youpiao/">进入阅读 →</a>
+      </div>
+    </section>
+
     <section class="panel outro">
       <div class="txt">
         <p class="kicker">故纸堆</p>
-        <h2>共四册，慢慢加</h2>
+        <h2>共五册，慢慢加</h2>
         <a class="cta" href="#" id="backTop">回到顶部 ↑</a>
         <p class="meta">木鸟杂记 · Stories from old picture books</p>
       </div>
@@ -422,6 +433,14 @@
         <p class="meta">《聊斋全图》第 41 册 · 清代彩绘原本 · 共 10 页</p>
       </div>
     </a>
+    <a class="fb-story" href="stories/aomen/youpiao/">
+      <figure><img src="stories/aomen/youpiao/assets/grid-12.jpg" alt="十二套澳门邮票微缩拼图"></figure>
+      <div>
+        <p class="kicker">澳門郵票誌 · 1997–2026 · 郵電局發行</p>
+        <h2>澳门最小的手信 · 方寸里的澳门</h2>
+        <p class="meta">澳门邮电 CTT 发行 · 一套一页 · 共 13 页</p>
+      </div>
+    </a>
   </section>
   <noscript><style>#fallback { display: block; } #stage3d, #bookNav { display: none; }</style></noscript>
 
@@ -435,6 +454,23 @@
       var stories = document.querySelectorAll('.story');
       var navBtns = document.querySelectorAll('#bookNav button');
       var ticking = false;
+
+      /* URL 定位：落在某册时地址栏带 #<故事目录名>（slug 从 CTA 链接推导，
+         与书目共用同一份数据源），刷新或退出阅读回首页都能复位到该册。
+         scrollRestoration 设为手动：恢复位置由下面的 hash 逻辑接管，
+         不和浏览器自带的滚动恢复打架 */
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      var slugs = [];
+      stories.forEach(function (s) {
+        var a = s.querySelector('.cta');
+        slugs[+s.getAttribute('data-i')] = a.getAttribute('href').replace(/\/+$/, '').split('/').pop();
+      });
+      var lastActive = -2;    /* -2 = 未初始化，首次 sync 必写一次 */
+      var initM = /#([\w-]+)$/.exec(location.hash);
+      if (initM) {
+        var initIdx = slugs.indexOf(initM[1]);
+        if (initIdx >= 0) scrollTo({ top: (initIdx + 1.32) * innerHeight, behavior: 'instant' });
+      }
       function sync() {
         ticking = false;
         var t = scrollY / innerHeight;
@@ -457,6 +493,10 @@
           if (t >= i + 0.9 && t < i + 1.55) active = i;
         });
         navBtns.forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-i') === active); });
+        if (active !== lastActive) {
+          lastActive = active;
+          history.replaceState(null, '', active >= 0 ? '#' + slugs[active] : location.pathname + location.search);
+        }
       }
       addEventListener('scroll', function () {
         if (!ticking) { ticking = true; requestAnimationFrame(sync); }
