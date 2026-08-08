@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="muniao">
+<head>
+  <meta charset="utf-8">
+  <title>《奥德赛》观影科普 · 小红书 13 页</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../../shared/flip-viewer.css">
+  <style>
+    /* =========================================================
+       Editorial Magazine × E-ink — Social Card Seed Template
+       ---------------------------------------------------------
+       Three boards built in one HTML:
+         .poster.xhs      1080×1440  (3:4   小红书)
+         .poster.tall     1080×1920  (9:16  小红书全屏竖版)
+         .poster.square   1080×1080  (1:1   微信方封面)
+         .poster.wide     2100× 900  (21:9  微信主封面)
+         .pair-preview                       21:9 + 1:1 配对预览
+
+       Theme switching via <html data-theme="…">:
+         muniao (default) | ink-classic | indigo-porcelain | forest-ink | kraft-paper | dune | midnight-ink
+
+       Fill posters where marked <!-- POSTERS_HERE -->.
+       Each poster carries one Layout Recipe (M01-M15) from
+       references/layout-recipes.md.
+       ========================================================= */
+
+    /* ---------- 1. Theme tokens ---------- */
+    :root,
+    [data-theme="ink-classic"] {
+      --paper:     #f3f0e8;
+      --paper-2:   #ebe6da;
+      --ink:       #0a0a0b;
+      --muted:     #68625a;
+      --line:      rgba(10,10,11,.22);
+      --accent:    #111111;
+      --accent-soft: #d8d2c6;
+      --ink-rgb: 10,10,11;
+      --paper-rgb: 243,240,232;
+      --accent-rgb: 17,17,17;
+    }
+    [data-theme="indigo-porcelain"] {
+      --paper:     #f2f4f5;
+      --paper-2:   #e5ebef;
+      --ink:       #0a1f3d;
+      --muted:     #5f6d78;
+      --line:      rgba(10,31,61,.20);
+      --accent:    #315d93;
+      --accent-soft: #d7e1ec;
+      --ink-rgb: 10,31,61;
+      --paper-rgb: 242,244,245;
+      --accent-rgb: 49,93,147;
+    }
+    [data-theme="forest-ink"] {
+      --paper:     #f5f1e8;
+      --paper-2:   #e8dfcf;
+      --ink:       #16251b;
+      --muted:     #5d665d;
+      --line:      rgba(22,37,27,.22);
+      --accent:    #2e6b4f;
+      --accent-soft: #d4dfd2;
+      --ink-rgb: 22,37,27;
+      --paper-rgb: 245,241,232;
+      --accent-rgb: 46,107,79;
+    }
+    [data-theme="kraft-paper"] {
+      --paper:     #eedfc7;
+      --paper-2:   #dfc9a8;
+      --ink:       #2a1e13;
+      --muted:     #755f49;
+      --line:      rgba(42,30,19,.24);
+      --accent:    #9b5a2e;
+      --accent-soft: #d5b58f;
+      --ink-rgb: 42,30,19;
+      --paper-rgb: 238,223,199;
+      --accent-rgb: 155,90,46;
+    }
+    /* Muniao — custom brand palette (user-supplied):
+       blue #77AAC2 / green #79D9CE / yellow #FCD765 / red #F19A97 / dark #696773 / light #EFF1F3 */
+    [data-theme="muniao"] {
+      --paper:     #EFF1F3;
+      --paper-2:   #DFE4E9;
+      --ink:       #696773;
+      --muted:     #8E8C98;
+      --line:      rgba(105,103,115,.24);
+      --accent:    #77AAC2;
+      --accent-soft: #C6DAE6;
+      --ink-rgb: 105,103,115;
+      --paper-rgb: 239,241,243;
+      --accent-rgb: 119,170,194;
+      --c-blue:    #77AAC2;
+      --c-green:   #79D9CE;
+      --c-yellow:  #FCD765;
+      --c-red:     #F19A97;
+    }
+    [data-theme="dune"] {
+      --paper:     #f0e6d2;
+      --paper-2:   #ded0b7;
+      --ink:       #1f1a14;
+      --muted:     #6f6557;
+      --line:      rgba(31,26,20,.22);
+      --accent:    #8f7650;
+      --accent-soft: #d4c2a4;
+      --ink-rgb: 31,26,20;
+      --paper-rgb: 240,230,210;
+      --accent-rgb: 143,118,80;
+    }
+    /* Midnight Ink — the ONLY official dark Editorial palette.
+       Use for game key art, night scenes, dark photography, cinematic covers.
+       Do not improvise other dark backgrounds. */
+    [data-theme="midnight-ink"] {
+      --paper:     #0e0d0c;
+      --paper-2:   #1a1714;
+      --ink:       #ece2cf;
+      --muted:     #9a8c75;
+      --line:      rgba(236,226,207,.22);
+      --accent:    #d4a04a;
+      --accent-soft: #3a2a14;
+      --ink-rgb: 236,226,207;
+      --paper-rgb: 14,13,12;
+      --accent-rgb: 212,160,74;
+    }
+
+    /* ---------- 2. Typography stack ---------- */
+    :root {
+      --serif-zh: "Noto Serif SC", "Songti SC", "STSong", serif;
+      --serif-en: "Playfair Display", "Noto Serif SC", serif;
+      --sans-zh: "Noto Sans SC", -apple-system, "PingFang SC", "Microsoft YaHei UI", sans-serif;
+      --sans-en: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+    }
+
+    /* ---------- 3. Reset & sheet ---------- */
+    *,*::before,*::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: #1a1a1a;
+      font-family: var(--sans-zh);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 64px 32px;
+    }
+    .sheet {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+    }
+
+    /* ---------- 4. Poster boards (fixed export sizes) ---------- */
+    .poster {
+      position: relative;
+      background: var(--paper);
+      color: var(--ink);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .poster.xhs    { width: 1080px; height: 1440px; }
+    .poster.tall   { width: 1080px; height: 1920px; }
+    .poster.square { width: 1080px; height: 1080px; }
+    .poster.wide   { width: 2100px; height:  900px; }
+    .poster figure { margin: 0; }
+
+    /* Default content padding by board */
+    .poster.xhs    .content { padding: 24px 28px; }
+    .poster.tall   .content { padding: 52px 44px; }
+    .poster.square .content { padding: 44px 44px; }
+    .poster.wide   .content { padding: 44px 60px; }
+    .content { position: relative; width: 100%; height: 100%; z-index: 2; }
+
+    /* ---------- 5. Background layers (paper grain + WebGL) ---------- */
+    .mag-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .35;
+      mix-blend-mode: multiply;
+      background-image: radial-gradient(rgba(0,0,0,.045) 1px, transparent 1px);
+      background-size: 3px 3px;
+    }
+    .paper-wash {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(var(--ink-rgb),.02), rgba(var(--ink-rgb),.05) 60%, rgba(var(--ink-rgb),.08));
+    }
+    /* Midnight Ink — flip grain to screen-mode warm specks, paper-wash to
+       gilt + shadow vignette. Light-paper math doesn't carry over. */
+    [data-theme="midnight-ink"] .grain {
+      opacity: .26;
+      mix-blend-mode: screen;
+      background-image: radial-gradient(rgba(255,244,214,.10) 1px, transparent 1px);
+    }
+    [data-theme="midnight-ink"] .paper-wash {
+      background:
+        radial-gradient(80% 50% at 28% 16%, rgba(212,160,74,.12), transparent 64%),
+        radial-gradient(70% 60% at 80% 86%, rgba(60,40,20,.20), transparent 72%),
+        linear-gradient(180deg, rgba(236,226,207,.02), rgba(0,0,0,.32));
+    }
+
+    /* ---------- 6. Typography roles ----------
+       Editorial Magazine values restored from demo-showcase/editorial.html:
+       light weights (500 not 900), serif body italic-tolerant, wide tracking
+       on kicker/meta (.20-.22em), positive tracking on display (+.04em).
+       Each card should still INLINE-tune font-size for the specific recipe;
+       these defaults are intentionally restrained, not maximal. */
+    .kicker {
+      font-family: var(--mono);
+      font-size: 21px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(var(--ink-rgb), .55);
+      margin: 0 0 18px;
+    }
+    .h-display {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 124px;
+      line-height: 1.06;
+      letter-spacing: .04em;
+      margin: 0 0 24px;
+      color: var(--ink);
+    }
+    .h-xl {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 88px;
+      line-height: 1.10;
+      letter-spacing: .03em;
+      margin: 0 0 16px;
+      color: var(--ink);
+    }
+    .h-md {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 56px;
+      line-height: 1.18;
+      letter-spacing: .02em;
+      margin: 0 0 18px;
+      color: var(--ink);
+    }
+    .h-sub {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 36px;
+      color: var(--muted);
+      margin: 0 0 24px;
+    }
+    .lead {
+      font-family: var(--serif-zh);
+      font-weight: 400;
+      font-size: 28px;
+      line-height: 1.55;
+      color: rgba(var(--ink-rgb), .82);
+      margin: 0 0 24px;
+    }
+    .body {
+      font-family: var(--serif-zh);
+      font-weight: 400;
+      font-size: 28px;
+      line-height: 1.65;
+      color: rgba(var(--ink-rgb), .80);
+      margin: 0 0 12px;
+    }
+    .meta {
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: rgba(var(--ink-rgb), .55);
+    }
+    .label {
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: rgba(var(--ink-rgb), .55);
+    }
+    .pullquote {
+      font-family: var(--serif-zh);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 64px;
+      line-height: 1.28;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* Square boards usually need tighter scales */
+    .poster.square .h-display { font-size: 116px; }
+    .poster.square .h-xl      { font-size: 78px; }
+    .poster.square .h-md      { font-size: 48px; }
+    .poster.square .lead      { font-size: 28px; }
+    .poster.square .body      { font-size: 28px; }
+
+    /* Wide boards have horizontal headlines */
+    .poster.wide .h-display   { font-size: 128px; }
+    .poster.wide .h-xl        { font-size: 96px; }
+    .poster.wide .lead        { font-size: 34px; }
+
+    /* ---------- 7. Issue label + page metadata ---------- */
+    .issue-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--mono);
+      font-size: 20px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .issue-row .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .issue-strip {
+      position: absolute;
+      left: 88px;
+      right: 88px;
+      bottom: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+    .poster.wide .issue-strip { left: 120px; right: 120px; }
+    .issue-strip span { white-space: nowrap; }
+
+    /* ---------- 8. Layout primitives ---------- */
+    .stack    { display: flex; flex-direction: column; }
+    .gap-1    { gap: 12px; }
+    .gap-2    { gap: 24px; }
+    .gap-3    { gap: 36px; }
+    .gap-4    { gap: 48px; }
+    .gap-5    { gap: 64px; }
+    .row      { display: flex; flex-direction: row; }
+    .col-2    { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .col-3    { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+    .col-2-7-5 { display: grid; grid-template-columns: 7fr 5fr; gap: 48px; }
+    .col-2-8-4 { display: grid; grid-template-columns: 8fr 4fr; gap: 48px; }
+    .center   { text-align: center; }
+    .grow     { flex: 1; }
+    .pad-y-md { padding-top: 36px; padding-bottom: 36px; }
+    .rule     { height: 1px; background: var(--line); border: 0; margin: 24px 0; }
+    .rule-accent { height: 2px; background: var(--accent); border: 0; margin: 24px 0; width: 96px; }
+
+    /* ---------- 9. Image containers (standard ratios) ---------- */
+    .frame-img {
+      position: relative;
+      overflow: hidden;
+      background: var(--paper-2);
+      display: block;
+      margin: 0;
+    }
+    .frame-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 50%;
+      display: block;
+    }
+    .frame-img.fit-contain img { object-fit: contain; }
+    [data-theme="midnight-ink"] .frame-img {
+      background: #18120f;
+      box-shadow: 0 0 0 1px rgba(236,226,207,.10);
+    }
+    .frame-img.r-3x4   { aspect-ratio: 3 / 4; }
+    .frame-img.r-1x1   { aspect-ratio: 1 / 1; }
+    .frame-img.r-4x3   { aspect-ratio: 4 / 3; }
+    .frame-img.r-16x9  { aspect-ratio: 16 / 9; }
+    .frame-img.r-16x10 { aspect-ratio: 16 / 10; }
+    .frame-img.r-21x9  { aspect-ratio: 21 / 9; }
+    .frame-img.r-3x2   { aspect-ratio: 3 / 2; }
+    .img-cap {
+      font-family: var(--mono);
+      font-size: 20px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* ---------- 9b. Screenshot treatment (.frame-shot) ---------- */
+    /* Use for UI screenshots / web captures / code shots. Replaces .frame-img
+       when you need rounded corners, soft shadow, padded inset, or device chrome.
+       Stack: .frame-shot.r-{ratio}.bg-{tone}.inset-{none|sub|bal}.shadow-{none|soft|ed} */
+    .frame-shot {
+      position: relative;
+      overflow: hidden;
+      display: block;
+      margin: 0;
+      background: var(--paper-2);
+      /* default corners — Editorial leans slight rounding to feel like a magazine cutout */
+      border-radius: 6px;
+    }
+    .frame-shot.corners-sq { border-radius: 0; }
+    .frame-shot.corners-sm { border-radius: 6px; }
+    .frame-shot.corners-md { border-radius: 14px; }
+
+    /* shadows — Editorial uses warm low-contrast drop */
+    .frame-shot.shadow-soft { box-shadow: 0 18px 36px -18px rgba(20,18,14,.22), 0 2px 6px rgba(20,18,14,.06); }
+    .frame-shot.shadow-ed   { box-shadow: 0 28px 60px -24px rgba(20,18,14,.32), 0 6px 14px rgba(20,18,14,.08); }
+
+    /* background tones — programmatic, no asset deps */
+    .frame-shot.bg-paper    { background: var(--paper); }
+    .frame-shot.bg-paper-2  { background: var(--paper-2); }
+    .frame-shot.bg-ink      { background: var(--ink); }
+    .frame-shot.bg-grid     {
+      background:
+        linear-gradient(var(--paper-2), var(--paper-2)),
+        repeating-linear-gradient(0deg, var(--line) 0 1px, transparent 1px 48px),
+        repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 48px);
+      background-blend-mode: multiply;
+    }
+    .frame-shot.bg-dot {
+      background-color: var(--paper-2);
+      background-image: radial-gradient(var(--line) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+
+    /* asset backgrounds — ported from PPT skill, real texture for screenshot wells */
+    /* path is relative to the deck's index.html — keep seed and final deck in same dir, or override */
+    .frame-shot.bg-asset-dune             { background: #d8c9a8 url("../assets/screenshot-backgrounds/style-a/dune.webp")             center/cover no-repeat; }
+    .frame-shot.bg-asset-forest-ink       { background: #1f2a24 url("../assets/screenshot-backgrounds/style-a/forest-ink.webp")       center/cover no-repeat; }
+    .frame-shot.bg-asset-indigo-porcelain { background: #cfd6dd url("../assets/screenshot-backgrounds/style-a/indigo-porcelain.webp") center/cover no-repeat; }
+    .frame-shot.bg-asset-kraft-paper      { background: #c9a983 url("../assets/screenshot-backgrounds/style-a/kraft-paper.webp")      center/cover no-repeat; }
+    .frame-shot.bg-asset-monocle-classic  { background: #e8e1d4 url("../assets/screenshot-backgrounds/style-a/monocle-classic.webp")  center/cover no-repeat; }
+
+    /* padding wraps the inner shot — content gets to "float" on the bg tone */
+    .frame-shot.inset-none > img,
+    .frame-shot.inset-none > .shot-body { padding: 0; }
+    .frame-shot.inset-sub  { padding: 24px; }
+    .frame-shot.inset-bal  { padding: 56px; }
+
+    /* aspect-ratio reused from .frame-img */
+    .frame-shot.r-3x4   { aspect-ratio: 3 / 4; }
+    .frame-shot.r-1x1   { aspect-ratio: 1 / 1; }
+    .frame-shot.r-4x3   { aspect-ratio: 4 / 3; }
+    .frame-shot.r-16x9  { aspect-ratio: 16 / 9; }
+    .frame-shot.r-16x10 { aspect-ratio: 16 / 10; }
+    .frame-shot.r-21x9  { aspect-ratio: 21 / 9; }
+    .frame-shot.r-3x2   { aspect-ratio: 3 / 2; }
+
+    /* inner img defaults to contain (screenshots must not crop UI) */
+    .frame-shot > img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      border-radius: inherit;
+    }
+    .frame-shot.fit-cover > img { object-fit: cover; }
+
+    /* device-frame variants (CSS-only chrome, no SVG / images) */
+    .device-browser {
+      position: relative;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .device-browser::before {
+      content: '';
+      display: block;
+      height: 36px;
+      background: var(--paper-2);
+      border-bottom: 1px solid var(--line);
+      background-image:
+        radial-gradient(circle at 18px 18px, #f08080 5px, transparent 5.5px),
+        radial-gradient(circle at 38px 18px, #f5c450 5px, transparent 5.5px),
+        radial-gradient(circle at 58px 18px, #7ec98f 5px, transparent 5.5px);
+    }
+    .device-browser > .frame-shot,
+    .device-browser > img {
+      border-radius: 0;
+      display: block;
+      width: 100%;
+    }
+    .device-phone {
+      position: relative;
+      background: var(--ink);
+      border-radius: 36px;
+      padding: 14px;
+      box-shadow: 0 24px 48px -20px rgba(20,18,14,.42);
+    }
+    .device-phone > .frame-shot,
+    .device-phone > img {
+      border-radius: 24px;
+      display: block;
+      width: 100%;
+    }
+
+    /* ---------- 9c. Map block (.map-block) ---------- */
+    /* Static map container — pure CSS frame, content is either an <img> from
+       Mapbox Static API or an SVG schematic. Pins overlay as absolute children. */
+    .map-block {
+      position: relative;
+      background: var(--paper-2);
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      width: 100%;
+    }
+    .map-block.r-16x10 { aspect-ratio: 16 / 10; }
+    .map-block.r-16x9  { aspect-ratio: 16 / 9; }
+    .map-block.r-1x1   { aspect-ratio: 1 / 1; }
+    .map-block.r-3x4   { aspect-ratio: 3 / 4; }
+    .map-block > img,
+    .map-block > svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      display: block;
+    }
+    .map-block > img { object-fit: cover; }
+    /* tint mapbox / OSM tiles to fit editorial paper tone */
+    .map-block.tone-paper > img { filter: saturate(.36) contrast(.92) brightness(1.04); mix-blend-mode: multiply; }
+    .map-block.tone-ink > img   { filter: saturate(.18) brightness(.62); }
+    /* schematic mode: SVG drawn at viewBox 0 0 100 100, lon/lat pre-mapped to 0-100 */
+    .map-block > svg .map-coast { fill: none; stroke: var(--line); stroke-width: .4; }
+    .map-block > svg .map-road  { fill: none; stroke: var(--muted); stroke-width: .28; stroke-dasharray: 1.2 .8; opacity: .65; }
+    .map-block > svg .map-water { fill: var(--paper-2); }
+    .map-block > svg .map-grid  { stroke: var(--line); stroke-width: .15; opacity: .55; }
+
+    /* pins overlay — positioned by % coordinates */
+    .map-pin {
+      position: absolute;
+      width: 0; height: 0;
+      transform: translate(-50%, -50%);
+    }
+    .map-pin .dot {
+      position: absolute;
+      left: -7px; top: -7px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--ink);
+      border: 2px solid var(--paper);
+      box-shadow: 0 1px 4px rgba(20,18,14,.32);
+    }
+    .map-pin.accent .dot { background: var(--accent); }
+    .map-pin .line {
+      position: absolute;
+      left: 8px; top: 0;
+      width: 32px; height: 1px;
+      background: var(--ink);
+      opacity: .5;
+    }
+    .map-pin.left .line { left: auto; right: 8px; }
+    .map-pin .card {
+      position: absolute;
+      left: 44px; top: -22px;
+      min-width: 86px;
+      padding: 8px 10px;
+      background: rgba(245,241,232,.94);
+      box-shadow: 0 0 0 1px var(--line);
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .map-pin.left .card { left: auto; right: 44px; }
+    .map-pin .card .name {
+      font-family: var(--serif-zh);
+      font-size: 16px;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .map-pin .card .meta {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .map-pin.accent .card .name { color: var(--accent); }
+
+    .map-legend {
+      position: absolute;
+      left: 14px; bottom: 14px;
+      z-index: 3;
+      background: rgba(245,241,232,.92);
+      padding: 8px 12px;
+      box-shadow: 0 0 0 1px var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .map-legend.tr { left: auto; right: 14px; top: 14px; bottom: auto; }
+
+    /* ---------- 10. Editorial components ---------- */
+    /* Callout 引用块：边线与底色同色系（accent 10% 浅底），不用 paper-2 米色——
+       2026-07 用户指定：底色与蓝色边线契合。 */
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 18px 28px;
+      font-family: var(--serif-zh);
+      font-style: italic;
+      font-size: 36px;
+      line-height: 1.35;
+      color: var(--ink);
+      background: rgba(var(--accent-rgb), .10);
+    }
+    .callout .callout-src {
+      display: block;
+      margin-top: 18px;
+      font-style: normal;
+      font-family: var(--mono);
+      font-size: 20px;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+
+    .ledger { display: flex; flex-direction: column; }
+    .ledger-row {
+      display: grid;
+      grid-template-columns: 96px 1fr auto;
+      gap: 24px;
+      align-items: baseline;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .ledger-row .ledger-nb {
+      font-family: var(--mono);
+      font-size: 28px;
+      color: var(--accent);
+      letter-spacing: .08em;
+    }
+    .ledger-row .ledger-title {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 42px;
+      letter-spacing: .02em;
+      color: var(--ink);
+    }
+    .ledger-row .ledger-note {
+      font-family: var(--serif-zh);
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.55;
+      color: rgba(var(--ink-rgb), .72);
+    }
+
+    .marginalia {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 48px;
+    }
+    .marginalia .mg-col {
+      border-left: 1px solid var(--line);
+      padding-left: 24px;
+    }
+    .marginalia .mg-col p {
+      font-family: var(--mono);
+      font-size: 20px;
+      letter-spacing: .04em;
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    .pipeline-v { display: flex; flex-direction: column; gap: 28px; }
+    .pipeline-v .step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 28px;
+      align-items: baseline;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .pipeline-v .step:last-child { border-bottom: 0; }
+    .pipeline-v .step-nb {
+      font-family: var(--mono);
+      font-size: 32px;
+      color: var(--accent);
+    }
+    .pipeline-v .step-title {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 40px;
+      letter-spacing: .02em;
+      margin: 0 0 8px;
+    }
+    .pipeline-v .step-desc {
+      font-family: var(--serif-zh);
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 1.6;
+      color: rgba(var(--ink-rgb), .72);
+      margin: 0;
+    }
+
+    .beforeafter {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 32px;
+      height: 100%;
+    }
+    .beforeafter .ba-block {
+      padding: 32px;
+      background: var(--paper-2);
+      border-left: 3px solid var(--accent);
+    }
+    .beforeafter .ba-block.before { opacity: .68; }
+
+    /* ---------- 11. Pair preview frame ---------- */
+    .pair-preview {
+      width: 2400px;
+      min-height: 1180px;
+      background: var(--paper-2);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 2100px 1080px;
+      grid-template-rows: 900px 1080px;
+      gap: 48px;
+      align-content: center;
+      justify-content: center;
+    }
+    .pair-preview .preview-wide   { grid-column: 1; grid-row: 1 / span 2; align-self: center; }
+    .pair-preview .preview-square { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+    .pair-preview .preview-label {
+      font-family: var(--mono);
+      font-size: 20px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    /* ---------- 12. Per-poster mounting helpers ---------- */
+    .poster .corner-tl,
+    .poster .corner-tr,
+    .poster .corner-bl,
+    .poster .corner-br {
+      position: absolute;
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      z-index: 3;
+    }
+    .poster.xhs .corner-tl,
+    .poster.tall .corner-tl,
+    .poster.square .corner-tl { left: 88px; top: 56px; }
+    .poster.xhs .corner-tr,
+    .poster.tall .corner-tr,
+    .poster.square .corner-tr { right: 88px; top: 56px; }
+    .poster.xhs .corner-bl,
+    .poster.tall .corner-bl,
+    .poster.square .corner-bl { left: 88px; bottom: 56px; }
+    .poster.xhs .corner-br,
+    .poster.tall .corner-br,
+    .poster.square .corner-br { right: 88px; bottom: 56px; }
+    .poster.wide .corner-tl { left: 120px; top: 56px; }
+    .poster.wide .corner-tr { right: 120px; top: 56px; }
+    .poster.wide .corner-bl { left: 120px; bottom: 56px; }
+    .poster.wide .corner-br { right: 120px; bottom: 56px; }
+
+    /* ============ task: aodesai 《奥德赛》13p deck ============ */
+    .poster.xhs .content { display: flex; flex-direction: column; }
+    .kicker { color: var(--accent); }              /* muniao 页眉统一蓝 */
+    .split { display: grid; gap: 32px; align-items: start; margin-top: 8px; }
+    .split-l { grid-template-columns: 476px 1fr; } /* 左图右文 */
+    .split-r { grid-template-columns: 1fr 436px; } /* 左文右图 */
+    .split figure { margin: 0; }
+    .fig-col    { height: 736px; }
+    .fig-col-sm { height: 620px; }
+    .fig-670    { height: 670px; }
+    .fig-630    { height: 660px; }
+    .fig-620    { height: 620px; }
+    .fig-560    { height: 560px; }
+    .fig-trojan { height: 640px; }
+    .fig-626    { height: 656px; }
+    .fig-615    { height: 640px; }
+    .fig-585    { height: 615px; }
+    .fig-map    { height: 520px; box-shadow: 0 0 0 1px var(--line); }
+    .fig-wide   { height: 370px; box-shadow: 0 0 0 1px var(--line); } /* P10 神牛横版画心 contain */
+    .callout { margin-top: 14px; }
+    /* v3 新区块：原文/词源/冷知识/绰号/时间账/细节/彩蛋 引文带 */
+    .note-band {
+      margin-top: 14px;
+      background: var(--paper-2);
+      padding: 16px 28px 18px;
+    }
+    .note-label {
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 12px;
+    }
+    .note-en {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: 26px;
+      line-height: 1.45;
+      color: var(--ink);
+      margin: 0 0 10px;
+    }
+    .note-zh {
+      font-family: var(--serif-zh);
+      font-size: 26px;
+      line-height: 1.55;
+      color: rgba(var(--ink-rgb), .78);
+      margin: 0;
+    }
+    .en-i { font-family: var(--serif-en); font-style: italic; }
+    /* P13 三条带紧凑版 */
+    .note-band.compact { padding: 14px 24px 16px; margin-top: 14px; }
+    .compact .note-label { margin-bottom: 8px; }
+    .compact .note-en, .compact .note-zh { font-size: 24px; line-height: 1.5; }
+    /* 神注：轻量注释条，钉在页面底部（金句之下、页脚之上） */
+    .god-note {
+      margin-top: auto;              /* 吸收剩余空间，把自己压到底部 */
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+    .god-note p {
+      font-family: var(--serif-zh);
+      font-size: 20px;
+      line-height: 1.55;
+      color: rgba(var(--ink-rgb), .72);
+      margin: 0;
+    }
+    .god-note .gn-tag {
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .18em;
+      color: var(--accent);
+      padding-right: 12px;
+    }
+    .callout { margin-bottom: 14px; }          /* 金句与神注的最小间距 */
+    .god-note + .foot { margin-top: 16px; }    /* 有神注的页：脚线固定跟在神注下 */
+    .tight { line-height: 1.55; }
+    .foot {
+      margin-top: auto;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      font-family: var(--mono);
+      font-size: 20px;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+    .roomy { line-height: 1.9; }
+    .body-l { font-size: 30px; line-height: 1.9; } /* 收尾/电影页撑高用 */
+    .body-xl { font-size: 30px; line-height: 2.1; } /* 欠填页再加宽行距 */
+    /* P01 封面：顶部全宽 hero + 下方纸面区 */
+    .p01 .content { padding: 0; }
+    .p01 .hero { width: 100%; height: 640px; }
+    .p01 .below { padding: 16px 28px 24px; flex: 1; display: flex; flex-direction: column; }
+    .p01 .title-cover {
+      font-family: var(--serif-zh); font-weight: 500;
+      font-size: 68px; line-height: 1.18; letter-spacing: .03em;
+      margin: 12px 0 0; color: var(--ink);
+    }
+    /* P12 票根：小尺寸海报不放大 */
+    .ticket {
+      background: #fff;
+      padding: 16px 16px 20px;
+      box-shadow: 0 18px 36px -18px rgba(20,18,14,.25), 0 2px 6px rgba(20,18,14,.08);
+    }
+    .ticket img { display: block; width: 370px; height: auto; }
+    .split-ticket { grid-template-columns: 410px 1fr; }
+  </style>
+</head>
+<body>
+  <!-- THEME_OVERRIDE
+       Change <html data-theme="…"> above to:
+       ink-classic | indigo-porcelain | forest-ink | kraft-paper | dune | midnight-ink
+  -->
+  <main class="sheet">
+
+    <!-- POSTERS_HERE -->
+    <!--
+      Replace the placeholder posters below with real content.
+      Each poster carries one Layout Recipe (M01-M15) from
+      references/layout-recipes.md.
+
+      Available board sizes:
+        <section class="poster xhs"    id="xhs-01">…</section>   3:4
+        <section class="poster square" id="wechat-1x1">…</section> 1:1
+        <section class="poster wide"   id="wechat-21x9">…</section> 21:9
+
+      For WeChat covers, also include a <section class="pair-preview">
+      that places the 21:9 + 1:1 side-by-side for review.
+    -->
+
+    <!-- ============================================================
+         P01 · 封面（v5：引语改为因果链口径，其余同 v4）
+         subject map（cover-sirens-waterhouse，3840×1884 横幅油画）:
+           主体 船+桅杆位于 40-50% x、35-60% y，居中偏左；文字全在画下纸面区
+         ============================================================ -->
+    <section class="poster xhs p01" id="p01">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <figure class="frame-img hero" style="aspect-ratio:auto">
+          <img src="assets/cover-sirens-waterhouse.jpg" alt="沃特豪斯《尤利西斯与塞壬》" style="object-position:42% 45%">
+        </figure>
+        <div class="below">
+          <p class="img-cap" style="margin-top:0">《尤利西斯与塞壬》· 沃特豪斯，1891</p>
+          <p class="kicker" style="margin:16px 0 0">神话扫盲 · VOL.01</p>
+          <h1 class="title-cover">西方人的《西游记》，<br>到底讲了什么</h1>
+          <div class="note-band">
+            <p class="note-label">原文 · 开篇第一句</p>
+            <p class="note-en">&ldquo;Tell me, O Muse, of that ingenious hero who travelled far and wide after he had sacked the famous town of Troy.&rdquo;</p>
+            <p class="note-zh">大意，唱吧缪斯，唱那位足智多谋的英雄，攻陷特洛伊之后漂泊四方。</p>
+          </div>
+          <p class="body" style="margin-top:20px">诺兰新片《奥德赛》8月14日内地上映。进影院前，花3分钟把这场2700年前环环相扣的奇幻旅程捋顺。</p>
+          <p class="callout">8月14日 内地上映 · 全程 IMAX 胶片 · 172分钟</p>
+          <div class="foot">《奥德赛》背景科普 · 全13页 · 看完再买电影票</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- P02 · 一页看懂主线（地图通栏 + 因果链正文 + 原文带） -->
+    <section class="poster xhs" id="p02">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">一页看懂主线</p>
+        <h2 class="h-xl">三次作死，归期路愈遥</h2>
+        <figure style="margin:12px 0 0">
+          <div class="frame-img fig-map fit-contain"><img src="assets/derived/odyssey-map-crop.jpg" alt="奥德修斯归乡路线图" style="object-position:center 50%"></div>
+          <figcaption class="img-cap">奥德修斯归乡路线（传说中的地点，学界有争议）</figcaption>
+        </figure>
+        <p class="body" style="margin-top:20px">但这本书不是打怪过关，更像是一个逃难集锦：<br>① 巨人岛上他傲气地报出真名，得罪了海神波塞冬，此后十年波折由此而生<br>② 风神送他一袋风，九天九夜吹到家门口，却因队友功败垂成<br>③ 先知警告过别碰太阳神的牛，队友饿急了偷杀，出海就遭雷暴，全船覆没</p>
+        <p class="body" style="margin-top:16px">这很像《西游记》中各种奇特的设定，且背后都有神仙体系的利益勾连。</p>
+        <div class="note-band">
+          <p class="note-label">原文 · 卷十，奥德修斯自述</p>
+          <p class="note-en">&ldquo;We were lost through our own folly.&rdquo;</p>
+          <p class="note-zh">大意，我们不是输给大海，是输给自己的蠢。</p>
+        </div>
+        <div class="foot">《奥德赛》背景科普 · 02/13</div>
+      </div>
+    </section>
+
+    <!-- P03 · 前情提要（左图右文 + 冷知识带） -->
+    <section class="poster xhs" id="p03">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">前情提要</p>
+        <h2 class="h-xl">回家之前的特洛伊之战</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-trojan"><img src="assets/derived/trojan-horse-crop.jpg" alt="米科诺斯陶瓮浮雕" style="object-position:center 50%"></div>
+            <figcaption class="img-cap">特洛伊木马 · 米科诺斯陶瓮，约公元前670年</figcaption>
+          </figure>
+          <div><p class="body">金苹果之争，源起婚宴漏请厄里斯，女神投果挑衅，题属「最美」。三神竞，帕里斯判。赫拉贿以权柄，雅典娜贿以战功，阿佛洛狄忒贿以海伦。</p><p class="body">帕里斯受惑，判予爱神，遂夺人妻海伦而归。然海伦乃斯巴达王后，此举辱国毁盟，希腊诸王因誓兴师，遂致特洛伊十年围城之祸。</p></div>
+        </div>
+        <div class="note-band">
+          <p class="note-label">冷知识</p>
+          <p class="note-zh">我们熟知的木马计，在《奥德赛》中仅略提及，详载于古罗马诗人维吉尔的《埃涅阿斯纪》。《奥德赛》起于城陷十载，逆溯归程。本来三五年可返，奥德修斯却生耗了十年，实在是因为得罪了太多神，故有九九八十一难。</p>
+        </div>
+        <p class="callout">所以，《奥德赛》讲的不是战争，是打完仗怎么返乡。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>阿佛洛狄忒，爱与美之神，金苹果的得主，她许诺帕里斯「人间最美的女人」。宙斯，众神之王，金苹果之争他全程装死，谁也不得罪。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 03/13</div>
+      </div>
+    </section>
+
+    <!-- P04 · 主角档案（左图右文，白底书页 contain + 绰号带） -->
+    <section class="poster xhs" id="p04">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">主角档案</p>
+        <h2 class="h-xl">奥德修斯，<br>联军的「智多星」</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-560 fit-contain" style="background:#f6f3ec"><img src="assets/derived/schmied-01-crop.png" alt="奥德修斯像" style="object-position:center 50%"></div>
+            <figcaption class="img-cap">奥德修斯像 · Schmied 彩色木刻，1930</figcaption>
+          </figure>
+          <div><p class="body">奥德修斯，伊萨卡国王，木马计的设计者，希腊联军的智囊。别的英雄靠武力，他靠脑子，也靠嘴。罗马人叫他尤利西斯（<i class="en-i">Ulysses</i>），乔伊斯那本天书的书名就是这么来的。</p><p class="body">不过聪明人也有毛病，爱面子，管不住嘴，还总在关键时候睡着。刚离开特洛伊，他就带人顺手抢了一座城，被当地人反击折了几十号人。这只是诸多狗血故事的序曲。</p><p class="body">与中国不同，希腊罗马尚武，所以一直以来奥德修斯名声并不太好，常被归于「诡谲狡诈」「妇人之诡」那一类。</p></div>
+        </div>
+        <div class="note-band compact">
+          <p class="note-label">绰号</p>
+          <p class="note-zh">与《冰与火之歌》中的龙妈一样，《奥德赛》中的奥德修斯也有大量绰号，诸如「足智多谋的」「饱经风霜的」「城市攻破者」等。西方爱堆叠名头之习，可谓「源远流长」。</p>
+        </div>
+        <p class="callout">打仗十年，回家又十年，去国二十年，孤儿寡母苦苦支撑，这是另一条线。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>雅典娜，智慧女神，从特洛伊到回家一路罩着奥德修斯，是他在天上最大的靠山。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 04/13</div>
+      </div>
+    </section>
+
+    <!-- P05 · 独眼巨人（第一作·嘴快） -->
+    <section class="poster xhs" id="p05">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">第一作 · 嘴贱</p>
+        <h2 class="h-xl">耿直的独眼巨人<br>被「nobody」坑了</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-585"><img src="assets/derived/schmied-29-crop.png" alt="藏身公羊腹下逃出洞穴" style="object-position:center 60%"></div>
+            <figcaption class="img-cap">藏身公羊腹下逃出洞穴 · Schmied 彩色木刻</figcaption>
+          </figure>
+          <div><p class="body">独眼巨人波吕斐摩斯是海神波塞冬的儿子，把奥德修斯和船员关进山洞当口粮，每天吃几个。这操作和《西游记》里的山大王一模一样。奥德修斯灌醉巨人，自称「Nobody」，趁他熟睡，和部下把烧红的木桩戳进那只独眼。</p><p class="body">本来已经靠智谋逃出生天，可他出海时却嘴贱炫耀：记住，搞你的是奥德修斯。</p><p class="body">然而巨人的爹是海神波塞冬。这一句自报家门，换来十年的追杀令，后面所有的海难，根子都在这里。</p></div>
+        </div>
+        <div class="note-band">
+          <p class="note-label">原文 · Butler 英译</p>
+          <p class="note-en">&ldquo;Noman is killing me by fraud; no man is killing me by force.&rdquo;</p>
+          <p class="note-zh">大意：「没有人」用计害我、用力害我。洞外的巨人同伴听成「没人害我」，全回去了，让奥德修斯一行成功逃脱。</p>
+        </div>
+        <p class="callout">赢都赢了，非要在嘴上再赢一次。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>波塞冬，海神，宙斯的兄弟，独眼巨人波吕斐摩斯的父亲。儿子被刺瞎后，奥德修斯回家路上所有磨难都有他的影子。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 05/13</div>
+      </div>
+    </section>
+
+    <!-- P06 · 风袋（第二作·猜疑，新增页） -->
+    <section class="poster xhs" id="p06">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">第二作 · 猜疑</p>
+        <h2 class="h-xl">故乡炊烟在望，<br>被猪队友一「勾」到底</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-630"><img src="assets/derived/schmied-23-crop.png" alt="顺风航行的船" style="object-position:center 50%"></div>
+            <figcaption class="img-cap">顺风航行的船 · Schmied 彩色木刻</figcaption>
+          </figure>
+          <div><p class="body">风神埃俄罗斯可怜他，把逆风全装进一只皮袋，只放顺风吹船。九天九夜全速航行，第十天家乡出现在地平线上，近到能看见田里的烟火。</p><p class="body">奥德修斯握着舵九天没合眼，这时终于撑不住睡着了。队友嘀咕，看得紧紧的袋子里肯定是金子，凭什么不分，偷偷解开了袋口。狂风轰的一下放出来，船一夜被吹回风神岛。风神这次连门都没让他们进。</p></div>
+        </div>
+        <div class="note-band">
+          <p class="note-label">原文 · Butler 英译</p>
+          <p class="note-en">&ldquo;We got so close in that we could see the stubble fires burning.&rdquo;</p>
+          <p class="note-zh">大意，近到已经看得见家乡田埂上的火。</p>
+        </div>
+        <p class="callout">全程离回家最近的一次，输给了猪队友的好奇。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>埃俄罗斯，风神，替诸神看管所有的风。他的礼物本来是全书最大的一次助攻。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 06/13</div>
+      </div>
+    </section>
+
+    <!-- P07 · 女巫喀耳刻（低谷里的转机） -->
+    <section class="poster xhs" id="p07">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">低谷里的转机</p>
+        <h2 class="h-xl" style="font-size:80px">女巫喀耳刻，把船员变成猪</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-626"><img src="assets/derived/schmied-45-crop.png" alt="喀耳刻与她的狮子" style="object-position:center 50%"></div>
+            <figcaption class="img-cap">喀耳刻与她的狮子 · Schmied 彩色木刻</figcaption>
+          </figure>
+          <div><p class="body roomy">祸不单行，他们先撞上食人巨人国，十二条船被砸沉十一条，只剩旗舰逃出来，狼狈上了喀耳刻的岛。</p><p class="body roomy">先遣队喝了魔酒变猪，奥德修斯靠赫尔墨斯给的魔草反制，女巫反倒敬他足智多谋，把其他人都变回来，收留并和他同居了一年。</p><p class="body roomy">一年温柔乡，奥德修斯还是执意要走，临走时她给他指了条路，想要知道怎么回家，要去冥界问先知忒瑞西阿斯。</p></div>
+        </div>
+        <div class="note-band">
+          <p class="note-label">原文 · Butler 英译</p>
+          <p class="note-en">&ldquo;Their senses were the same as before, and they remembered everything.&rdquo;</p>
+          <p class="note-zh">大意，身体成了猪，心智还是人，什么都记得。千年后的宫崎骏作品《千与千寻》想必也有所借鉴。</p>
+        </div>
+        <p class="callout">《西游记》有一个猪八戒，这艘船上是整船的猪八戒。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>喀耳刻，太阳神赫利俄斯之女，会巫术的女神，把人变猪只是她的待客之道。赫尔墨斯，宙斯之子，众神的信使，关键时刻给奥德修斯送了解药。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 07/13</div>
+      </div>
+    </section>
+
+    <!-- P08 · 冥界预言（伏笔，新增页，无原文带） -->
+    <section class="poster xhs" id="p08">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">去冥界问路</p>
+        <h2 class="h-xl">先知的警告，<br>后面全应验了</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-col"><img src="assets/derived/schmied-46-crop.png" alt="冥界" style="object-position:center 45%"></div>
+            <figcaption class="img-cap">冥界 · Schmied 彩色木刻</figcaption>
+          </figure>
+          <div><p class="body roomy">在冥界里他先见到母亲的亡灵，母亲是被思念熬死的，他三次伸手去抱，三次抱空。</p><p class="body roomy">先知忒瑞西阿斯告诉他回家的路，外加一句警告，路过太阳神岛时，千万别碰那些神牛。否则，船只会被击碎，所有同伴丧生，仅有奥德修斯一人存活，且会流落异乡，久久不得归家。</p><p class="body roomy">这句话他记住了，但他的队友不以为意。</p></div>
+        </div>
+        <p class="callout">全书的剧本在这里就借先知的口写好了，后面只是丰富细节。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>忒瑞西阿斯，底比斯的盲先知，死后在冥界仍保有预言能力，全书的攻略都是他给的。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 08/13</div>
+      </div>
+    </section>
+
+    <!-- P09 · 塞壬与斯库拉（按攻略过关，合并页） -->
+    <section class="poster xhs" id="p09">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">按攻略过关</p>
+        <h2 class="h-xl" style="font-size:80px">拿着攻略，过两道鬼门关</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-615"><img src="assets/derived/schmied-47-crop.png" alt="塞壬三姐妹" style="object-position:center 35%"></div>
+            <figcaption class="img-cap">塞壬三姐妹 · Schmied 彩色木刻</figcaption>
+          </figure>
+          <div><p class="body">回到人间，喀耳刻再授后两关攻略。</p><p class="body">先遇到塞壬，奥德修斯以蜡封全船之耳，然后自缚于桅杆，闻歌而不得脱身。</p><p class="body">次到海峡，左岸为斯库拉，六颗头每次各衔一人；右岸为卡律布狄斯，会用漩涡吞舟无遗。他忍痛选左，六名水手顷刻被吞，船乃得过。</p><p class="body">英语中「between Scylla and Charybdis」即「进退两难」的典故，便来源于此。</p></div>
+        </div>
+        <div class="note-band">
+          <p class="note-label">原文 · Butler 英译</p>
+          <p class="note-en">&ldquo;Stop your men&rsquo;s ears with wax that none of them may hear; but if you like you can listen yourself.&rdquo;</p>
+          <p class="note-zh">大意，把同伴的耳朵用蜡封死，想听的话，只能你自己听。</p>
+        </div>
+        <p class="callout">所谓领导力，就是得看怎么选那个「只死六个人」的选项。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>塞壬，半人半鸟的海妖，用歌声诱杀过往水手，没人能活着听完她们唱歌，这个意象在太多影视剧里都有体现。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 09/13</div>
+      </div>
+    </section>
+
+    <!-- P10 · 太阳神岛（第三作·破誓，横版画心通栏 contain） -->
+    <section class="poster xhs" id="p10">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">第三作 · 破誓</p>
+        <h2 class="h-xl">发了毒誓的手，<br>还是伸向了神牛</h2>
+        <figure style="margin:12px 0 0">
+          <div class="frame-img fig-wide fit-contain"><img src="assets/derived/schmied-15-crop.png" alt="太阳神的神牛" style="object-position:center 50%"></div>
+          <figcaption class="img-cap">太阳神的神牛 · Schmied 彩色木刻</figcaption>
+        </figure>
+        <div style="margin-top:20px"><p class="body">上岛前，奥德修斯让全船发毒誓，绝不动太阳神的牛。结果逆风困岛一个月，干粮吃光。他进山向神祈祷出路，关键时刻又又又睡着了。</p><p class="body">队友一合计，等死，死牛可乎？于是偷杀了几头肥牛。他回来看到烤肉架，什么都明白了。船一开出去就遭雷暴，全船碎成木板，只有他抱着桅杆和龙骨，一个人漂到卡吕普索的岛。冥界先知预言，诚不欺我。</p></div>
+        <div class="note-band">
+          <p class="note-label">原文 · Butler 英译</p>
+          <p class="note-en">&ldquo;Each one of you must take his solemn oath that&hellip; he will not be so mad as to kill a single head.&rdquo;</p>
+          <p class="note-zh">大意，每个人都得起誓，绝不动一根牛毛。</p>
+        </div>
+        <p class="callout">他这辈子栽的最大的两跤，都是睡着的时候出的事。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>赫利俄斯，太阳神，岛上牛群的主人。宙斯，众神之王，牛被杀后亲自降下雷暴。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 10/13</div>
+      </div>
+    </section>
+
+    <!-- P11 · 卡吕普索与木筏（新增页，无原文带） -->
+    <section class="poster xhs" id="p11">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">七年软禁之后</p>
+        <h2 class="h-xl">海神记仇，<br>记到了最后一海里</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img fig-col"><img src="assets/derived/schmied-26-crop.png" alt="困在卡吕普索岛上" style="object-position:center 50%"></div>
+            <figcaption class="img-cap">困在卡吕普索岛上 · Schmied 彩色木刻</figcaption>
+          </figure>
+          <div><p class="body">他一人抱着龙骨漂了九天，被冲上仙女卡吕普索的岛。仙女卡吕普索想嫁他，把他扣在岛上七年。</p><p class="body">最后雅典娜求情，宙斯派赫尔墨斯下旨放人。他砍树造了只木筏出海，眼看快到有人烟的地方，波塞冬路过撞见，掀起风暴把木筏打得粉碎。海仙女依诺送他一块面纱保命，雅典娜护着他漂了两天两夜，最终爬上费埃克斯人的海滩。</p><p class="body">国王听完他的遭遇，连夜派船把他送回了伊萨卡。</p><p class="body">全书一半的冒险故事，就是以倒叙的方式，让他在王宫宴席上亲口讲出来的。</p></div>
+        </div>
+        <p class="callout">十年前那句报名字，海神记到了最后一海里，要说护犊子，还得是海神。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>卡吕普索，巨神阿特拉斯的女儿，爱上奥德修斯，扣了他七年。依诺，海仙女，一块面纱救了他一命。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 11/13</div>
+      </div>
+    </section>
+
+    <!-- P12 · 大结局 -->
+    <section class="poster xhs" id="p12">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">大结局</p>
+        <h2 class="h-xl" style="font-size:80px">二十年后回家，<br>妻子的108个求婚者</h2>
+        <div class="split split-l">
+          <figure>
+            <div class="frame-img" style="height:620px"><img src="assets/derived/schmied-74-crop.png" alt="奥德修斯拉弓" style="object-position:center 50%"></div>
+            <figcaption class="img-cap" style="margin-top:10px">奥德修斯拉弓 · Schmied 彩色木刻</figcaption>
+          </figure>
+          <div><p class="body tight">他离家整整二十年，妻子珀涅罗珀被108个求婚者围困，他们认定奥德修斯已死，赖在王宫里吃绝户。</p><p class="body tight">珀涅罗珀用织布计（宣称为公公织完这匹寿衣，便会从中择一人改嫁）拖了三年，白天织，晚上拆。最后被宫女出卖。</p><p class="body tight">奥德修斯伪装成老乞丐回到王宫，老乳母给他洗脚时摸到少年猎猪留下的疤，当场认出。比武那天，全场只有他拉得开自己的大弓，然后一箭一个，清场。最后凭「我们的床是拿一棵活橄榄树打的」这个只有夫妻知道的秘密，两人相认。</p></div>
+        </div>
+        <div class="note-band compact">
+          <p class="note-label">原文 · Butler 英译</p>
+          <p class="note-en">&ldquo;My husband used to set up twelve axes in the court&hellip; shoot an arrow through the whole twelve.&rdquo;</p>
+          <p class="note-zh">大意，我丈夫从前把十二把斧头排成一列，一箭穿过去。（珀涅罗珀语）</p>
+        </div>
+        <p class="callout">求婚者以为在吃绝户，没想到吃到了正主头上。</p>
+        <div class="god-note"><p><span class="gn-tag">神注</span>雅典娜，尾声也没闲着，把奥德修斯变成老人进宫，又在复仇之后出面平息两族的仇怨。</p></div>
+        <div class="foot">《奥德赛》背景科普 · 12/13</div>
+      </div>
+    </section>
+
+    <!-- P13 · 电影信息 + 观影提示（合并页：票根 + 三条紧凑带） -->
+    <section class="poster xhs" id="p13">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content">
+        <p class="kicker">回到电影</p>
+        <h2 class="h-xl">诺兰这次怎么拍</h2>
+        <div class="split" style="grid-template-columns:340px 1fr">
+          <figure>
+            <div class="ticket"><img src="assets/movie-poster.jpg" alt="电影《奥德赛》海报" style="width:320px"></div>
+            <figcaption class="img-cap">电影《奥德赛》海报 · 环球影业</figcaption>
+          </figure>
+          <p class="body body-l">诺兰第13部长片，2.5亿美元成本，全程 IMAX 胶片摄影机拍摄，片长172分钟。马特·达蒙 饰 奥德修斯；汤姆·赫兰德 饰 儿子忒勒马科斯；安妮·海瑟薇 饰 妻子珀涅罗珀；赞达亚 饰 雅典娜；罗伯特·帕丁森 饰 求婚者头目安提诺俄斯；查理兹·塞隆 饰 女巫喀耳刻。</p>
+        </div>
+        <div class="note-band compact">
+          <p class="note-label">原文 · 诺兰，《时代》周刊采访</p>
+          <p class="note-en">&ldquo;What had never really been done is a cinematic telling of The Odyssey with all the capacity of a large-scale Hollywood studio production.&rdquo;</p>
+          <p class="note-zh">大意，用好莱坞大片工业的全部能力拍一次《奥德赛》，这件事从来没人做过。</p>
+        </div>
+        <div class="note-band compact">
+          <p class="note-label">观影三件事</p>
+          <p class="note-zh">① 戏核是回家不是打怪，预告和访谈都指向父亲海上漂泊、儿子家里长大的双线。② 认人只需记两个神，帮他的雅典娜，整他的波塞冬。③ 8月14日内地上映，8月1-2日北上广深四城超前点映，选 IMAX 厅，提前上厕所。</p>
+        </div>
+        <div class="note-band compact">
+          <p class="note-label">彩蛋</p>
+          <p class="note-zh">那句常被当成荷马名言的 <i class="en-i">To strive, to seek, to find, and not to yield</i>，其实出自丁尼生1842年的诗《尤利西斯》，不是《奥德赛》原文。</p>
+        </div>
+        <div class="foot">《奥德赛》背景科普 · 完 · 收藏备用</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Magazine WebGL background (deterministic ink-flow) -->
+  <script src="../../../shared/magazine-bg-webgl.js"></script>
+  <script src="../../../shared/flip-viewer.js"></script>
+  <script>
+    (function () {
+      if (window.matchMedia && matchMedia('(max-width: 760px)').matches) return; /* 移动端不挂 WebGL 背景：每页一个上下文 × 2xDPR ≈ 50MB 显存，十几页会爆掉手机浏览器 */
+      function cssVarRgb(name, fallback) {
+        var raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        if (!raw) return fallback;
+        var parts = raw.split(',').map(function (x) { return parseInt(x.trim(), 10); });
+        return parts.length === 3 && parts.every(function (n) { return !isNaN(n); }) ? parts : fallback;
+      }
+      function mountAll() {
+        if (!window.MagazineBg || !window.MagazineBg.mount) return;
+        var ink    = cssVarRgb('--ink-rgb',    [10, 10, 11]);
+        var paper  = cssVarRgb('--paper-rgb',  [243, 240, 232]);
+        var accent = cssVarRgb('--accent-rgb', [17, 17, 17]);
+        document.querySelectorAll('canvas.mag-bg').forEach(function (c) {
+          window.MagazineBg.mount(c, {
+            ink: ink,
+            paper: paper,
+            accent: accent,
+            strength: 0.32,
+            frozenTime: 12.5
+          });
+        });
+      }
+      if (document.readyState === 'complete') mountAll();
+      else window.addEventListener('load', mountAll);
+    })();
+  </script>
+</body>
+</html>

@@ -40,6 +40,13 @@ const STORIES = [
     accent: '#77AAC2',
     img: 'stories/aomen/youpiao/assets/grid-12.jpg',
   },
+  {
+    spine: '奥德赛',
+    cover: '西方人的《西游记》',
+    url: 'stories/xila/odyssey/',
+    accent: '#77AAC2',
+    img: 'stories/xila/odyssey/assets/cover-sirens-waterhouse.jpg',
+  },
 ];
 
 const PALETTE = {
