@@ -192,6 +192,8 @@
       width: min(38vw, 560px);
       display: grid;
       gap: 6px;
+      align-content: start;   /* 行从顶部紧凑排列：Safari 里容器被 flex 拉高时
+                                 默认 align-content 会把自动行高撑开、行间出现大缝 */
       pointer-events: auto;
     }
     #collage.cols-2 { grid-template-columns: 1fr 1fr; }
@@ -231,7 +233,7 @@
     #collage .cell:hover span { opacity: 1; }
 
     /* 文案入场。落点在 p=0.32（封面正对），文案多滚了 0.32 屏，
-       故向下偏移补偿（桌面 32vh 防蹭页头；移动端 38vh 与书底留距），
+       故向下偏移补偿（桌面 32vh 防蹭页头；移动端 24vh，书在上、文在下紧凑衔接），
        transform 由 JS 滚动同步接管（粘滞），这里只做不透明度过渡 */
     .story .txt {
       opacity: 0;
@@ -240,7 +242,8 @@
     }
     .story.in .txt { opacity: 1; }
     @media (max-width: 760px) {
-      .story .txt { transform: translateY(36vh); }
+      .story .txt { transform: translateY(24vh); }
+      .hero .kicker { display: none; }   /* 固定页头已有「木鸟杂记 · 故纸堆」，不重复 */
     }
 
     /* 尾屏 */
@@ -474,6 +477,13 @@
       var navBtns = document.querySelectorAll('#bookNav button');
       var ticking = false;
 
+      /* 滚动参数的稳定屏高单位：量自 100vh 的 .panel。
+         iOS Safari 地址栏随滚动伸缩会改变 innerHeight，
+         直接拿它当分母，t 在滚动中跳变 → 文案和书一起抖动；
+         CSS 的 vh 是大视口、不随地址栏变，量一次缓存即可 */
+      var panelEl = document.querySelector('.panel');
+      var VH = panelEl ? panelEl.getBoundingClientRect().height : innerHeight;
+
       /* URL 定位：落在某册时地址栏带 #<故事目录名>（slug 从 CTA 链接推导，
          与书目共用同一份数据源），刷新或退出阅读回首页都能复位到该册。
          scrollRestoration 设为手动：恢复位置由下面的 hash 逻辑接管，
@@ -488,18 +498,18 @@
       var initM = /#([\w-]+)$/.exec(location.hash);
       if (initM) {
         var initIdx = slugs.indexOf(initM[1]);
-        if (initIdx >= 0) scrollTo({ top: (initIdx + 1.32) * innerHeight, behavior: 'instant' });
+        if (initIdx >= 0) scrollTo({ top: (initIdx + 1.32) * VH, behavior: 'instant' });
       }
       function sync() {
         ticking = false;
-        var t = scrollY / innerHeight;
+        var t = scrollY / VH;
         stories.forEach(function (s) {
           var i = +s.getAttribute('data-i');
           var on = t >= i + 0.9 && t < i + 1.55;
           s.classList.toggle('in', on);
           var txt = s.querySelector('.txt');
           if (on) {
-            var base = innerWidth / innerHeight > 1 ? 32 : 36;
+            var base = innerWidth / VH > 1 ? 32 : 24;
             var extra = Math.max(0, Math.min(t - (i + 1.32), 0.23)) * 100;
             txt.style.transform = 'translateY(calc(' + (base + extra) + 'vh))';
           } else {
@@ -547,7 +557,7 @@
           /* 导航跳变一律瞬移：跨多册时不播中间故事的转场动画，
              动画只发生在相邻切换（滚轮 / ↓ / 空格逐屏） */
           var i = +b.getAttribute('data-i');
-          scrollTo({ top: (i + 1.32) * innerHeight, behavior: 'instant' });
+          scrollTo({ top: (i + 1.32) * VH, behavior: 'instant' });
           b.blur();   /* 不保留焦点，避免之后空格误触发按钮 */
         });
       });
@@ -563,7 +573,7 @@
         var backward = e.key === 'ArrowUp';
         if (!forward && !backward) return;
         var panels = document.querySelectorAll('.panel');
-        var cur = Math.round(scrollY / innerHeight);
+        var cur = Math.round(scrollY / VH);
         if (forward && cur >= panels.length - 1) {
           e.preventDefault();
           scrollTo({ top: 0, behavior: 'instant' });
@@ -574,7 +584,7 @@
         if (next === cur) return;
         e.preventDefault();
         var isStory = next > 0 && next < panels.length - 1;
-        scrollTo({ top: (next + (isStory ? 0.32 : 0)) * innerHeight, behavior: 'smooth' });
+        scrollTo({ top: (next + (isStory ? 0.32 : 0)) * VH, behavior: 'smooth' });
       });
     })();
   </script>

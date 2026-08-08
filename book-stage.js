@@ -227,18 +227,24 @@ const easeOut = u => 1 - Math.pow(1 - u, 3);
 const easeIn = u => u * u * u;
 const clamp01 = u => Math.max(0, Math.min(1, u));
 
+/* 滚动参数的稳定屏高单位：量自 100vh 的 .panel（iOS Safari 地址栏伸缩会
+   改变 innerHeight，直接当分母 t 会在滚动中跳变 → 书和文案一起抖动）。
+   只用于滚动→t 的换算；书在屏幕上的适配缩放仍用真实 innerWidth/innerHeight */
+const panelEl = document.querySelector('.panel');
+const VH = panelEl ? panelEl.getBoundingClientRect().height : innerHeight;
+
 /* 从当前滚动位置初始化：history.back 回首页时浏览器恢复滚动位置，
    但可能不发 scroll 事件（或发在监听器挂上之前），
    不从 scrollY 起步会出现"文字在、书没了"的空台 */
-let targetT = scrollY / innerHeight;
+let targetT = scrollY / VH;
 let smoothT = targetT;
-addEventListener('scroll', () => { targetT = scrollY / innerHeight; }, { passive: true });
+addEventListener('scroll', () => { targetT = scrollY / VH; }, { passive: true });
 
 function stage() {
   const aspect = innerWidth / innerHeight;
   return aspect > 1
     ? { x: 1.55, y: 0.1, s: 1, travel: 4.3 }   /* 桌面：书在右，文左 */
-    : { x: 0, y: 1.35, s: 0.5, travel: 3.7 };  /* 移动：书在上，文下 */
+    : { x: 0, y: 1.1, s: 0.5, travel: 3.7 };   /* 移动：书在上，文下紧凑衔接 */
 }
 
 function placeBook(g, p, time) {
