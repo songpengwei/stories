@@ -19,7 +19,9 @@ const fs = require('fs');
   const ids = await page.$$eval('.poster', els => els.map(e => e.id));
   for (const id of ids) {
     const el = await page.$('#' + id);
-    await el.screenshot({ path: path.join(outDir, id.replace(/^p/, '') + '.png') });
+    const n = String(parseInt(id.replace(/^p/, ''), 10) + 1).padStart(2, '0');
+    // 01.png 预留给九宫格拼图封面（PIL 合成，非 HTML 渲染），poster 从 02 起编号
+    await el.screenshot({ path: path.join(outDir, n + '.png') });
     console.log('rendered', id);
   }
   await browser.close();

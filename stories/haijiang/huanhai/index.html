@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="muniao">
+<head>
+  <meta charset="utf-8">
+  <title>「1799年乾隆世界地图」原件找到了 · 木鸟杂记</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../../shared/editorial.css">
+  <link rel="stylesheet" href="../../../shared/flip-viewer.css">
+  <style>
+    /* 本故事的 task-scoped 样式；共享模板样式见 ../../../shared/editorial.css */
+    .poster .h-display,
+    .poster .h-xl,
+    .poster .h-md { color: #4A4854; }
+    .poster .lead { color: #4E4C58; }
+    .poster .kicker,
+    .poster .issue-row { color: var(--c-blue); }
+
+    /* 页脚钉底：issue-strip 放进 .content（flex 列）末尾，margin-top:auto 钉底 */
+    .poster.xhs .issue-strip {
+      position: static;
+      margin: auto 0 0;
+    }
+
+    /* 封面双图并排 */
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+
+    /* 评论卡：实底圆角，蓝 #77AAC2 / 绿 #79D9CE 按出现顺序交替，深色文字 */
+    .cc {
+      border-radius: 14px;
+      padding: 22px 28px;
+      color: #1F1E23;
+    }
+    .cc.b { background: #77AAC2; }
+    .cc.g { background: #79D9CE; }
+    .cc .cc-zh {
+      font-family: var(--serif-zh);
+      font-weight: 500;
+      font-size: 26px;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .cc .cc-en {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: 19px;
+      line-height: 1.4;
+      margin: 8px 0 0;
+      color: rgba(31,30,35,.78);
+    }
+    .cc .cc-meta {
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .12em;
+      margin: 12px 0 0;
+      color: rgba(31,30,35,.62);
+    }
+    /* 条数多的页收紧一点 */
+    #xhs-02 .cc { padding: 18px 26px; }
+    #xhs-02 .cc .cc-zh { font-size: 24px; }
+    #xhs-02 .cc .cc-en { font-size: 18px; margin-top: 6px; }
+    #xhs-02 .cc .cc-meta { margin-top: 8px; }
+
+    /* 封面页脚左段太长，允许换行，给右段留位 */
+    #xhs-01 .issue-strip span:first-child { white-space: normal; }
+
+    /* 四图 2×2：地图宽幅不一，用 contain 保全图不裁细节 */
+    .map-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px; }
+    .map-grid .frame-img { height: 400px; }
+    .map-grid .map-cap {
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: .06em;
+      line-height: 1.5;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+  </style>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3caa4afc00730bf5e184910dff0e9f52";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</head>
+<body>
+  <!-- THEME_OVERRIDE
+       Change <html data-theme="…"> above to:
+       ink-classic | indigo-porcelain | forest-ink | kraft-paper | dune | midnight-ink
+  -->
+  <main class="sheet">
+
+    <!-- ============================================================
+         P1 · 封面 / 对比页
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-01">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-2">
+        <div class="issue-row">
+          <span>木鸟杂记</span><span class="dot"></span><span>故纸堆</span><span class="dot"></span><span>清乾隆</span>
+        </div>
+        <div class="stack gap-2">
+          <p class="kicker">海疆洋界形势全图 · 卷首</p>
+          <h1 class="h-display" style="font-size:58px">「1799年乾隆世界地图」<br>原件找到了</h1>
+        </div>
+        <div class="duo">
+          <figure>
+            <div class="frame-img r-1x1">
+              <img src="assets/viral.jpg" alt="网传版环海全图" style="object-position:center 50%">
+            </div>
+            <figcaption class="img-cap">网传版 · 调色翻拍</figcaption>
+          </figure>
+          <figure>
+            <div class="frame-img r-1x1">
+              <img src="assets/loc.jpg" alt="国会图书馆藏环海全图原件扫描" style="object-position:center 50%">
+            </div>
+            <figcaption class="img-cap">原件 · 国会图书馆高清扫描</figcaption>
+          </figure>
+        </div>
+        <div class="stack gap-1">
+          <p class="body" style="margin:0">① 两图乍看不一样，但细看线条完全一致——同一幅地图，网传版只是翻拍时拉高了饱和度</p>
+          <p class="body" style="margin:0">② 「1799年」是误标：原件断代为1787–1801（乾隆五十二年–嘉庆五年）</p>
+          <p class="body" style="margin:0">③ 它是《海疆洋界形势全图》卷首的《环海全图》，全卷另有七省沿海、琼州、澎湖、台湾、台湾后山五幅，感兴趣可以在附件中打包下载。</p>
+        </div>
+        <p class="callout" style="font-size:24px; font-style:normal">网传图里中国被涂成橙黄，原件其实是素纸色加红点——那张流传甚广的「World Map according to China in 1799」，其实是一张被调过色的翻拍照片，但确实更清楚了</p>
+        <div class="issue-strip">
+          <span>网传帖 · reddit.com/r/MapPorn/comments/s4exp8 ｜<br>图源 · 美国国会图书馆 gm71005021</span>
+          <span>共 6 页</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P2 · Reddit 吐槽组
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-02">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-2">
+        <div class="stack gap-2">
+          <p class="kicker">Reddit 热评 · 吐槽组</p>
+          <h2 class="h-md">外国网友的吐槽，倒很有意思</h2>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「第一反应：哇还挺准的。然后我看到了年份」</p>
+          <p class="cc-en">I thought wow that is pretty accurate and then I looked at the date</p>
+          <p class="cc-meta">2904 points</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「他们连日本都没画对」</p>
+          <p class="cc-en">They didn't even get Japan right</p>
+          <p class="cc-meta">983 points</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「他们连中国都没画对」</p>
+          <p class="cc-en">They didn't even get China right</p>
+          <p class="cc-meta">89 points</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「像在亚马逊贪便宜买的山寨版世界地图」</p>
+          <p class="cc-en">When you order the cheap off-brand world map on Amazon</p>
+          <p class="cc-meta">489 points</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「白令海峡？什么白令海峡？」</p>
+          <p class="cc-en">Bering Straight? What Bering Straight?</p>
+          <p class="cc-meta">48 points</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「他们连海的颜色都没画对」</p>
+          <p class="cc-en">They didn't even get the color of the ocean right</p>
+          <p class="cc-meta">34 points</p>
+        </div>
+        <div class="issue-strip">
+          <span>译自 Reddit r/MapPorn 热评 · 点赞数为发帖时数据</span>
+          <span>02 / 06</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P3 · Reddit 认真组
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-03">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-2">
+        <div class="stack gap-2">
+          <p class="kicker">Reddit 热评 · 认真组</p>
+          <h2 class="h-md">不过也有人在认真考据</h2>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「我很怀疑这就是当时中国最好的世界地图」</p>
+          <p class="cc-en">I am rather skeptical that "China" legitimately had this as the best available world map at the time</p>
+          <p class="cc-meta">294 points</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「这只是孤例。楼里也有人贴了同时期非常精细的中国地图——别真以为这就是中国当年的最高水平」</p>
+          <p class="cc-en">Very detailed Chinese maps from the time were shared elsewhere in the thread</p>
+          <p class="cc-meta">83 points</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「中国近150年前就有欧洲传教士协助绘制的《坤舆万国全图》，楼主这是在误导」</p>
+          <p class="cc-en">China had the Kunyu Wanguo Quantu nearly 150 years prior. OP is just misleading</p>
+          <p class="cc-meta">42 points</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「这图是艺术品，不是拿来导航的——就像人类灭绝后，外星人捡到儿童绘本里的地图，以为我们的制图水平很烂」</p>
+          <p class="cc-en">This map is art, not for navigating</p>
+          <p class="cc-meta">243 points</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「出自中国，不代表这一幅就是中国地图的好水平」</p>
+          <p class="cc-en">Just because the map is from China, it doesn't mean this was a particularly good Chinese map</p>
+          <p class="cc-meta">33 points</p>
+        </div>
+        <div class="issue-strip">
+          <span>译自 Reddit r/MapPorn 热评 · 点赞数为发帖时数据</span>
+          <span>03 / 06</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P4 · Reddit 对照组
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-04">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-2">
+        <div class="stack gap-2">
+          <p class="kicker">Reddit 热评 · 对照组</p>
+          <h2 class="h-md">也有人好奇<br>同时代的欧洲地图长什么样</h2>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「同时代其他地区（印度、欧洲……）的地图长什么样？对比一定很有意思」</p>
+          <p class="cc-en">What do maps from other cartographers of that time look like?</p>
+          <p class="cc-meta">1592 points</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「这是英国数学家 Samuel Dunn 更早五年的世界地图（1794）」</p>
+          <p class="cc-en">Here's Samuel Dunn's map of the world from five years earlier in 1794</p>
+          <p class="cc-meta">2030 points</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「18世纪末早已进入近代，除了两极，地图精度理应接近今天」</p>
+          <p class="cc-en">Late 1700s is well into the modern era</p>
+          <p class="cc-meta">754 points</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「跟1800年的欧洲地图比，这张图烂得可笑，像早了500年的东西」</p>
+          <p class="cc-en">Compared to European maps in 1800 this map is comically bad</p>
+          <p class="cc-meta">426 points</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「这细节水平，在欧洲是1500年以前的」</p>
+          <p class="cc-en">This is pre-1500s detail for European maps</p>
+          <p class="cc-meta">233 points</p>
+        </div>
+        <div class="issue-strip">
+          <span>译自 Reddit r/MapPorn 热评 · 点赞数为发帖时数据</span>
+          <span>04 / 06</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P5 · X 讨论
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-05">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-2">
+        <div class="stack gap-2">
+          <p class="kicker">X 讨论 · 另一条战线</p>
+          <h2 class="h-md">X 上也有这个帖子</h2>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「完全无视了当时已被发现并殖民的美洲」</p>
+          <p class="cc-en">Completely ignoring the by-then discovered and settled Americas</p>
+          <p class="cc-meta">X @based_yeoman</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「整体算是相当准了，但为什么冈比亚被画成大海湾而不是河」</p>
+          <p class="cc-en">Overall impressively accurate but why do they think Gambia is a big bay instead of a river</p>
+          <p class="cc-meta">X @WaywardRabbler</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「那个时代的地图来说相当准了！！」</p>
+          <p class="cc-en">Fairly accurate for that time period!!</p>
+          <p class="cc-meta">X @thefactdropz</p>
+        </div>
+        <div class="cc g">
+          <p class="cc-zh">「1602年的中国世界地图」有网友贴出《坤舆万国全图》对比</p>
+          <p class="cc-meta">X @realRachopin · 82 赞</p>
+        </div>
+        <div class="cc b">
+          <p class="cc-zh">「别被误导：1602年那幅是耶稣会传教士利玛窦画的，不是中国制图师」</p>
+          <p class="cc-en">Don't be misled — it was created by the Jesuit missionary Matteo Ricci</p>
+          <p class="cc-meta">X @HectorWu19</p>
+        </div>
+        <p class="body" style="margin:0">其实不怪作者——这本来就是一幅东半球图，全卷画的是大清海疆，美洲不在视野内</p>
+        <div class="issue-strip">
+          <span>摘自 X 帖评论区 · x.com/vintagemapstore/status/1972678085381079444</span>
+          <span>05 / 06</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         P6 · 评论区提到的更多地图（2×2）
+         ============================================================ -->
+    <section class="poster xhs" id="xhs-06">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="content stack gap-3">
+        <div class="stack gap-2">
+          <p class="kicker">评论区提到的更多地图</p>
+          <h2 class="h-md" style="font-size:48px">从1137到1794，帖子中提到一些地图</h2>
+        </div>
+        <div class="map-grid">
+          <figure>
+            <div class="frame-img fit-contain r-1x1">
+              <img src="assets/map-yujitu.jpg" alt="禹迹图拓片" style="object-position:center 50%">
+            </div>
+            <figcaption class="map-cap">1137《禹迹图》· 热评：山东半岛都画对了</figcaption>
+          </figure>
+          <figure>
+            <div class="frame-img fit-contain r-1x1">
+              <img src="assets/map-ptolemy.jpg" alt="托勒密世界地图十五世纪抄本" style="object-position:center 50%">
+            </div>
+            <figcaption class="map-cap">托勒密世界地图（公元2世纪，15世纪抄本）· 热评：比它早1600多年</figcaption>
+          </figure>
+          <figure>
+            <div class="frame-img fit-contain r-1x1">
+              <img src="assets/map-kunyu.jpg" alt="坤舆万国全图" style="object-position:center 50%">
+            </div>
+            <figcaption class="map-cap">1602《坤舆万国全图》· 热评：中国150年前就有更准的</figcaption>
+          </figure>
+          <figure>
+            <div class="frame-img fit-contain r-1x1">
+              <img src="assets/map-dunn.jpg" alt="Samuel Dunn 世界地图" style="object-position:center 50%">
+            </div>
+            <figcaption class="map-cap">Samuel Dunn 世界地图（1794）· 热评：比它早5年</figcaption>
+          </figure>
+        </div>
+        <div class="issue-strip">
+          <span>四图均出自 Wikimedia Commons</span>
+          <span>06 / 06</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Magazine WebGL background (deterministic ink-flow) -->
+  <script src="../../../shared/magazine-bg-webgl.js"></script>
+  <script src="../../../shared/flip-viewer.js"></script>
+  <script>
+    (function () {
+      if (window.matchMedia && matchMedia('(max-width: 760px)').matches) return; /* 移动端不挂 WebGL 背景：每页一个上下文 × 2xDPR ≈ 50MB 显存，十几页会爆掉手机浏览器 */
+      function cssVarRgb(name, fallback) {
+        var raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        if (!raw) return fallback;
+        var parts = raw.split(',').map(function (x) { return parseInt(x.trim(), 10); });
+        return parts.length === 3 && parts.every(function (n) { return !isNaN(n); }) ? parts : fallback;
+      }
+      function mountAll() {
+        if (!window.MagazineBg || !window.MagazineBg.mount) return;
+        var ink    = cssVarRgb('--ink-rgb',    [10, 10, 11]);
+        var paper  = cssVarRgb('--paper-rgb',  [243, 240, 232]);
+        var accent = cssVarRgb('--accent-rgb', [17, 17, 17]);
+        document.querySelectorAll('canvas.mag-bg').forEach(function (c) {
+          window.MagazineBg.mount(c, {
+            ink: ink,
+            paper: paper,
+            accent: accent,
+            strength: 0.32,
+            frozenTime: 12.5
+          });
+        });
+      }
+      if (document.readyState === 'complete') mountAll();
+      else window.addEventListener('load', mountAll);
+    })();
+  </script>
+</body>
+</html>

@@ -34,18 +34,25 @@ const STORIES = [
     img: 'stories/liaozhai/cuzhi/assets/cuzhi_3_soul.jpg',
   },
   {
-    spine: '澳門郵票',
-    cover: '澳门最小的手信',
-    url: 'stories/aomen/youpiao/',
-    accent: '#77AAC2',
-    img: 'stories/aomen/youpiao/assets/grid-12.jpg',
-  },
-  {
     spine: '奥德赛',
     cover: '西方人的《西游记》',
     url: 'stories/xila/odyssey/',
     accent: '#77AAC2',
     img: 'stories/xila/odyssey/assets/cover-sirens-waterhouse.jpg',
+  },
+  {
+    spine: '环海全图',
+    cover: '乾隆年的世界地图',
+    url: 'stories/haijiang/huanhai/',
+    accent: '#79D9CE',
+    img: 'stories/haijiang/huanhai/assets/viral.jpg',
+  },
+  {
+    spine: '春熙图',
+    cover: '古人怎么过年',
+    url: 'stories/fengsu/chunxi/',
+    accent: '#F19A97',
+    img: 'stories/fengsu/chunxi/assets/chunxi_06_core.jpg',
   },
 ];
 
