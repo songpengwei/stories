@@ -486,22 +486,21 @@
   <noscript><style>#fallback { display: block; } #stage3d, #bookNav { display: none; }</style></noscript>
 
   <script>
-    /* 文案与 3D 书同步：同一滚动参数驱动。
-       书 i 的窗口 p = t-(i+1)：p=0 升到台位、0.32 转定封面、0.5 开始升走。
-       文案窗口取 t ∈ [i+0.9, i+1.55)：书快到位时淡入，升走时淡出。
-       落定（i+1.32）之后文字用 transform 抵消滚动、粘滞在原地，
-       等书升走再淡出——任何滚动位置都不会与书重叠（移动端实测撞过）。 */
+    /* 文案与 3D 书同步：各自从真实 DOM 量位置，不共享缓存常量。
+       每册的进度 rel = (scrollY - 面板 offsetTop) / 面板高：
+       rel=0 屏首、0.32 书转定封面、0.5 书开始升走。
+       文案窗口取 rel ∈ [-0.1, 0.55)：书快到位时淡入，升走时淡出。
+       落定（0.32）之后文字用 transform 抵消滚动、粘滞在原地，
+       等书升走再淡出——任何滚动位置都不会与书重叠（移动端实测撞过）。
+       不用缓存的 VH 做除数：resize / 某屏超过 100vh / iOS 地址栏伸缩
+       都会让缓存网格和真实滚动错位，且误差随屏数累积（已踩过）。 */
     (function () {
       var stories = document.querySelectorAll('.story');
       var navBtns = document.querySelectorAll('#bookNav button');
       var ticking = false;
 
-      /* 滚动参数的稳定屏高单位：量自 100vh 的 .panel。
-         iOS Safari 地址栏随滚动伸缩会改变 innerHeight，
-         直接拿它当分母，t 在滚动中跳变 → 文案和书一起抖动；
-         CSS 的 vh 是大视口、不随地址栏变，量一次缓存即可 */
-      var panelEl = document.querySelector('.panel');
-      var VH = panelEl ? panelEl.getBoundingClientRect().height : innerHeight;
+      /* 某册的落定滚动位置：屏首 + 0.32 屏（封面已转定），实时量 */
+      function restTop(s) { return s.offsetTop + 0.32 * s.offsetHeight; }
 
       /* URL 定位：落在某册时地址栏带 #<故事目录名>（slug 从 CTA 链接推导，
          与书目共用同一份数据源），刷新或退出阅读回首页都能复位到该册。
@@ -517,28 +516,26 @@
       var initM = /#([\w-]+)$/.exec(location.hash);
       if (initM) {
         var initIdx = slugs.indexOf(initM[1]);
-        if (initIdx >= 0) scrollTo({ top: (initIdx + 1.32) * VH, behavior: 'instant' });
+        if (initIdx >= 0) scrollTo({ top: restTop(stories[initIdx]), behavior: 'instant' });
       }
       function sync() {
         ticking = false;
-        var t = scrollY / VH;
+        var y = scrollY;
+        var active = -1;
         stories.forEach(function (s) {
           var i = +s.getAttribute('data-i');
-          var on = t >= i + 0.9 && t < i + 1.55;
+          var rel = (y - s.offsetTop) / s.offsetHeight;
+          var on = rel >= -0.1 && rel < 0.55;
           s.classList.toggle('in', on);
+          if (on) active = i;
           var txt = s.querySelector('.txt');
           if (on) {
-            var base = innerWidth / VH > 1 ? 32 : 24;
-            var extra = Math.max(0, Math.min(t - (i + 1.32), 0.23)) * 100;
+            var base = innerWidth / s.offsetHeight > 1 ? 32 : 24;
+            var extra = Math.max(0, Math.min(rel - 0.32, 0.23)) * 100;
             txt.style.transform = 'translateY(calc(' + (base + extra) + 'vh))';
           } else {
             txt.style.transform = '';
           }
-        });
-        var active = -1;
-        stories.forEach(function (s) {
-          var i = +s.getAttribute('data-i');
-          if (t >= i + 0.9 && t < i + 1.55) active = i;
         });
         navBtns.forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-i') === active); });
         if (active !== lastActive) {
@@ -576,7 +573,7 @@
           /* 导航跳变一律瞬移：跨多册时不播中间故事的转场动画，
              动画只发生在相邻切换（滚轮 / ↓ / 空格逐屏） */
           var i = +b.getAttribute('data-i');
-          scrollTo({ top: (i + 1.32) * VH, behavior: 'instant' });
+          scrollTo({ top: restTop(stories[i]), behavior: 'instant' });
           b.blur();   /* 不保留焦点，避免之后空格误触发按钮 */
         });
       });
@@ -584,15 +581,21 @@
         e.preventDefault();
         scrollTo({ top: 0, behavior: 'instant' });   /* 直接跳回，不让书重演 */
       });
-      /* ↓ / ↑ / 空格 按屏滚动：落在故事屏时停到 p=0.32（封面已转定），
-         而不是屏首的 p=0（还是书脊）；首尾两屏落整屏；
-         尾屏（回到顶部）再按前进键直接瞬移回顶 */
+      /* ↓ / ↑ / 空格 按屏滚动：落在故事屏时停到 rel=0.32（封面已转定），
+         而不是屏首的 rel=0（还是书脊）；首尾两屏落整屏；
+         尾屏（回到顶部）再按前进键直接瞬移回顶。
+         当前屏与目标位置都按真实 offsetTop 判定，不用缓存 VH——
+         否则网格一旦和真实滚动错位，连按时每屏都落不进定格点 */
       document.addEventListener('keydown', function (e) {
         var forward = e.key === 'ArrowDown' || e.key === ' ' || e.code === 'Space';
         var backward = e.key === 'ArrowUp';
         if (!forward && !backward) return;
         var panels = document.querySelectorAll('.panel');
-        var cur = Math.round(scrollY / VH);
+        var cur = 0, best = Infinity;
+        panels.forEach(function (p, idx) {
+          var d = Math.abs(scrollY - (idx > 0 && idx < panels.length - 1 ? restTop(p) : p.offsetTop));
+          if (d < best) { best = d; cur = idx; }
+        });
         if (forward && cur >= panels.length - 1) {
           e.preventDefault();
           scrollTo({ top: 0, behavior: 'instant' });
@@ -603,7 +606,7 @@
         if (next === cur) return;
         e.preventDefault();
         var isStory = next > 0 && next < panels.length - 1;
-        scrollTo({ top: (next + (isStory ? 0.32 : 0)) * VH, behavior: 'smooth' });
+        scrollTo({ top: isStory ? restTop(panels[next]) : panels[next].offsetTop, behavior: 'smooth' });
       });
     })();
   </script>

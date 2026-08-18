@@ -203,6 +203,7 @@ const loadImage = url => new Promise((res, rej) => loader.load(url, res, undefin
 
 async function build() {
   await document.fonts.ready;
+  measurePanels();   /* 字体落地后面板内容高度可能变化，重量一次 */
   const imgs = await Promise.all(STORIES.map(s => loadImage(s.img)));
   STORIES.forEach((story, i) => {
     const spineMat = new THREE.MeshStandardMaterial({ map: makeSpineTexture(story.spine, story.accent), roughness: 0.9 });
@@ -234,18 +235,23 @@ const easeOut = u => 1 - Math.pow(1 - u, 3);
 const easeIn = u => u * u * u;
 const clamp01 = u => Math.max(0, Math.min(1, u));
 
-/* 滚动参数的稳定屏高单位：量自 100vh 的 .panel（iOS Safari 地址栏伸缩会
-   改变 innerHeight，直接当分母 t 会在滚动中跳变 → 书和文案一起抖动）。
-   只用于滚动→t 的换算；书在屏幕上的适配缩放仍用真实 innerWidth/innerHeight */
-const panelEl = document.querySelector('.panel');
-const VH = panelEl ? panelEl.getBoundingClientRect().height : innerHeight;
+/* 书的进度直接量自真实 DOM：p = (scrollY - 面板 offsetTop) / 面板高。
+   不用缓存的 VH 常量做除数——窗口 resize、某屏内容超过 100vh、
+   iOS 地址栏伸缩、history.back 恢复滚动位置，都会让缓存网格与真实
+   滚动错位，且误差随屏数累积（越靠后的册越转不正，已踩过）。
+   scrollY 每帧现读，scroll 事件漏发（如 history.back 恢复）也不怕。 */
+let storyTops = [], storyHs = [];
+function measurePanels() {
+  const panels = document.querySelectorAll('.panel.story');
+  storyTops = [...panels].map(p => p.offsetTop);
+  storyHs = [...panels].map(p => p.offsetHeight || 1);
+}
+measurePanels();
+addEventListener('resize', measurePanels);
 
 /* 从当前滚动位置初始化：history.back 回首页时浏览器恢复滚动位置，
-   但可能不发 scroll 事件（或发在监听器挂上之前），
    不从 scrollY 起步会出现"文字在、书没了"的空台 */
-let targetT = scrollY / VH;
-let smoothT = targetT;
-addEventListener('scroll', () => { targetT = scrollY / VH; }, { passive: true });
+let smoothY = scrollY;
 
 function stage() {
   const aspect = innerWidth / innerHeight;
@@ -328,10 +334,15 @@ container.addEventListener('pointermove', e => {
 function tick(time) {
   requestAnimationFrame(tick);
   /* 大幅跳转（回到顶部/拖滚动条）时瞬移到位，不把每一册重演一遍；
-     正常滚动仍用缓动跟随 */
-  if (Math.abs(targetT - smoothT) > 1.2) smoothT = targetT;
-  else smoothT += (targetT - smoothT) * 0.09;
-  books.forEach((g, i) => placeBook(g, smoothT - (i + 1), time / 1000));
+     正常滚动仍用缓动跟随。阈值用真实面板高折算 */
+  const targetY = scrollY;
+  const snapPx = 1.2 * (storyHs[0] || innerHeight);
+  if (Math.abs(targetY - smoothY) > snapPx) smoothY = targetY;
+  else smoothY += (targetY - smoothY) * 0.09;
+  books.forEach((g, i) => {
+    const p = storyTops.length ? (smoothY - storyTops[i]) / storyHs[i] : -1;
+    placeBook(g, p, time / 1000);
+  });
   renderer.render(scene, camera);
 }
 
