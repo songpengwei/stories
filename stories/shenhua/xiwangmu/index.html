@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="muniao">
+<head>
+  <meta charset="utf-8">
+  <title>西王母宇宙 · 汉代升仙图卷 · 木鸟杂记</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../../shared/editorial.css">
+  <link rel="stylesheet" href="../../../shared/flip-viewer.css">
+  <style>
+    /* 本故事的 task-scoped 样式；共享模板样式见 ../../../shared/editorial.css */
+    .poster.xhs .content.xw { padding: 24px 24px; }
+    .xw { display: flex; flex-direction: column; }
+    /* 页脚钉底：issue-strip 放进 .content（flex 列）末尾，margin-top:auto 钉底，左右内收 64px 对齐旧绝对定位的 88px */
+    .poster.xhs .issue-strip { position: static; margin: auto 64px 32px; }
+    .xw-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-family: var(--mono); font-size: 20px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--accent);
+      border-bottom: 1px solid var(--line); padding-bottom: 16px;
+    }
+    .xw-head .no { color: var(--muted); }
+    .xw-hero { height: 440px; display: flex; align-items: center; justify-content: center; }
+    .xw-hero img { max-height: 100%; max-width: 100%; object-fit: contain; display: block; }
+    .xw-motifs { display: block; width: 100%; height: 54px; object-fit: contain; margin: 14px 0 20px; }
+    .xw-name { display: flex; align-items: center; justify-content: center; gap: 24px; margin: 0 0 22px; }
+    .xw-name h1 {
+      font-family: var(--serif-zh); font-weight: 500; font-size: 96px;
+      letter-spacing: .10em; color: #1F1E23; margin: 0;
+    }
+    .xw-seal {
+      width: 72px; height: 72px; border-radius: 8px; flex: none;
+      background: var(--c-red); color: var(--paper);
+      font-family: var(--serif-zh); font-size: 42px; font-weight: 500;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .xw-quote { font-style: normal; font-size: 28px; line-height: 1.5; padding: 14px 24px; margin: 0 0 18px; }
+    .xw-intro {
+      font-family: var(--serif-zh); font-size: 27px; line-height: 1.6;
+      color: rgba(var(--ink-rgb), .92); margin: 0; text-align: center;
+    }
+    /* 考据三行条：文 / 物 / 识 */
+    .xw-facts { margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
+    .xw-facts p {
+      display: flex; gap: 12px; align-items: flex-start; margin: 0;
+      font-family: var(--serif-zh); font-size: 22px; line-height: 1.5;
+      color: rgba(var(--ink-rgb), .82); text-align: left;
+    }
+    .xw-facts .tag {
+      flex: none; font-family: var(--mono); font-size: 14px; letter-spacing: .08em;
+      color: var(--accent); border: 1px solid var(--accent); border-radius: 4px;
+      padding: 2px 6px; margin-top: 5px;
+    }
+    /* 源流页 */
+    .xw-ytitle {
+      font-family: var(--serif-zh); font-weight: 500; font-size: 104px;
+      letter-spacing: .14em; color: #1F1E23; margin: 26px 0 10px;
+    }
+    .xw-ysub {
+      font-family: var(--serif-zh); font-size: 34px; color: var(--muted);
+      letter-spacing: .06em; margin: 0 0 30px;
+    }
+    .xw-yparas p {
+      font-family: var(--serif-zh); font-size: 25px; line-height: 1.72;
+      color: rgba(var(--ink-rgb), .92); margin: 0;
+      text-align: justify;
+    }
+    .xw-ysep { display: block; width: 30px; height: 30px; object-fit: contain; margin: 13px auto; }
+    /* 页末变体小图排 */
+    .xw-vars { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+    .xw-vars-label {
+      font-family: var(--mono); font-size: 16px; letter-spacing: .20em;
+      text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
+    }
+    .xw-vars-row { display: flex; gap: 40px; align-items: flex-end; justify-content: center; }
+    .xw-vars-row figure { margin: 0; text-align: center; }
+    .xw-vars-row img { height: 96px; max-width: 200px; object-fit: contain; display: block; margin: 0 auto; }
+    .xw-vars-row figcaption {
+      font-family: var(--mono); font-size: 15px; letter-spacing: .06em;
+      color: var(--muted); margin-top: 7px; white-space: nowrap;
+    }
+    /* 组合考页 */
+    .xw-ptitle {
+      font-family: var(--serif-zh); font-weight: 500; font-size: 84px;
+      line-height: 1.15; letter-spacing: .06em; color: #1F1E23; margin: 30px 0 24px;
+    }
+    .xw-scene { margin: 0 0 10px; border: 1px solid var(--line); }
+    .xw-scene img { width: 100%; display: block; }
+    .xw-scene-cap {
+      font-family: var(--mono); font-size: 18px; letter-spacing: .05em;
+      color: var(--muted); margin: 0 0 20px;
+    }
+    .xw-para {
+      font-family: var(--serif-zh); font-size: 25px; line-height: 1.7;
+      color: rgba(var(--ink-rgb), .92); margin: 0 0 40px; text-align: justify;
+    }
+    .xw-ref {
+      font-family: var(--mono); font-size: 17px; line-height: 1.6;
+      color: var(--muted); margin: 4px 0 0; letter-spacing: .02em;
+    }
+  </style>
+</head>
+<body>
+  <!-- THEME_OVERRIDE
+       Change <html data-theme="…"> above to:
+       ink-classic | indigo-porcelain | forest-ink | kraft-paper | dune | midnight-ink
+  -->
+  <main class="sheet">
+
+    <!-- POSTERS_HERE -->
+
+    <!-- P01 组合考：为什么它们总在一起 -->
+    <section class="poster xhs" id="p01">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 01</span></div>
+        <h1 class="xw-ptitle">为什么西王母出场时，<br>总有诸多角色固定搭配？</h1>
+        <figure class="xw-scene">
+          <img style="object-position:center 50%" src="assets/scene-songshan.png" alt="山东嘉祥宋山小石祠西壁拓片">
+        </figure>
+        <p class="xw-scene-cap">西王母居中 · 玉兔、蟾蜍捣药于左 · 羽人侍立于右 —— 山东嘉祥宋山小石祠西壁 · 东汉</p>
+        <p class="xw-para">汉人相信人死之后灵魂不灭，可以飞升天界。西王母掌不死之药、居昆仑之巅，是这趟旅程的终点。她身边每个形象都各管一件事：玉兔、蟾蜍捣制不死之药，三足乌驮日传信，九尾狐主祥瑞，羽人生双翼、专为灵魂引路——凑在一起，就是一套完整的“升仙配置”。李凇把这种正面端坐的四川系布局称为“偶像式构图”，以别于中原的情节式。</p>
+        <p class="xw-para">把这套班子画进墓室、棺椁和祠堂，等于给墓主备下一张“引魂升仙路线图”。巫鸿《武梁祠》指出：汉代祠堂里屋顶归祥瑞、山墙归仙界、墙壁归历史——西王母一系独占山墙尖顶，自成一层天。东汉厚葬成风，从山东嘉祥到四川新繁，同样的组合反复出现，成为最流行的墓葬图像主题。</p>
+        <p class="xw-para">汉以后，这套班子各自单飞：玉兔、蟾蜍住进了月亮，成了中秋的符号；三足乌变成太阳的别名“金乌”；九尾狐从祥瑞变成狐仙；羽人进入道教神仙谱系；西王母自己则成了瑶池蟠桃会的王母娘娘。两千年后，我们过中秋、读《西游记》，仍在与这组形象打交道。</p>
+        <p class="xw-ref">参考：信立祥《汉代画像石综合研究》/ 巫鸿《武梁祠》/ 李凇《论汉代艺术中的西王母图像》/ 姜生《汉帝国的遗产：汉鬼考》/ 王煜《昆仑之上：汉代升仙信仰体系的图像考古》</p>
+      <div class="issue-strip"><span>组合考 · The Ensemble</span><span>拓片 · 故宫博物院《紫禁城》2023.1</span></div>
+
+      </div>
+    </section>
+
+    <!-- P01 西王母 -->
+    <section class="poster xhs" id="p02">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 02</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/01-xiwangmu.png" alt="西王母拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>西王母</h1><span class="xw-seal">王</span></div>
+        <div class="callout xw-quote">《山海经·西山经》：“其状如人，豹尾虎齿而善啸，蓬发戴胜”</div>
+        <p class="xw-intro" style="margin-top:14px">昆仑之主，掌不死之药。汉人画她戴胜端坐、龙虎为座；东汉中期以前独居仙界，之后才有东王公与她东西相对。</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>司马相如《大人赋》：“戴胜而穴处兮，亦幸有三足乌为之使”</p>
+          <p><span class="tag">物</span>新繁西王母画像砖 · 东汉 · 四川博物院，国家一级文物</p>
+          <p><span class="tag">识</span>公元前3年，关东民众“传行西王母筹”直至京师（《汉书·哀帝纪》）</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/xiwangmu/c1.png"><figcaption>武氏祠拓片 · 史语所藏</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/xiwangmu/b1.png"><figcaption>戴胜坐像 · 拓片</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/xiwangmu/b2.png"><figcaption>龙虎座 · 拓片</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/xiwangmu/b3.png"><figcaption>华盖坐像 · 拓片</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>武氏祠画像 · 清《金石索》摹本</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P02 东王公 -->
+    <section class="poster xhs" id="p03">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 03</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/02-dongwanggong.png" alt="东王公拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>东王公</h1><span class="xw-seal">公</span></div>
+        <div class="callout xw-quote">《神异经》：“东荒山中有大石室，东王公居焉”</div>
+        <p class="xw-intro">东汉阴阳观念下为西王母“配”出的对偶神——人形鸟面虎尾，形貌刻意模仿《山海经》里的她。更早的孝堂山石祠中，与她相对的本来还是风伯。</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>《吴越春秋》：“立东郊以祭阳……立西郊以祭阴，名曰西王母”</p>
+          <p><span class="tag">物</span>海昏侯墓“孔子衣镜” · 西汉 · 现存最早的王母、王公同框</p>
+          <p><span class="tag">识</span>《神异经》写他恒与玉女投壶，“每投千二百矫”</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/dongwanggong/c1.png"><figcaption>东汉神兽镜 · 克利夫兰</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/dongwanggong/c4.png"><figcaption>武氏祠左石室山墙</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/dongwanggong/b1.png"><figcaption>羽冠坐像 · 拓片</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>武氏祠画像 · 清《金石索》摹本</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P03 玉兔捣药 -->
+    <section class="poster xhs" id="p04">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 04</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/03-yutu.png" alt="玉兔捣药拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>玉兔捣药</h1><span class="xw-seal">药</span></div>
+        <div class="callout xw-quote">汉乐府《董逃行》：“玉兔长跪捣药虾蟆丸”</div>
+        <p class="xw-intro">月中灵兽，更是西王母不死药的制药工——与蟾蜍合制“虾蟆丸”，药材采自若木之端。它原本站在王母身边，“入月”是后来的事。</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>《论衡·说日》：“日中有三足乌，月中有兔、蟾蜍”</p>
+          <p><span class="tag">物</span>郑州新通桥画像砖 · 西汉晚期 · 目前较早的捣药兔图像</p>
+          <p><span class="tag">识</span>西晋傅玄《拟天问》“月中何有？白兔捣药”，兔才长住月宫</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/yutu/c1.png"><figcaption>嘉祥宋山小石祠</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/yutu/c2.png"><figcaption>画像石原石</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/yutu/c3.png"><figcaption>陕北画像石拓片</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/yutu/c4.png"><figcaption>嘉祥双兔拓片</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/yutu/b1.png"><figcaption>双兔对臼 · 拓片</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>四川新繁画像砖拓片 · 东汉</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P04 蟾蜍 -->
+    <section class="poster xhs" id="p05">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 05</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/04-chanchu.png" alt="蟾蜍拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>蟾蜍</h1><span class="xw-seal">月</span></div>
+        <div class="callout xw-quote">《淮南子·精神训》：“日中有踆乌，而月中有蟾蜍”</div>
+        <p class="xw-intro">月精化身，为西王母托臼捣药。按张衡《灵宪》，月中蟾蜍就是嫦娥本人——“姮娥窃之奔月……托身于月，是为蟾蠩”。</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>《淮南子·览冥训》：“羿请不死之药于西王母，姮娥窃之以奔月”</p>
+          <p><span class="tag">物</span>马王堆一号墓帛画月轮 · 西汉 · 湖南博物院，蟾蜍与兔同居月中</p>
+          <p><span class="tag">识</span>月亮死而复生，蟾蜍因之主长生与再生</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/chanchu/c1.png"><figcaption>南阳“嫦娥奔月”画像石</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/chanchu/b1.png"><figcaption>月轮蟾蜍 · 画像石</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/chanchu/b2.png"><figcaption>斑背蟾蜍 · 石刻</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>武氏祠画像 · 清《金石索》摹本</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P05 三足乌 -->
+    <section class="poster xhs" id="p06">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 06</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/05-sanzuwu.png" alt="三足乌拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>三足乌</h1><span class="xw-seal">日</span></div>
+        <div class="callout xw-quote">《山海经·大荒东经》：“一日方至，一日方出，皆载于乌”</div>
+        <p class="xw-intro">日中神鸟，生三足，驮日运行。汉人把它与“为西王母取食”的三青鸟混而为一——太阳神鸟就此成了王母座前的侍者与信使。李商隐的“青鸟殷勤为探看”，想必我们也都背过。</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>纬书《河图括地象》：“有三足神乌，为西王母取食”</p>
+          <p><span class="tag">物</span>南阳针织厂汉墓天象图 · 东汉 · 三足阳乌负日于墓顶</p>
+          <p><span class="tag">识</span>马王堆帛画日中金乌实为二足，“三足”定型可能更晚</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/sanzuwu/c4.png"><figcaption>西汉画像拓片</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/sanzuwu/b1.png"><figcaption>三足乌 · 纹样</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/sanzuwu/b2.png"><figcaption>日轮三足乌 · 画像石</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>四川新繁画像砖拓片 · 东汉</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P06 九尾狐 -->
+    <section class="poster xhs" id="p07">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 07</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/06-jiuweihu.png" alt="九尾狐拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>九尾狐</h1><span class="xw-seal">瑞</span></div>
+        <div class="callout xw-quote">《山海经·南山经》：“有兽焉，其状如狐而九尾”</div>
+        <p class="xw-intro">青丘神兽。《孝经援神契》：“德至鸟兽，则狐九尾”。九尾寓意九妃得所、子孙繁息——汉代是祥瑞，狐妖化是六朝以后的事。</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>《吴越春秋》涂山之歌：“绥绥白狐，九尾厖厖”</p>
+          <p><span class="tag">物</span>新都西王母画像砖 · 东汉 · 九尾狐侍于王母右侧，与玉兔同列</p>
+          <p><span class="tag">识</span>构图惯例：水平式构图中多与捣药兔分列王母两侧</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/jiuweihu/c1.png"><figcaption>新繁画像砖拓片</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/jiuweihu/c3.png"><figcaption>汉博局纹铜镜</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/jiuweihu/b1.png"><figcaption>双狐 · 线描</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/jiuweihu/b2.png"><figcaption>九尾狐 · 青铜纹</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/jiuweihu/b3.png"><figcaption>九尾狐 · 拓片</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>四川新繁画像砖拓片 · 东汉</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P07 羽人 -->
+    <section class="poster xhs" id="p08">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 08</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/07-yuren.png" alt="羽人拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>羽人</h1><span class="xw-seal">仙</span></div>
+        <div class="callout xw-quote">《楚辞·远游》：“仍羽人于丹丘兮，留不死之旧乡”</div>
+        <p class="xw-intro">肩生双翼、身生毛羽的仙人。汉人的逻辑是“物无翼而飞，谓仙人”——画上翅膀，便是“此人是仙”的图像签名，专司引魂升天。</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>《论衡·无形》：“体生毛，臂变为翼，行于云，则年增矣，千岁不死”</p>
+          <p><span class="tag">物</span>东汉鎏金铜羽人 · 1987年洛阳东郊汉墓出土 · 洛阳博物馆</p>
+          <p><span class="tag">识</span>卜千秋墓壁画中，羽人持节站在升仙队列的最前端</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/yuren/c1.png"><figcaption>彭州月神画像砖</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/yuren/c3.png"><figcaption>西安西汉墓壁画</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/yuren/c4.png"><figcaption>南阳麒麟岗画像石</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/yuren/b1.png"><figcaption>六博羽人 · 拓片</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>武氏祠画像 · 清《金石索》摹本</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P08 凤鸟 -->
+    <section class="poster xhs" id="p09">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>西王母宇宙 · 汉代升仙图卷</span><span class="no">No. 09</span></div>
+        <div class="xw-hero"><img style="object-position:center 50%" src="assets/derived/08-fengniao.png" alt="凤鸟拓片剪影"></div>
+        <img style="object-position:center 50%" class="xw-motifs" src="assets/motif-row.png" alt="">
+        <div class="xw-name"><h1>凤鸟</h1><span class="xw-seal">凤</span></div>
+        <div class="callout xw-quote">《山海经·南山经》：“其状如鸡，五采而文，名曰凤皇”</div>
+        <p class="xw-intro">“五采而文”的神鸟：首文曰德，翼文曰义，背文曰礼。往来昆仑仙山之间，见则天下安宁。《山海经·大荒西经》也提到，在西王母的山中有“鸾凤自歌，凤鸟自舞”的景象，显示出西王母的领地是一个祥瑞之地</p>
+        <div class="xw-facts">
+          <p><span class="tag">文</span>《尚书·益稷》：“箫韶九成，凤皇来仪”</p>
+          <p><span class="tag">物</span>错金朱雀衔环杯 · 满城汉墓 · 西汉 · 河北博物院</p>
+          <p><span class="tag">识</span>汉镜铭“凤鸟下，见神人”——升仙路上见神之前的引导者</p>
+        </div>
+        <div class="xw-vars">
+          <p class="xw-vars-label">另见 · 其他版本</p>
+          <div class="xw-vars-row">
+            <figure><img style="object-position:center 50%" src="assets/variants/fengniao/c1.png"><figcaption>西汉陶灶朱雀</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/fengniao/b1.png"><figcaption>立凤 · 拓片</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/fengniao/b2.png"><figcaption>凤鸟 · 纹样</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/fengniao/b3.png"><figcaption>凤鸟瓦当</figcaption></figure>
+            <figure><img style="object-position:center 50%" src="assets/variants/fengniao/b4.png"><figcaption>舞凤 · 拓片</figcaption></figure>
+          </div>
+        </div>
+      <div class="issue-strip"><span>武氏祠画像 · 清《金石索》摹本</span><span>拓片剪影</span></div>
+
+      </div>
+    </section>
+
+    <!-- P09 源流 -->
+    <section class="poster xhs" id="p10">
+      <canvas class="mag-bg" data-bg="ink-flow"></canvas>
+      <div class="grain"></div>
+      <div class="paper-wash"></div>
+      <div class="content xw">
+        <div class="xw-head"><span>源流 · Genealogy</span><span class="no">No. 10</span></div>
+        <h1 class="xw-ytitle">源 流</h1>
+        <p class="xw-ysub">从昆仑凶神到王母娘娘</p>
+        <div class="xw-yparas">
+          <p>西王母最早见于《山海经》：豹尾虎齿、蓬发戴胜，司天之厉及五残，是昆仑山上掌瘟疫刑杀的凶神。或源于西方部族首领，或即古人所祭的西方之神。神格原型、神话空间（昆仑）、圣物象征（不死药），三位一体。</p>
+          <img style="object-position:center 50%" class="xw-ysep" src="assets/motif-dot.png" alt="">
+          <p>战国《穆天子传》中，她已化为与周穆王瑶池唱和的女王；《淮南子》记羿向西王母请不死之药。公元前3年，关东民“传行西王母筹”，西入关至京师（《汉书·哀帝纪》）——她成了乱世救世的希望。</p>
+          <img style="object-position:center 50%" class="xw-ysep" src="assets/motif-dot.png" alt="">
+          <p>汉人把她画进墓室：戴胜端坐、龙虎为座，玉兔捣药、蟾蜍托臼、三足乌衔食、九尾狐献瑞、羽人引路、东王公东西相对——一整套升仙宇宙就此成形，画像即引魂升仙的路线图。</p>
+          <img style="object-position:center 50%" class="xw-ysep" src="assets/motif-dot.png" alt="">
+          <p>六朝《汉武帝内传》写她七月七日降承华殿、赐武帝仙桃，从此彻底道教化——此传实为东晋上清派道士造构（小南一郎、李丰楙考）；唐末杜光庭《墉城集仙录》六卷载三十七位女仙，皆隶“金母元君”。</p>
+          <img style="object-position:center 50%" class="xw-ysep" src="assets/motif-dot.png" alt="">
+          <p>宋元戏曲唱瑶池蟠桃会；至明代，《三教源流搜神大全》中的她已“佩琼琚、执玄圭”，再无豹尾虎齿，《西游记》瑶池蟠桃会更使王母娘娘家喻户晓。三千年演变至此集大成，三月三蟠桃庙会至今犹存。</p>
+        </div>
+      <div class="issue-strip"><span>山海经 → 穆天子传 → 淮南子 → 汉画像 → 汉武帝内传 → 墉城集仙录 → 宋元戏曲 → 西游记</span></div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Magazine WebGL background (deterministic ink-flow) -->
+  <script src="../../../shared/magazine-bg-webgl.js"></script>
+  <script src="../../../shared/flip-viewer.js"></script>
+  <script>
+    (function () {
+      if (window.matchMedia && matchMedia('(max-width: 760px)').matches) return; /* 移动端不挂 WebGL 背景 */
+      function cssVarRgb(name, fallback) {
+        var raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        if (!raw) return fallback;
+        var parts = raw.split(',').map(function (x) { return parseInt(x.trim(), 10); });
+        return parts.length === 3 && parts.every(function (n) { return !isNaN(n); }) ? parts : fallback;
+      }
+      function mountAll() {
+        if (!window.MagazineBg || !window.MagazineBg.mount) return;
+        var ink    = cssVarRgb('--ink-rgb',    [10, 10, 11]);
+        var paper  = cssVarRgb('--paper-rgb',  [243, 240, 232]);
+        var accent = cssVarRgb('--accent-rgb', [17, 17, 17]);
+        document.querySelectorAll('canvas.mag-bg').forEach(function (c) {
+          window.MagazineBg.mount(c, {
+            ink: ink,
+            paper: paper,
+            accent: accent,
+            strength: 0.32,
+            frozenTime: 12.5
+          });
+        });
+      }
+      if (document.readyState === 'complete') mountAll();
+      else window.addEventListener('load', mountAll);
+    })();
+  </script>
+</body>
+</html>

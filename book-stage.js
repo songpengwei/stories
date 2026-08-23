@@ -54,6 +54,13 @@ const STORIES = [
     accent: '#F19A97',
     img: 'stories/fengsu/chunxi/assets/chunxi_06_core.jpg',
   },
+  {
+    spine: '西王母',
+    cover: '汉代升仙图卷',
+    url: 'stories/shenhua/xiwangmu/',
+    accent: '#77AAC2',
+    img: 'stories/shenhua/xiwangmu/assets/cover-songshan.jpg',
+  },
 ];
 
 const PALETTE = {

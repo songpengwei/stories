@@ -29,6 +29,7 @@ stories/<系列>/<故事>/
 - `stories/xila/odyssey/` — 西方人的《西游记》（荷马史诗，Schmied 彩色木刻）
 - `stories/haijiang/huanhai/` — 「1799年乾隆世界地图」原件找到了（《海疆洋界形势全图》卷首《环海全图》，美国国会图书馆藏）
 - `stories/fengsu/chunxi/` — 古人怎么过年（《京辇春熙图》册，清嘉庆黄钺恭绘，台北故宫博物院藏）
+- `stories/shenhua/xiwangmu/` — 西王母宇宙 · 汉代升仙图卷（汉画像石拓片剪影：嘉祥宋山小石祠、武氏祠《金石索》摹本、新繁画像砖）
 
 ## 新增一个故事
 
