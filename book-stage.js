@@ -61,6 +61,13 @@ const STORIES = [
     accent: '#77AAC2',
     img: 'stories/shenhua/xiwangmu/assets/cover-songshan.jpg',
   },
+  {
+    spine: '夜宴图',
+    cover: '在家看韩熙载夜宴图',
+    url: 'stories/minghua/hanxizai/',
+    accent: '#79D9CE',
+    img: 'stories/minghua/hanxizai/assets/cover.jpg',
+  },
 ];
 
 const PALETTE = {
