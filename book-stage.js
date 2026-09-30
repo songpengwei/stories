@@ -68,6 +68,13 @@ const STORIES = [
     accent: '#79D9CE',
     img: 'stories/minghua/hanxizai/assets/cover.jpg',
   },
+  {
+    spine: '北齐壁画',
+    cover: '这座墓里藏着遥远的北齐',
+    url: 'stories/bihua/xuxianxiu/',
+    accent: '#F19A97',
+    img: 'stories/bihua/xuxianxiu/assets/cover.jpg',
+  },
 ];
 
 const PALETTE = {
