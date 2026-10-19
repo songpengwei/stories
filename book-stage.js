@@ -75,6 +75,13 @@ const STORIES = [
     accent: '#F19A97',
     img: 'stories/bihua/xuxianxiu/assets/cover.jpg',
   },
+  {
+    spine: '古画四季',
+    cover: '往来千载 · 古画四季',
+    url: 'stories/minghua/siji/',
+    accent: '#77AAC2',
+    img: 'stories/minghua/siji/assets/siji-cover.jpg',
+  },
 ];
 
 const PALETTE = {
